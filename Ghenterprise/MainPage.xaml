@@ -5,11 +5,22 @@
     xmlns:local="using:Ghenterprise"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="704,447,0,0" Text="TEST TEST" TextWrapping="Wrap" VerticalAlignment="Top"/>
-
-    </Grid>
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding Source={StaticResource viewModelLocator}, Path=User}">
+    
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
+        <StackPanel 
+            RelativePanel.AlignHorizontalCenterWithPanel="True" 
+            RelativePanel.AlignVerticalCenterWithPanel="True"
+            Orientation="Vertical"
+            Width="500">
+            <TextBox 
+                  Text="{Binding User.firstname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  Margin="5" />
+            <Button Content="Register" Command="{Binding Path=RegisterCommand}" Margin="5" />
+        </StackPanel>
+    </RelativePanel>
 </Page>
