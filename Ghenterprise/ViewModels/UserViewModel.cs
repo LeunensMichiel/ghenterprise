@@ -3,13 +3,16 @@ using GalaSoft.MvvmLight.Command;
 using Ghenterprise.Data;
 using Ghenterprise.Models;
 using Newtonsoft.Json;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace Ghenterprise.ViewModels
 {
@@ -55,7 +58,16 @@ namespace Ghenterprise.ViewModels
                     {
                         Debug.WriteLine("REGISTER_COMMAND");
                         Debug.WriteLine(JsonConvert.SerializeObject(User).GetType());
-                        var req = await _userService.RegisterUser(User);
+                        var userApi = RestService.For<IUserApi>(new HttpClient(
+                                new HttpClientHandler
+                                {
+                                    ServerCertificateCustomValidationCallback = (a, b, c, d) => true
+                                }
+                            )
+                        {
+                            BaseAddress = new Uri("https://localhost:44307/api")
+                        });
+                        var res = await userApi.Register(User);
                     });
                 }
 

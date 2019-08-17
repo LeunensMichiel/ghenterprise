@@ -11,6 +11,10 @@ namespace Ghenterprise.Data
     {
         private string _baseUrl = "https://localhost:44307/api";
 
+        public BaseService()
+        {
+        }
+
         protected override string GetBaseUrl()
         {
             return _baseUrl;
