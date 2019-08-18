@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="Ghenterprise.Views.Skeleton.SkeletonView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ghenterprise.Views.Skeleton"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+            <LinearGradientBrush  x:Key="NavigationViewDefaultPaneBackground"  EndPoint="1,1" StartPoint="0,0" SpreadMethod="Pad" Opacity="1">
+                <GradientStop Color="#FFFFEA31"/>
+                <GradientStop Color="#FFF09819" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush  x:Key="NavigationViewExpandedPaneBackground"  EndPoint="1,1" StartPoint="0,0" SpreadMethod="Pad" Opacity="1">
+                <GradientStop Color="#FFFFEA31"/>
+                <GradientStop Color="#FFF09819" Offset="1"/>
+            </LinearGradientBrush>
+        </Page.Resources>
+
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+
+            <NavigationView x:Name="NavView" 
+            AlwaysShowHeader="False" IsBackButtonVisible="Collapsed" Background="#FFFBFBFB" RequestedTheme="Light" BackRequested="OnBackRequested" >
+                <Grid>
+                    <Frame>
+                        <Frame.ContentTransitions>
+                            <TransitionCollection>
+                                <NavigationThemeTransition/>
+                            </TransitionCollection>
+                        </Frame.ContentTransitions>
+
+                    </Frame>
+                </Grid>
+            </NavigationView>
+        </Grid>
+
+</Page>
