@@ -1,23 +1,39 @@
-﻿using Kulman.WPA81.BaseRestService.Services.Abstract;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ghenterprise.Data
 {
-    public class BaseService : BaseRestService
+    class BaseService
     {
-        private string _baseUrl = "https://localhost:44307/api";
+        internal HttpClient Client { get; set; }
+        private readonly string baseAdress = "https://localhost:44307/api";
 
         public BaseService()
         {
+            Client = new HttpClient(
+                    new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback = (a, b, c, d) => true
+                    }
+                ); 
         }
 
-        protected override string GetBaseUrl()
+        internal String GetRequestUri(String route)
         {
-            return _baseUrl;
+            return baseAdress + route;
+        }
+
+        internal async Task<StringContent> ObjectToStringContent<T>(T t)
+        {
+            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(t));
+            var content = new StringContent(stringPayload.ToString(), Encoding.UTF8, "application/json");
+
+            return content;
         }
     }
 }
