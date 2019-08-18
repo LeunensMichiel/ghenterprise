@@ -14,12 +14,20 @@ namespace Ghenterprise.ViewModels
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<UserViewModel>();
+            SimpleIoc.Default.Register<EnterpriseViewModel>();
         }
 
         public UserViewModel User {
             get
             {
                 return new UserViewModel();
+            }
+        }
+
+        public EnterpriseViewModel Enterprise {
+            get
+            {
+                return new EnterpriseViewModel();
             }
         }
     }

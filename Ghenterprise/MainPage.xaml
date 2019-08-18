@@ -8,11 +8,11 @@
     
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource viewModelLocator}, Path=User}">
+    DataContext="{Binding Source={StaticResource viewModelLocator}, Path=Enterprise}">
     
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         
-        <StackPanel 
+        <!--<StackPanel 
             RelativePanel.AlignHorizontalCenterWithPanel="True" 
             RelativePanel.AlignVerticalCenterWithPanel="True"
             Orientation="Vertical"
@@ -30,9 +30,29 @@
                   Text="{Binding User.password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   Margin="5" />
             <TextBlock Text="{Binding ErrorText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" Margin="5" />
+            --><!--- Register Button --><!--
             <Button Visibility="{Binding TextBoxVisibility, Mode=OneWay}" IsEnabled="{Binding ButtonEnabled}" Content="{Binding ButtonText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Path=RegisterCommand}" Margin="5" />
-            <Button Visibility="{Binding RegisterBtnVisibility, Mode=OneWay}" IsEnabled="{Binding ButtonEnabled}" Content="{Binding ButtonText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Path=RegisterCommand}" Margin="5" />
+            --><!--- Login Button --><!--
+            <Button Visibility="{Binding LoginBtnVisibility, Mode=OneWay}" IsEnabled="{Binding ButtonEnabled}" Content="{Binding LoginBtnText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Path=LoginCommand}" Margin="5" />
+            --><!-- Switch Button --><!--
             <Button Content="{Binding UserSwitchLinkText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Path=SwitchUserScreen}" Margin="5"/>
+        </StackPanel>-->
+
+        <StackPanel 
+            RelativePanel.AlignHorizontalCenterWithPanel="True" 
+            RelativePanel.AlignVerticalCenterWithPanel="True"
+            Orientation="Vertical"
+            Width="500">
+            <TextBox 
+                  Text="{Binding Enterprise.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  Margin="5" Visibility="{Binding TextBoxVisibility, Mode=OneWay}" />
+            <TextBox 
+                  Text="{Binding Enterprise.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  Margin="5" Visibility="{Binding TextBoxVisibility, Mode=OneWay}" />
+            <TextBlock Text="{Binding ErrorText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" Margin="5" />
+            <!--- Save Button -->
+            <Button IsEnabled="{Binding ButtonEnabled}" Content="{Binding ButtonText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Path=SaveEnterpriseCommand}" Margin="5" />
         </StackPanel>
+        
     </RelativePanel>
 </Page>

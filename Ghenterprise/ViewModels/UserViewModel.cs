@@ -26,8 +26,9 @@ namespace Ghenterprise.ViewModels
         private String _errorText = "";
         private Boolean _buttonEnabled = true;
         private Visibility _textBoxVisibility = Visibility.Visible;
-        private Visibility _registerBtnVisibility = Visibility.Collapsed;
+        private Visibility _loginBtnVisibility = Visibility.Collapsed;
         private String _userSwitchLinkText = "Ik heb al een account";
+        private String _loginBtnText = "Aanmelden";
 
         private RelayCommand _registerCommand;
         private RelayCommand _switchUserScreen;
@@ -94,14 +95,14 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public Visibility RegisterBtnVisibility {
+        public Visibility LoginBtnVisibility {
             get
             {
-                return _registerBtnVisibility;
+                return _loginBtnVisibility;
             }
             set
             {
-                Set("RegisterBtnVisibility", ref _registerBtnVisibility, value);
+                Set("LoginBtnVisibility", ref _loginBtnVisibility, value);
             }
         }
 
@@ -113,6 +114,18 @@ namespace Ghenterprise.ViewModels
             set
             {
                 Set("UserSwitchLinkTest", ref _userSwitchLinkText, value);
+            }
+        }
+
+        public String LoginBtnText
+        {
+            get
+            {
+                return _loginBtnText;
+            }
+            set
+            {
+                Set("LoginBtnText", ref _loginBtnText, value);
             }
         }
 
@@ -166,10 +179,12 @@ namespace Ghenterprise.ViewModels
                         if (TextBoxVisibility == Visibility.Collapsed)
                         {
                             TextBoxVisibility = Visibility.Visible;
+                            LoginBtnVisibility = Visibility.Collapsed;
                             UserSwitchLinkText = "Ik heb al een account";
                         } else
                         {
                             TextBoxVisibility = Visibility.Collapsed;
+                            LoginBtnVisibility = Visibility.Visible;
                             UserSwitchLinkText = "Ik heb nog geen account";
                         }
                     });
@@ -185,7 +200,33 @@ namespace Ghenterprise.ViewModels
                 {
                     _loginCommand = new RelayCommand(async () =>
                     {
-                        Debug.WriteLine("LOGIN_CHECK");
+                        LoginBtnText = "Gebruiker aan het aanmelden...";
+                        ButtonEnabled = false;
+                        ErrorText = "";
+
+                        var res = new Response();
+
+                        try
+                        {
+                            res = await userService.PostLogin(User);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                            LoginBtnText = "Aanmelden mislukt";
+                        } finally
+                        {
+                            ButtonEnabled = true;
+                        }
+
+                        if (res.message == "Password valid")
+                        {
+                            Debug.WriteLine("SWITCH TO MAINSCREEN");
+                        } else
+                        {
+                            ErrorText = "email/wachtwoord combinatie incorrect";
+                        }
+                        LoginBtnText = "Aanmelden";
                     });
                 }
                 return _loginCommand;
