@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="690,500,0,0" Text="OverView" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBox_TextChanged" FontSize="24" FontWeight="Bold"/>
+        <TextBox HorizontalAlignment="Left" Margin="690,500,0,0" Text="OverView" TextWrapping="Wrap" VerticalAlignment="Top"  FontSize="24" FontWeight="Bold"/>
 
     </Grid>
 </Page>

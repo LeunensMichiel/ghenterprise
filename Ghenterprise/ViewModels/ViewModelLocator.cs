@@ -3,44 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Views;
+using Ghenterprise.Services;
 using Ghenterprise.Views;
 using Ghenterprise.Views.Overview;
 
 namespace Ghenterprise.ViewModels
 {
-    class ViewModelLocator
+    [Windows.UI.Xaml.Data.Bindable]
+    public class ViewModelLocator
     {
-        public const string OverviewPageKey = "Overview";
+        private static ViewModelLocator _current;
+        public static ViewModelLocator Current => _current ?? (_current = new ViewModelLocator());
 
-
-        public ViewModelLocator()
+        private ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            var navigation = new NavigationService();
-            navigation.Configure(OverviewPageKey, typeof(Overview));
-
-            SimpleIoc.Default.Register<INavigationService>(() => navigation);
-            SimpleIoc.Default.Register<UserViewModel>();
-            SimpleIoc.Default.Register<EnterpriseViewModel>();
+            SimpleIoc.Default.Register(() => new NavigationService());
             SimpleIoc.Default.Register<SkeletonViewModel>();
-            SimpleIoc.Default.Register<OverviewViewModel>();
+            SimpleIoc.Default.Register<UserViewModel>();
+
+            
+            //  Viewmodels met View
+            SimpleIoc.Default.Register<EnterpriseViewModel>();
+/*            NavigationServ.Configure(typeof(EnterpriseViewModel).FullName, typeof(Enter));
+*/            SimpleIoc.Default.Register<OverviewViewModel>();
+            NavigationServ.Configure(typeof(OverviewViewModel).FullName, typeof(Overview));
         }
 
         public UserViewModel User {
             get
             {
-                return new UserViewModel();
+                return SimpleIoc.Default.GetInstance<UserViewModel>();
             }
         }
 
         public EnterpriseViewModel Enterprise {
             get
             {
-                return new EnterpriseViewModel();
+                return SimpleIoc.Default.GetInstance<EnterpriseViewModel>();
             }
         }
 
@@ -48,7 +48,7 @@ namespace Ghenterprise.ViewModels
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<SkeletonViewModel>();
+                return SimpleIoc.Default.GetInstance<SkeletonViewModel>();
             }
         }
 
@@ -56,8 +56,10 @@ namespace Ghenterprise.ViewModels
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<OverviewViewModel>();
+                return SimpleIoc.Default.GetInstance<OverviewViewModel>();
             }
         }
+
+        public NavigationService NavigationServ => SimpleIoc.Default.GetInstance<NavigationService>();
     }
 }
