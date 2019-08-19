@@ -25,6 +25,7 @@ namespace Ghenterprise.ViewModels
 
             SimpleIoc.Default.Register<INavigationService>(() => navigation);
             SimpleIoc.Default.Register<UserViewModel>();
+            SimpleIoc.Default.Register<EnterpriseViewModel>();
             SimpleIoc.Default.Register<SkeletonViewModel>();
             SimpleIoc.Default.Register<OverviewViewModel>();
         }
@@ -33,6 +34,13 @@ namespace Ghenterprise.ViewModels
             get
             {
                 return new UserViewModel();
+            }
+        }
+
+        public EnterpriseViewModel Enterprise {
+            get
+            {
+                return new EnterpriseViewModel();
             }
         }
 

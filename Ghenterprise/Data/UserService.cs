@@ -30,13 +30,22 @@ namespace Ghenterprise.Data
         }
 
         public async Task<Response> GetCheckEmail(String email)
-        {
-
-            var uriBuilder = new UriBuilder(GetRequestUri("/User/check-email"));
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["email"] = email;
-
+        { 
             var response = await Client.GetAsync(GetRequestUri(String.Format("{0}?email={1}", "/User/check-email", email)));
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<Response>(result);
+        }
+
+        public async Task<Response> PostLogin(User user)
+        {
+            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(user));
+            var content = new StringContent(stringPayload.ToString(), Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(GetRequestUri("/User/login"), content);
+
+            response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsStringAsync();
 
