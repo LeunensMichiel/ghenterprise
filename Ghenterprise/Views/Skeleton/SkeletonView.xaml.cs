@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ghenterprise.Models;
+using Ghenterprise.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,13 +26,36 @@ namespace Ghenterprise.Views.Skeleton
     {
         public SkeletonView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            Loaded += onNavLoaded;
+
         }
+
+        public SkeletonViewModel ViewModel { get; set; }
 
 
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
+            if (args.SelectedItem is NavigationItem item)
+            {
+                ViewModel.NavigateTo(item.Key);
+            }
+/*            else if (args.IsSettingsSelected)
+            {
+                ViewModel.NavigateTo(typeof(SettingsViewModel));
+            }*/
+/*            UpdateBackButton();
+*/        }
 
+        private void onNavLoaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel = DataContext as SkeletonViewModel;
+
+
+/*            NavView.SelectedItem = NavView.MenuItems[0];
+*//*            ViewModel.NavigateTo("Overview");
+*/
+            
         }
     }
 }

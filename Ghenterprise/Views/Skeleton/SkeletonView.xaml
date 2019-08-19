@@ -5,40 +5,67 @@
     xmlns:local="using:Ghenterprise.Views.Skeleton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Ghenterprise.Models"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+     DataContext="{Binding Source={StaticResource viewModelLocator}, Path=Skeleton}" Loaded="onNavLoaded">
+
+
 
     <Page.Resources>
-            <LinearGradientBrush  x:Key="NavigationViewDefaultPaneBackground"  EndPoint="1,1" StartPoint="0,0" SpreadMethod="Pad" Opacity="1">
-                <GradientStop Color="#FFFFEA31"/>
-                <GradientStop Color="#FFF09819" Offset="1"/>
-            </LinearGradientBrush>
-            <LinearGradientBrush  x:Key="NavigationViewExpandedPaneBackground"  EndPoint="1,1" StartPoint="0,0" SpreadMethod="Pad" Opacity="1">
-                <GradientStop Color="#FFFFEA31"/>
-                <GradientStop Color="#FFF09819" Offset="1"/>
-            </LinearGradientBrush>
-        </Page.Resources>
+        <DataTemplate x:Name="NavigationViewItem" x:DataType="models:NavigationItem">
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <FontIcon x:Name="fontIcon" Glyph="{Binding Icon}" 
+                          HorizontalAlignment="Left" 
+                          FontSize="16" />
+                <TextBlock x:Name="NavLabel" Grid.Column="1" 
+                           Text="{Binding Label}" 
+                           VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
 
-        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <LinearGradientBrush  x:Key="NavigationViewDefaultPaneBackground"  EndPoint="1,1" StartPoint="0,0" SpreadMethod="Pad" Opacity="1">
+            <GradientStop Color="#FFFFEA31"/>
+            <GradientStop Color="#FFF09819" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush  x:Key="NavigationViewExpandedPaneBackground"  EndPoint="1,1" StartPoint="0,0" SpreadMethod="Pad" Opacity="1">
+            <GradientStop Color="#FFFFEA31"/>
+            <GradientStop Color="#FFF09819" Offset="1"/>
+        </LinearGradientBrush>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
 
-            <NavigationView x:Name="NavView" 
-            AlwaysShowHeader="False" IsBackButtonVisible="Collapsed" Background="#FFFBFBFB" RequestedTheme="Light" BackRequested="OnBackRequested" >
-                <Grid>
-                    <Frame>
-                        <Frame.ContentTransitions>
-                            <TransitionCollection>
-                                <NavigationThemeTransition/>
-                            </TransitionCollection>
-                        </Frame.ContentTransitions>
+        <NavigationView x:Name="NavView" 
+                        AlwaysShowHeader="False" 
+                        Background="#FFFBFBFB" 
+                        RequestedTheme="Light" 
+                        SelectionChanged="OnSelectionChanged" 
+                        MenuItemsSource="{Binding Items}" 
+                        MenuItemTemplate="{StaticResource NavigationViewItem}" 
+                        IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedNavItem, Mode=TwoWay}">
+            <Grid>
+                <Frame x:Name="frame">
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition/>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
 
-                    </Frame>
-                </Grid>
-            </NavigationView>
-        </Grid>
+                </Frame>
+            </Grid>
+        </NavigationView>
+    </Grid>
 
 </Page>
