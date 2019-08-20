@@ -40,7 +40,6 @@
                     x:Name="NavView" 
                     Background="#FFFBFBFB" 
                     RequestedTheme="Light"
-                    MenuItemsSource="{x:Bind SkeletonViewModel.MenuItems, Mode=OneWay}" 
                     IsBackButtonVisible="Visible"
                     IsBackEnabled="{x:Bind SkeletonViewModel.IsBackEnabled, Mode=OneWay}"
                     SelectedItem="{x:Bind SkeletonViewModel.Selected, Mode=OneWay}"

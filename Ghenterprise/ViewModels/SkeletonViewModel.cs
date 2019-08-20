@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using Ghenterprise.Helpers;
 using Ghenterprise.Models;
 using Ghenterprise.Services;
+using Ghenterprise.Views.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +35,14 @@ namespace Ghenterprise.ViewModels
         {
             string[] labels = { "Overzicht", "Events", "Promoties" };
             FontIcon[] icons = { new FontIcon() { Glyph = "\uF246" }, new FontIcon() { Glyph = "\uE787" }, new FontIcon() { Glyph = "\uE789" } };
+            string[] pageViewModels = { typeof(OverviewViewModel).FullName, typeof(EventViewModel).FullName, typeof(PromotionViewModel).FullName };
+
             for (int i = 0; i < 3; i++)
             {
                 WinUI.NavigationViewItem navigationViewItem = new WinUI.NavigationViewItem();
                 navigationViewItem.Content = labels[i];
                 navigationViewItem.Icon = icons[i];
-                navigationViewItem.SetValue(NavHelper.NavigateToProperty, typeof(OverviewViewModel).FullName);
+                navigationViewItem.SetValue(NavHelper.NavigateToProperty, pageViewModels[i]);
                 yield return navigationViewItem;
             }
         }
@@ -50,6 +53,11 @@ namespace Ghenterprise.ViewModels
         private WinUI.NavigationViewItem _selected;
         private ICommand _loadedCommand;
         private ICommand _itemInvokedCommand;
+        public static NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+
+        public SkeletonViewModel()
+        {
+        }
 
         public bool IsBackEnabled
         {
@@ -57,7 +65,6 @@ namespace Ghenterprise.ViewModels
             set { Set(ref _isBackEnabled, value); }
         }
 
-        public static NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
         public WinUI.NavigationViewItem Selected
         {
@@ -66,12 +73,8 @@ namespace Ghenterprise.ViewModels
         }
 
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
-
         public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
 
-        public SkeletonViewModel()
-        {
-        }
 
         public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
         {
@@ -81,24 +84,28 @@ namespace Ghenterprise.ViewModels
             NavigationService.NavigatedFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
             _navigationView.BackRequested += OnBackRequested;
+
+            MenuItems = GetMenuItems().ToArray();
+            foreach(WinUI.NavigationViewItem navItem in MenuItems)
+            {
+                _navigationView.MenuItems.Add(navItem);
+            }
         }
 
         private async void OnLoaded()
         {
             _keyboardAccelerators.Add(_altLeftKeyboardAccelerator);
             _keyboardAccelerators.Add(_backKeyboardAccelerator);
-            MenuItems = GetMenuItems().ToArray();
-
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
         {
-            /* if (args.IsSettingsInvoked)
-             {
-                 NavigationService.Navigate(typeof(SettingsViewModel).FullName);
-                 return;
-             }*/
-
+            if (args.IsSettingsInvoked)
+            {
+                NavigationService.Navigate(typeof(SettingsViewModel).FullName);
+                return;
+            }
+            System.Diagnostics.Debug.WriteLine(_navigationView.Name);
             var item = _navigationView.MenuItems
                             .OfType<WinUI.NavigationViewItem>()
                             .First(menuItem => (string)menuItem.Content == (string)args.InvokedItem);
@@ -120,11 +127,11 @@ namespace Ghenterprise.ViewModels
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             IsBackEnabled = NavigationService.CanGoBack;
-            /*            if (e.SourcePageType == typeof(SettingsPage))
-                        {
-                            Selected = _navigationView.SettingsItem as WinUI.NavigationViewItem;
-                            return;
-                        }*/
+            if (e.SourcePageType == typeof(SettingsView))
+            {
+                Selected = _navigationView.SettingsItem as WinUI.NavigationViewItem;
+                return;
+            }
 
             Selected = _navigationView.MenuItems
                             .OfType<WinUI.NavigationViewItem>()
