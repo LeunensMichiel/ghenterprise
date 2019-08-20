@@ -9,6 +9,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="/Styles/MainStyle.xaml"/>
+                <ResourceDictionary Source="/Styles/FontSizes.xaml"/>
+                <ResourceDictionary Source="/Styles/Margins.xaml"/>
+                
+                <ResourceDictionary Source="/Styles/PageStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

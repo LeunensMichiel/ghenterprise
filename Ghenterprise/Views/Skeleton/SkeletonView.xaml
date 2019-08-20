@@ -9,7 +9,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource RegionBrush}">
 
     <Page.Resources>
         <LinearGradientBrush  x:Key="NavigationViewDefaultPaneBackground"  EndPoint="1,1" StartPoint="0,0" SpreadMethod="Pad" Opacity="1">
@@ -30,7 +30,7 @@
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource RegionBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
