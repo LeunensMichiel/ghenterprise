@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.ViewModels
 {
-    class EnterpriseViewModel:ViewModelBase
+    public class EnterpriseViewModel:ViewModelBase
     {
         private EnterpriseService entService;
 

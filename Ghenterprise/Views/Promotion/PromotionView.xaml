@@ -1,14 +1,14 @@
 ﻿<Page
-    x:Class="Ghenterprise.Views.Overview.Overview"
+    x:Class="Ghenterprise.Views.Promotion.PromotionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Ghenterprise.Views.Overview"
+    xmlns:local="using:Ghenterprise.Views.Promotion"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="690,500,0,0" Text="OverView" TextWrapping="Wrap" VerticalAlignment="Top"  FontSize="24" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="517,500,0,0" Text="Promotions" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
     </Grid>
 </Page>

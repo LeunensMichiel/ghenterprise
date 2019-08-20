@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    class Enterprise:ObservableObject
+    public class Enterprise:ObservableObject
     {
         private string _id;
         private string _name;
