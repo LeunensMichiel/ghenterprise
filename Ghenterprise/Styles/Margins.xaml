@@ -3,6 +3,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ghenterprise.Styles">
 
+    <!--Large size margins-->
+    <Thickness x:Key="LargeLeftMargin">45,0,0,0</Thickness>
+    <Thickness x:Key="LargeTopMargin">0,45,0,0</Thickness>
+    <Thickness x:Key="LargeLeftRightMargin">45,0,45,0</Thickness>
+    <Thickness x:Key="LargeRightMargin">0,0,45,0</Thickness>
+    <Thickness x:Key="LargeTopBottomMargin">0,45,0,45</Thickness>
+    <Thickness x:Key="LargeLeftTopRightBottomMargin">45,45,45,45</Thickness>
+    <Thickness x:Key="LargeBottomMargin">0,0,0,45</Thickness>
     <!--Medium size margins-->
     <Thickness x:Key="MediumLeftMargin">24,0,0,0</Thickness>
     <Thickness x:Key="MediumTopMargin">0,24,0,0</Thickness>
@@ -25,5 +33,5 @@
     <Thickness x:Key="XXSmallTopMargin">0, 4, 0, 0</Thickness>
     <Thickness x:Key="XXSmallTopRightBottomMargin">0, 4, 4, 4</Thickness>
     <!--MasterDetail size margins-->
-    <Thickness x:Key="DetailPageMargin">52,40,52,0</Thickness>
+    <Thickness x:Key="DefaultPageMargin">45,50,45,0</Thickness>
 </ResourceDictionary>
