@@ -5,9 +5,34 @@
     xmlns:local="using:Ghenterprise.Views.Overview"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource RegionBrush}">
+    mc:Ignorable="d">
 
-    <Grid x:Name="OverviewArea">
+    <Grid x:Name="OverviewArea" 
+          Margin="{StaticResource DefaultPageMargin}">
+        <Pivot FontSize="{StaticResource LargeFontSize}">
+            <PivotItem Header="Abonnementen">
+                <Grid x:Name="NoSubscriptionsGrid" HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="/Assets/notification.svg" Stretch="Uniform" />
+                    <TextBlock Grid.Row="1" Text="Het is hier leeg!" FontSize="{StaticResource TitleFontSize }" TextAlignment="Center"/>
+                    <TextBlock Grid.Row="2" Text="Maak een account aan om een gepersonaliseerd overzicht te krijgen!" FontSize="{StaticResource MediumFontSize }" TextAlignment="Center"/>
+                </Grid>
+            </PivotItem>
+            <PivotItem Header="Alle">
+                <StackPanel Margin="{StaticResource LargeTopMargin}" Spacing="45">
+                    <StackPanel x:Name="CardFilters" Orientation="Horizontal" Spacing="18">
+                        <ComboBox Width="160" PlaceholderText="Categie"/>
+                        <AutoSuggestBox PlaceholderText="Ondernemers en plaatsen zoeken" QueryIcon="Find" Width="300"/>
+                    </StackPanel>
+                    <!--Cards here-->
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Kaart">
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

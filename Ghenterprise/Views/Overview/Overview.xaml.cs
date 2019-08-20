@@ -16,6 +16,5 @@ namespace Ghenterprise.Views.Overview
         {
             InitializeComponent();
         }
-
     }
 }

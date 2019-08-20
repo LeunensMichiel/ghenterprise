@@ -125,9 +125,6 @@
     <Compile Include="Data\EnterpriseService.cs" />
     <Compile Include="Data\UserService.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Enterprise.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\User.cs" />
@@ -168,6 +165,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\notification.svg" />
     <Content Include="Properties\Default.rd.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -184,11 +182,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Styles\FontSizes.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\MainStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Margins.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

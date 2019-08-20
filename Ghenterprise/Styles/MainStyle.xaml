@@ -12,7 +12,11 @@
                     <Color x:Key="SystemRevealListLowColor">#FF1D1D1D</Color>
                     <Color x:Key="SystemRevealListMediumColor">#FF333333</Color>
                     <Color x:Key="RegionColor">#FF2B2B2B</Color>
+                    <Color x:Key="SystemBaseHighColor">#FFFBFBFB</Color>
                     <SolidColorBrush x:Key="RegionBrush" Color="{StaticResource RegionColor}" />
+                    <Style TargetType="Page" x:Key="PageStyle">
+                        <Setter Property="Background" Value="{StaticResource RegionColor}" />
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -26,7 +30,11 @@
                     <Color x:Key="SystemRevealListMediumColor">#FFCCCCCC</Color>
                     <RevealBackgroundBrush x:Key="SystemControlHighlightListLowRevealBackgroundBrush" TargetTheme="Light" Color="{ThemeResource SystemRevealListMediumColor}" FallbackColor="{ StaticResource SystemListMediumColor}" />
                     <Color x:Key="RegionColor">#FFFBFBFB</Color>
+                    <Color x:Key="SystemBaseHighColor">#FF2B2B2B</Color>
                     <SolidColorBrush x:Key="RegionBrush" Color="{StaticResource RegionColor}" />
+                    <Style TargetType="Page" x:Key="PageStyle">
+                        <Setter Property="Background" Value="{StaticResource RegionColor}" />
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -35,4 +43,5 @@
             <SolidColorBrush x:Key="RegionBrush" Color="{StaticResource RegionColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+    
 </ResourceDictionary>
