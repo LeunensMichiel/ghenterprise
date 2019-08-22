@@ -71,8 +71,6 @@
                                         FontSize="{StaticResource CardTextFontSize}" 
                                         Margin="{StaticResource SmallTopMargin}"
                                         TextWrapping="WrapWholeWords"/>
-
-
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
