@@ -14,8 +14,8 @@
         <controls:AdaptiveGridView
                         animations:Connected.ListItemElementName="itemThumbnail"
                         animations:Connected.ListItemKey="animationKeyContentGrid"
-                        DesiredWidth="500"
-                        ItemHeight="350"
+                        DesiredWidth="350"
+                        ItemHeight="175"
                         IsItemClickEnabled="True"
                         ItemClickCommand="{x:Bind PromotionViewModel.ItemClickCommand}"
                         ItemsSource="{x:Bind PromotionViewModel.Source, Mode=OneWay}"
@@ -27,31 +27,34 @@
                         x:Name="itemThumbnail"
                         Background="{ThemeResource CardBackground}"
                         CornerRadius="8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <controls:ImageEx Grid.Row="0" IsCacheEnabled="True" Source="/Assets/example.jpg" Stretch="UniformToFill" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:ImageEx Grid.Column="0" IsCacheEnabled="True" Source="/Assets/example.jpg" Stretch="UniformToFill" />
                         <StackPanel                                     
                             Padding="{StaticResource SmallLeftTopRightBottomMargin}"
-                            Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <TextBlock  x:Name="Title"
                                         Margin="{StaticResource XXSmallTopMargin}"
                                         HorizontalAlignment="Left"
                                         FontSize="{StaticResource MediumFontSize}"
                                         FontWeight="SemiBold"
-                                        Text="{x:Bind Name}" />
+                                        Text="{x:Bind Name}" 
+                                        TextWrapping="WrapWholeWords"/>
                             
                             <TextBlock  x:Name="EnterPrise"
                                         Margin="{StaticResource XXSmallTopMargin}"
                                         HorizontalAlignment="Left"
                                         FontSize="{StaticResource SmallFontSize}"
                                         FontWeight="SemiBold"
-                                        Text="ViewModel Enterprise Naam" />
+                                        Text="ViewModel Enterprise Naam"
+                                        TextWrapping="WrapWholeWords"/>
+
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <FontIcon Glyph="&#xEE93;" 
                                                       FontSize="{StaticResource SmallFontSize}" 
-                                                      Margin="{StaticResource XSmallRightMargin}"
+                                                      Margin="{StaticResource XXSmallTopRightBottomMargin}"
                                                       Foreground="{ThemeResource SystemAccentColor}"/>
                                 <TextBlock
                                                 FontSize="{StaticResource CardTextFontSize}"
@@ -64,7 +67,12 @@
                                     <Run Text="{x:Bind EndDate}"></Run>
                                 </TextBlock>
                             </StackPanel>
-                            <TextBlock Text="{x:Bind Description}" FontSize="{StaticResource CardTextFontSize}" Margin="{StaticResource SmallTopMargin}"></TextBlock>
+                            <TextBlock  Text="{x:Bind Description}" 
+                                        FontSize="{StaticResource CardTextFontSize}" 
+                                        Margin="{StaticResource SmallTopMargin}"
+                                        TextWrapping="WrapWholeWords"/>
+
+
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
