@@ -32,5 +32,12 @@ namespace Ghenterprise.Views.Promotion
         {
             this.InitializeComponent();
         }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            await PromotionViewModel.LoadDataAsync(); 
+        }
     }
 }
