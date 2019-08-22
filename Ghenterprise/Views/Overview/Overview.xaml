@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:Ghenterprise.Models"
+      xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
       mc:Ignorable="d">
 
     <Grid x:Name="OverviewArea" 
@@ -93,6 +94,12 @@
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Kaart">
+                <Grid Margin="{StaticResource LargeTopMargin}">
+                    <maps:MapControl
+                    x:Name="mapControl"
+                    Center="{x:Bind MapViewModel.Center, Mode=OneWay}"
+                    ZoomLevel="{x:Bind MapViewModel.ZoomLevel, Mode=OneWay}" />
+                </Grid>
             </PivotItem>
         </Pivot>
     </Grid>

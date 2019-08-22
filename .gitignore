@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# API
+*api.resw
+
 # User-specific files
 *.rsuser
 *.suo

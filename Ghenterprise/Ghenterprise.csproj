@@ -133,6 +133,7 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModels\EnterpriseViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
+    <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
     <Compile Include="ViewModels\PromotionViewModel.cs" />
@@ -255,7 +256,9 @@
       <Version>4.3.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PRIResource Include="api.resw" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

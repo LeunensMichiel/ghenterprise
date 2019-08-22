@@ -23,6 +23,7 @@ namespace Ghenterprise.ViewModels
             SimpleIoc.Default.Register(() => new NavigationService());
             SimpleIoc.Default.Register<SkeletonViewModel>();
             SimpleIoc.Default.Register<UserViewModel>();
+            SimpleIoc.Default.Register<MapViewModel>();
 
             
             //  Viewmodels met View
@@ -96,6 +97,13 @@ namespace Ghenterprise.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<SettingsViewModel>();
+            }
+        }
+        public MapViewModel Map
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MapViewModel>();
             }
         }
 

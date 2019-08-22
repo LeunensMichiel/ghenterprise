@@ -20,6 +20,11 @@ namespace Ghenterprise.Views.Overview
             get { return ViewModelLocator.Current.Overview; }
         }
 
+        private MapViewModel MapViewModel
+        {
+            get { return ViewModelLocator.Current.Map; }
+        }
+
         public Overview()
         {
             InitializeComponent();
@@ -32,11 +37,15 @@ namespace Ghenterprise.Views.Overview
             switch (pivot.Header.ToString())
             {
                 case "Abonnementen":
+                    MapViewModel.Cleanup();
+
                     break;
                 case "Alle":
+                    MapViewModel.Cleanup();
                     await OverviewViewModel.LoadDataAsync();
                     break;
                 case "Kaart":
+                    await MapViewModel.InitializeAsync(mapControl);
                     break;
             }
         }
