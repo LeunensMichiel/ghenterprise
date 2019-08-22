@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ghenterprise.ViewModels;
+using System;
 
 using Windows.UI.Xaml.Controls;
 
@@ -12,9 +13,32 @@ namespace Ghenterprise.Views.Overview
     /// </summary>
     public sealed partial class Overview : Page
     {
+        PivotItem pivot = null;
+
+        private OverviewViewModel OverviewViewModel
+        {
+            get { return ViewModelLocator.Current.Overview; }
+        }
+
         public Overview()
         {
             InitializeComponent();
+        }
+
+        private async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            pivot = (PivotItem)(sender as Pivot).SelectedItem;
+
+            switch (pivot.Header.ToString())
+            {
+                case "Abonnementen":
+                    break;
+                case "Alle":
+                    await OverviewViewModel.LoadDataAsync();
+                    break;
+                case "Kaart":
+                    break;
+            }
         }
     }
 }

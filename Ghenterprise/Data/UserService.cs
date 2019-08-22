@@ -12,7 +12,7 @@ using System.Web;
 
 namespace Ghenterprise.Data
 {
-    class UserService : BaseService
+    public class UserService : BaseService
     {
 
         public async Task<int> PostRegisterUser(User user)
