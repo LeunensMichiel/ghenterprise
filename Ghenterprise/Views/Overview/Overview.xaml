@@ -94,7 +94,7 @@
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Kaart">
-                <Grid Margin="{StaticResource LargeTopMargin}">
+                <Grid Margin="{StaticResource LargeTopBottomMargin}">
                     <maps:MapControl
                     x:Name="mapControl"
                     Center="{x:Bind MapViewModel.Center, Mode=OneWay}"
