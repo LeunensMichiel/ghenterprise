@@ -10,72 +10,18 @@ namespace Ghenterprise.Models
 {
     public class User:ObservableObject
     {
-        private int _id;
-        private String _firstname;
-        private String _lastname;
-        private String _email;
-        private String _password;
+        public string Id { get; set; }
 
-        public User()
-        {
-            _id = 0;
-            _firstname = "";
-            _lastname = "";
-            _email = "";
-            _password = "";
-        }
+        public string Firstname { get; set; }
 
-        public int id {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                Set("id", ref _id, value);
-            }
-        }
-        public String firstname {
-            get
-            {
-                return _firstname;
-            }
-            set
-            {
-                Debug.WriteLine("USER_FIRSTNAME_CHECK");
-                Set("firstname", ref _firstname, value);
-            }
-        }
-        public String lastname {
-            get
-            {
-                return _lastname;
-            }
-            set
-            {
-                Set("lastname", ref _lastname, value);
-            }
-        }
-        public String email {
-            get
-            {
-                return _email;
-            }
-            set
-            {
-                Set("email", ref _email, value);
-            }
-        }
-        public String password {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                Set("password", ref _password, value);
-            }
-        }
+        public string Lastname { get; set; }
 
+        public string Email { get; set; }
+
+        public ICollection<Enterprise> Enterprises { get; set; }
+
+        public ICollection<Enterprise> Subscriptions { get; set; }
+
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

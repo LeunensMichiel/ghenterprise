@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    public class Event
+    public class Notification
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public Enterprise Enterprise { get; set; }
 
-        public string Description { get; set; }
+        public Promotion Promotion { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
+        public Event Event { get; set; }
     }
 }

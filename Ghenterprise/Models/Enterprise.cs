@@ -9,65 +9,23 @@ namespace Ghenterprise.Models
 {
     public class Enterprise:ObservableObject
     {
-        private string _id;
-        private string _name;
-        private string _description;
-        private DateTime _datecreated;
+        public string Id { get; set; }
 
-        public Enterprise()
-        {
-            _id = "";
-            _name = "";
-            _description = "";
-            _datecreated = new DateTime();
-        }
+        public string Name { get; set; }
 
-        public string Id
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                Set("Id", ref _id, value);
-            }
-        }
+        public string Description { get; set; }
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                Set("Name", ref _name, value);
-            }
-        }
+        public DateTime DateCreated { get; set; }
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
-            set
-            {
-                Set("Description", ref _description, value);
-            }
-        }
+        public Location Location { get; set; }
 
-        public DateTime DateCreated
-        {
-            get
-            {
-                return _datecreated;
-            }
-            set
-            {
-                Set("DateCreated", ref _datecreated, value);
-            }
-        }
+        public ICollection<Event> Events { get; set; }
+
+        public ICollection<Promotion> Promotions { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
+
+        public ICollection<Tag> Tags { get; set; }
+
     }
 }

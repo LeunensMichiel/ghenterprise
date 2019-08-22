@@ -8,17 +8,6 @@ namespace Ghenterprise.Models
 {
     public class Response
     {
-        private string _message;
-
-        public string message {
-            get
-            {
-                return _message;
-            }
-            set
-            {
-                _message = value;
-            }
-        }
+        public string Message { get; set; }
     }
 }

@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    public class Event
+    public class File
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public string Type { get; set; }
 
-        public string Description { get; set; }
+        public Enterprise Enterprise { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
+        public User User { get; set; }
     }
 }
