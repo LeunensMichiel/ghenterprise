@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    public class Event
+    public class Promotion
     {
         public string Id { get; set; }
 
@@ -17,6 +17,5 @@ namespace Ghenterprise.Models
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
     }
 }

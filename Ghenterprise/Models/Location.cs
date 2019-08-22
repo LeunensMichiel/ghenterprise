@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    public class Event
+    public class Location
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public Street Street { get; set; }
 
-        public string Description { get; set; }
+        public City City { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
+        public int Number { get; set; }
     }
 }
