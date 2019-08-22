@@ -143,9 +143,9 @@ namespace Ghenterprise.ViewModels
                         try
                         {
                             ButtonText = "Aan het registreren...";
-                            res = await userService.GetCheckEmail(User.email);
+                            res = await userService.GetCheckEmail(User.Email);
 
-                            if (res.message == "email doesn't exist")
+                            if (res.Message == "email doesn't exist")
                             {
                                 result = await userService.PostRegisterUser(User);
                             } else
@@ -219,7 +219,7 @@ namespace Ghenterprise.ViewModels
                             ButtonEnabled = true;
                         }
 
-                        if (res.message == "Password valid")
+                        if (res.Message == "Password valid")
                         {
                             Debug.WriteLine("SWITCH TO MAINSCREEN");
                         } else
