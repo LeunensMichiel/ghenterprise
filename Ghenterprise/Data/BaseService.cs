@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Data
 {
-    class BaseService
+    public class BaseService
     {
         internal HttpClient Client { get; set; }
         private readonly string baseAdress = "https://localhost:44307/api";

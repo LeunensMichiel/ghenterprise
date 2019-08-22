@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    class Response
+    public class Response
     {
         private string _message;
 

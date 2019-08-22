@@ -11,5 +11,5 @@
     <x:Double x:Key="SmallFontSize">14</x:Double>
     <x:Double x:Key="ExtraSmallFontSize">12</x:Double>
     <x:Double x:Key="CardHeaderFontSize">12</x:Double>
-    <x:Double x:Key="CardTextFontSize">10</x:Double>
+    <x:Double x:Key="CardTextFontSize">11</x:Double>
 </ResourceDictionary>

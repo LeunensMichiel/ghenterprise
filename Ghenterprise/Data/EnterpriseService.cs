@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Data
 {
-    class EnterpriseService:BaseService
+    public class EnterpriseService:BaseService
     {
         public async Task<int> PostEnterprise(int userId, Enterprise enterprise)
         {

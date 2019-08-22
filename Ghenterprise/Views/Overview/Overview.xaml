@@ -1,15 +1,18 @@
-﻿<Page
+﻿<Page xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     x:Class="Ghenterprise.Views.Overview.Overview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ghenterprise.Views.Overview"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+      xmlns:models="using:Ghenterprise.Models"
+      mc:Ignorable="d">
 
     <Grid x:Name="OverviewArea" 
           Margin="{StaticResource DefaultPageMargin}">
-        <Pivot FontSize="{StaticResource LargeFontSize}">
+        <Pivot  FontSize="{StaticResource LargeFontSize}" SelectionChanged="OnSelectionChanged">
             <PivotItem Header="Abonnementen">
                 <Grid x:Name="NoSubscriptionsGrid" HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="20">
                     <Grid.RowDefinitions>
@@ -25,10 +28,68 @@
             <PivotItem Header="Alle">
                 <StackPanel Margin="{StaticResource LargeTopMargin}" Spacing="45">
                     <StackPanel x:Name="CardFilters" Orientation="Horizontal" Spacing="18">
-                        <ComboBox Width="160" PlaceholderText="Categie"/>
+                        <ComboBox Width="160" PlaceholderText="Categorie"/>
                         <AutoSuggestBox PlaceholderText="Ondernemers en plaatsen zoeken" QueryIcon="Find" Width="300"/>
                     </StackPanel>
-                    <!--Cards here-->
+                    <controls:AdaptiveGridView
+                        animations:Connected.ListItemElementName="itemThumbnail"
+                        animations:Connected.ListItemKey="animationKeyContentGrid"
+                        DesiredWidth="175"
+                        ItemHeight="235"
+                        IsItemClickEnabled="True"
+                        ItemClickCommand="{x:Bind OverviewViewModel.ItemClickCommand}"
+                        ItemsSource="{x:Bind OverviewViewModel.Source, Mode=OneWay}"
+                        SelectionMode="None"
+                        StretchContentForSingleRow="False">
+                        <controls:AdaptiveGridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Enterprise">
+                                <Grid
+                                    x:Name="itemThumbnail"
+                                    Background="{ThemeResource CardBackground}"
+                                    CornerRadius="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <controls:ImageEx Grid.Row="0" IsCacheEnabled="True" Source="/Assets/example.jpg" Stretch="UniformToFill" />
+                                    <StackPanel                                     
+                                        Padding="{StaticResource SmallLeftTopRightBottomMargin}"
+                                        Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                        <TextBlock x:Name="Title"
+                                            Margin="{StaticResource XXSmallTopMargin}"
+                                            HorizontalAlignment="Left"
+                                            FontSize="{StaticResource CardHeaderFontSize}"
+                                            FontWeight="SemiBold"
+                                            Text="{x:Bind Name}" />
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <FontIcon Glyph="&#xEC43;" 
+                                                      FontSize="{StaticResource SmallFontSize}" 
+                                                      Margin="{StaticResource XSmallRightMargin}"
+                                                      Foreground="{ThemeResource SystemAccentColor}"/>
+                                            <TextBlock
+                                                FontSize="{StaticResource CardTextFontSize}"
+                                                Margin="{StaticResource XXSmallTopMargin}"
+                                                HorizontalAlignment="Left"
+                                                Text="{x:Bind DateCreated}" 
+                                                Foreground="{StaticResource SystemBaseMediumColor}"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <FontIcon Glyph="&#xE823;" 
+                                                      FontSize="{StaticResource SmallFontSize}" 
+                                                      Margin="{StaticResource XSmallRightMargin}"
+                                                      Foreground="{ThemeResource SystemAccentColor}"/>
+                                            <TextBlock
+                                                FontSize="{StaticResource CardTextFontSize}"
+                                                Margin="{StaticResource XXSmallTopMargin}"
+                                                HorizontalAlignment="Left"
+                                                Text="Open - Sluit om 12u" 
+                                                Foreground="{StaticResource SystemBaseMediumColor}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </controls:AdaptiveGridView.ItemTemplate>
+                    </controls:AdaptiveGridView>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Kaart">
