@@ -41,14 +41,14 @@ namespace Ghenterprise.ViewModels
             enti.Name = "Leunes Media";
             enti.Description = "Fotografie / Webdev";
             enti.Id = "AFER";
-            enti.DateCreated = new DateTime();
+            enti.Date_Created = new DateTime();
             Source.Add(enti);
 
             Enterprise enti2 = new Enterprise();
             enti2.Name = "Kastart";
             enti2.Description = "Fuck ik heb honger";
             enti2.Id = "QWERTY";
-            enti2.DateCreated = new DateTime();
+            enti2.Date_Created = new DateTime();
             Source.Add(enti2);
 
             /*var data = await SampleDataService.GetMasterDetailDataAsync();

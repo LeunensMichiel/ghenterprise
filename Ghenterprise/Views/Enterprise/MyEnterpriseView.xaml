@@ -31,7 +31,7 @@
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center">
                     <TextBlock Text="{x:Bind Name}" FontSize="{StaticResource SmallFontSize}" FontWeight="Bold" MaxLines="1" TextTrimming="CharacterEllipsis" />
-                    <TextBlock Text="{x:Bind DateCreated}" FontSize="{StaticResource SmallFontSize}" FontWeight="Normal" MaxLines="1" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{x:Bind Date_Created}" FontSize="{StaticResource SmallFontSize}" FontWeight="Normal" MaxLines="1" TextTrimming="CharacterEllipsis" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
