@@ -47,10 +47,5 @@ namespace Ghenterprise.Views.Enterprise
             base.OnNavigatedFrom(e);
             MyEnterpriseViewModel.Selected = null;
         }
-
-        private void OnNew(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(typeof(EnterpriseCreateViewModel).FullName);
-        }
     }
 }

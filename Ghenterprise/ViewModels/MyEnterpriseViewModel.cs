@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Ghenterprise.Models;
+using Ghenterprise.Services;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
@@ -7,13 +9,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Ghenterprise.ViewModels
 {
     public class MyEnterpriseViewModel : ViewModelBase
     {
         private Enterprise _selected;
-
         public Enterprise Selected
         {
             get { return _selected; }
@@ -21,6 +23,10 @@ namespace Ghenterprise.ViewModels
         }
 
         public ObservableCollection<Enterprise> Source { get; private set; } = new ObservableCollection<Enterprise>();
+        public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+
+        private ICommand _addNewEnterpriseCommand;
+        public ICommand AddNewEnterpriseCommand => _addNewEnterpriseCommand ?? (_addNewEnterpriseCommand = new RelayCommand(new Action(OnNewClick)));
 
         public MyEnterpriseViewModel()
         {
@@ -56,6 +62,11 @@ namespace Ghenterprise.ViewModels
             {
                 Selected = Source.First();
             }
+        }
+
+        private void OnNewClick()
+        {
+            NavigationService.Navigate(typeof(EnterpriseCreateViewModel).FullName);
         }
     }
 }

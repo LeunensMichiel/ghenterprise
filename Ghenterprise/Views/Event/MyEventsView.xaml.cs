@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ghenterprise.Services;
+using Ghenterprise.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +24,28 @@ namespace Ghenterprise.Views.Event
     /// </summary>
     public sealed partial class MyEventsView : Page
     {
+        public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+
+        private MyEventViewModel MyEventViewModel
+        {
+            get { return ViewModelLocator.Current.MyEvents; }
+        }
+
         public MyEventsView()
         {
             this.InitializeComponent();
+            Loaded += MasterDetailPage_Loaded;
+        }
+
+        private async void MasterDetailPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            await MyEventViewModel.LoadDataAsync(MasterDetailsViewControl.ViewState);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            MyEventViewModel.Selected = null;
         }
     }
 }
