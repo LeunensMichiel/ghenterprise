@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using Ghenterprise.Models;
 using Ghenterprise.Services;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -57,8 +58,8 @@ namespace Ghenterprise.ViewModels
         {
             if (clickedItem != null)
             {
-                //NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
-                //NavigationService.Navigate(typeof(ContentGridDetailViewModel).FullName, clickedItem.OrderID);
+                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
+                NavigationService.Navigate(typeof(PromotionCardDetailViewModel).FullName, clickedItem.Id);
             }
         }
     }

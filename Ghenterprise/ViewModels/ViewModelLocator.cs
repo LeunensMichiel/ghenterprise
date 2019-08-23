@@ -47,6 +47,14 @@ namespace Ghenterprise.ViewModels
             SimpleIoc.Default.Register<SettingsViewModel>();
             NavigationServ.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsView));
 
+            //Detail View van de Cards
+            SimpleIoc.Default.Register<EnterpriseCardDetailViewModel>();
+            NavigationServ.Configure(typeof(EnterpriseCardDetailViewModel).FullName, typeof(EnterpriseCardDetailView));
+            SimpleIoc.Default.Register<EventCardDetailViewModel>();
+            NavigationServ.Configure(typeof(EventCardDetailViewModel).FullName, typeof(EventCardDetailView));
+            SimpleIoc.Default.Register<PromotionCardDetailViewModel>();
+            NavigationServ.Configure(typeof(PromotionCardDetailViewModel).FullName, typeof(PromotionCardDetailView));
+
             //Create en Edit ViewModels
             SimpleIoc.Default.Register<EnterpriseCreateViewModel>();
             NavigationServ.Configure(typeof(EnterpriseCreateViewModel).FullName, typeof(EnterpriseCreateView));
@@ -70,15 +78,17 @@ namespace Ghenterprise.ViewModels
 
         public PromotionViewModel Promotion => SimpleIoc.Default.GetInstance<PromotionViewModel>();
 
+        public EnterpriseCardDetailViewModel EnterpriseDetail => SimpleIoc.Default.GetInstance<EnterpriseCardDetailViewModel>();
+
+        public EventCardDetailViewModel EventDetail => SimpleIoc.Default.GetInstance<EventCardDetailViewModel>();
+
+        public PromotionCardDetailViewModel PromoDetail => SimpleIoc.Default.GetInstance<PromotionCardDetailViewModel>();
+
         public MyEnterpriseViewModel MyEnterprise => SimpleIoc.Default.GetInstance<MyEnterpriseViewModel>();
 
         public MyEventViewModel MyEvents => SimpleIoc.Default.GetInstance<MyEventViewModel>();
 
         public MyPromotionsViewModel MyPromotions => SimpleIoc.Default.GetInstance<MyPromotionsViewModel>();
-
-        public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
-
-        public MapViewModel Map => SimpleIoc.Default.GetInstance<MapViewModel>();
 
         public EnterpriseCreateViewModel EnterpriseCreate => SimpleIoc.Default.GetInstance<EnterpriseCreateViewModel>();
 
@@ -86,5 +96,8 @@ namespace Ghenterprise.ViewModels
 
         public PromotionCreateViewModel PromotionCreate => SimpleIoc.Default.GetInstance<PromotionCreateViewModel>();
 
+        public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
+
+        public MapViewModel Map => SimpleIoc.Default.GetInstance<MapViewModel>();
     }
 }

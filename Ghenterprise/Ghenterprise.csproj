@@ -140,8 +140,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="ViewModels\EnterpriseCardDetailViewModel.cs" />
     <Compile Include="ViewModels\EnterpriseCreateViewModel.cs" />
     <Compile Include="ViewModels\EnterpriseViewModel.cs" />
+    <Compile Include="ViewModels\EventCardDetailViewModel.cs" />
     <Compile Include="ViewModels\EventCreateViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="ViewModels\MyPromotionsViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
+    <Compile Include="ViewModels\PromotionCardDetailViewModel.cs" />
     <Compile Include="ViewModels\PromotionCreateViewModel.cs" />
     <Compile Include="ViewModels\PromotionViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -159,6 +162,9 @@
     <Compile Include="Views\EnterpriseCreationTestScreen.xaml.cs">
       <DependentUpon>EnterpriseCreationTestScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Enterprise\EnterpriseCardDetailView.xaml.cs">
+      <DependentUpon>EnterpriseCardDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Enterprise\EnterpriseCreateView.xaml.cs">
       <DependentUpon>EnterpriseCreateView.xaml</DependentUpon>
     </Compile>
@@ -167,6 +173,9 @@
     </Compile>
     <Compile Include="Views\Enterprise\MyEnterpriseView.xaml.cs">
       <DependentUpon>MyEnterpriseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Event\EventCardDetailView.xaml.cs">
+      <DependentUpon>EventCardDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Event\EventCreateView.xaml.cs">
       <DependentUpon>EventCreateView.xaml</DependentUpon>
@@ -188,6 +197,9 @@
     </Compile>
     <Compile Include="Views\Promotion\MyPromotionsView.xaml.cs">
       <DependentUpon>MyPromotionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Promotion\PromotionCardDetailView.xaml.cs">
+      <DependentUpon>PromotionCardDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Promotion\PromotionCreateView.xaml.cs">
       <DependentUpon>PromotionCreateView.xaml</DependentUpon>
@@ -288,6 +300,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Enterprise\EnterpriseCardDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Enterprise\EnterpriseCreateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -297,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Enterprise\MyEnterpriseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Event\EventCardDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -325,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Promotion\MyPromotionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Promotion\PromotionCardDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
