@@ -143,6 +143,9 @@
     <Compile Include="ViewModels\EnterpriseViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
+    <Compile Include="ViewModels\MyEnterpriseViewModel.cs" />
+    <Compile Include="ViewModels\MyEventViewModel.cs" />
+    <Compile Include="ViewModels\MyPromotionsViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
     <Compile Include="ViewModels\PromotionViewModel.cs" />
@@ -153,11 +156,20 @@
     <Compile Include="Views\EnterpriseCreationTestScreen.xaml.cs">
       <DependentUpon>EnterpriseCreationTestScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Enterprise\MyEnterpriseView.xaml.cs">
+      <DependentUpon>MyEnterpriseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Event\EventView.xaml.cs">
       <DependentUpon>EventView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Event\MyEventsView.xaml.cs">
+      <DependentUpon>MyEventsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Overview\Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Promotion\MyPromotionsView.xaml.cs">
+      <DependentUpon>MyPromotionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Promotion\PromotionView.xaml.cs">
       <DependentUpon>PromotionView.xaml</DependentUpon>
@@ -253,11 +265,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Enterprise\MyEnterpriseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Event\EventView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Event\MyEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Overview\Overview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Promotion\MyPromotionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

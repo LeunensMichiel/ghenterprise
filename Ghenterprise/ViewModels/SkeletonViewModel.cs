@@ -33,11 +33,32 @@ namespace Ghenterprise.ViewModels
         }
         private IEnumerable<WinUI.NavigationViewItem> GetMenuItems()
         {
-            string[] labels = { "Overzicht", "Events", "Promoties" };
-            FontIcon[] icons = { new FontIcon() { Glyph = "\uF246" }, new FontIcon() { Glyph = "\uE787" }, new FontIcon() { Glyph = "\uE789" } };
-            string[] pageViewModels = { typeof(OverviewViewModel).FullName, typeof(EventViewModel).FullName, typeof(PromotionViewModel).FullName };
+            string[] labels = {
+                "Overzicht",
+                "Events",
+                "Promoties",
+                "Mijn Ondernemingen",
+                "Mijn Events",
+                "Mijn Promoties"
+            };
+            FontIcon[] icons = {
+                new FontIcon() { Glyph = "\uF246" },
+                new FontIcon() { Glyph = "\uE787" },
+                new FontIcon() { Glyph = "\uE789" },
+                new FontIcon() { Glyph = "\uEC06" },
+                new FontIcon() { Glyph = "\uE8D1" },
+                new FontIcon() { Glyph = "\uE94C" }
+            };
+            string[] pageViewModels = {
+                typeof(OverviewViewModel).FullName,
+                typeof(EventViewModel).FullName,
+                typeof(PromotionViewModel).FullName,
+                typeof(MyEnterpriseViewModel).FullName,
+                typeof(MyEventViewModel).FullName,
+                typeof(MyPromotionsViewModel).FullName,
+            };
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < labels.Length; i++)
             {
                 WinUI.NavigationViewItem navigationViewItem = new WinUI.NavigationViewItem();
                 navigationViewItem.Content = labels[i];
@@ -88,6 +109,12 @@ namespace Ghenterprise.ViewModels
             MenuItems = GetMenuItems().ToArray();
             foreach(WinUI.NavigationViewItem navItem in MenuItems)
             {
+                if (navItem.Content.ToString() == "Mijn Ondernemingen")
+                {
+                    WinUI.NavigationViewItemHeader header = new WinUI.NavigationViewItemHeader();
+                    header.Content = "Ghenterprise";
+                    _navigationView.MenuItems.Add(header);
+                }
                 _navigationView.MenuItems.Add(navItem);
             }
         }
@@ -105,12 +132,10 @@ namespace Ghenterprise.ViewModels
                 NavigationService.Navigate(typeof(SettingsViewModel).FullName);
                 return;
             }
-            System.Diagnostics.Debug.WriteLine(_navigationView.Name);
             var item = _navigationView.MenuItems
                             .OfType<WinUI.NavigationViewItem>()
                             .First(menuItem => (string)menuItem.Content == (string)args.InvokedItem);
             var pageKey = item.GetValue(NavHelper.NavigateToProperty) as string;
-            System.Diagnostics.Debug.WriteLine(pageKey);
             NavigationService.Navigate(pageKey);
         }
 

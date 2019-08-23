@@ -9,6 +9,8 @@ using Ghenterprise.Views.Overview;
 using Ghenterprise.Views.EventView;
 using Ghenterprise.Views.Promotion;
 using Ghenterprise.Views.Settings;
+using Ghenterprise.Views.Enterprise;
+using Ghenterprise.Views.Event;
 
 namespace Ghenterprise.ViewModels
 {
@@ -35,6 +37,12 @@ namespace Ghenterprise.ViewModels
             NavigationServ.Configure(typeof(EventViewModel).FullName, typeof(EventView));
             SimpleIoc.Default.Register<PromotionViewModel>();
             NavigationServ.Configure(typeof(PromotionViewModel).FullName, typeof(PromotionView));
+            SimpleIoc.Default.Register<MyEnterpriseViewModel>();
+            NavigationServ.Configure(typeof(MyEnterpriseViewModel).FullName, typeof(MyEnterpriseView));
+            SimpleIoc.Default.Register<MyEventViewModel>();
+            NavigationServ.Configure(typeof(MyEventViewModel).FullName, typeof(MyEventsView));
+            SimpleIoc.Default.Register<MyPromotionsViewModel>();
+            NavigationServ.Configure(typeof(MyPromotionsViewModel).FullName, typeof(MyPromotionsView));
             SimpleIoc.Default.Register<SettingsViewModel>();
             NavigationServ.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsView));
         }
@@ -82,6 +90,30 @@ namespace Ghenterprise.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<PromotionViewModel>();
+            }
+        }
+
+        public MyEnterpriseViewModel MyEnterprise
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MyEnterpriseViewModel>();
+            }
+        }
+
+        public MyEventViewModel MyEvents
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MyEventViewModel>();
+            }
+        }
+
+        public MyPromotionsViewModel MyPromotions
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MyPromotionsViewModel>();
             }
         }
 
