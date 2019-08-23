@@ -1,6 +1,4 @@
-﻿using Ghenterprise.Services;
-using Ghenterprise.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,30 +20,26 @@ namespace Ghenterprise.Views.Event
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MyEventsView : Page
+    public sealed partial class MyEventsDetailView : Page
     {
-        public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
-
-        private MyEventViewModel MyEventViewModel
-        {
-            get { return ViewModelLocator.Current.MyEvents; }
-        }
-
-        public MyEventsView()
+        public MyEventsDetailView()
         {
             this.InitializeComponent();
-            Loaded += MasterDetailPage_Loaded;
         }
 
-        private async void MasterDetailPage_Loaded(object sender, RoutedEventArgs e)
+        public static readonly DependencyProperty MasterEventItemProperty = DependencyProperty.Register("MasterEventItem", typeof(Models.Event), typeof(MyEventsDetailView), new PropertyMetadata(null, OnMasterMenuItemPropertyChanged));
+
+
+        public Models.Event MasterEventItem
         {
-            await MyEventViewModel.LoadDataAsync(MasterDetailsViewControl.ViewState);
+            get { return GetValue(MasterEventItemProperty) as Models.Event; }
+            set { SetValue(MasterEventItemProperty, value); }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private static void OnMasterMenuItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            base.OnNavigatedFrom(e);
-            MyEventViewModel.Selected = null;
+            var control = d as MyEventsDetailView;
+            control.ForegroundElement.ChangeView(0, 0, 1);
         }
     }
 }

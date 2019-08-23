@@ -98,7 +98,7 @@
             SelectedItem="{x:Bind MyEnterpriseViewModel.Selected, Mode=TwoWay}" Background="{ThemeResource AppBarBackgroundThemeBrush}">
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar Background="Transparent" IsOpen="True" DefaultLabelPosition="Right" HorizontalContentAlignment="Right">
-                    <AppBarButton Icon="Add" Label="Toevoegen" Click="OnNew" />
+                    <AppBarButton Icon="Add" Label="Toevoegen" Command="{x:Bind MyEnterpriseViewModel.AddNewEnterpriseCommand}" />
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>
         </controls:MasterDetailsView>

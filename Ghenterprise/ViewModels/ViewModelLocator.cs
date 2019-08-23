@@ -26,130 +26,62 @@ namespace Ghenterprise.ViewModels
             SimpleIoc.Default.Register<SkeletonViewModel>();
             SimpleIoc.Default.Register<UserViewModel>();
             SimpleIoc.Default.Register<MapViewModel>();
+            SimpleIoc.Default.Register<EnterpriseViewModel>();
 
             
             //  Viewmodels met View
-            SimpleIoc.Default.Register<EnterpriseViewModel>();
-/*            NavigationServ.Configure(typeof(EnterpriseViewModel).FullName, typeof(Enter)); */
             SimpleIoc.Default.Register<OverviewViewModel>();
             NavigationServ.Configure(typeof(OverviewViewModel).FullName, typeof(Overview));
             SimpleIoc.Default.Register<EventViewModel>();
             NavigationServ.Configure(typeof(EventViewModel).FullName, typeof(EventView));
             SimpleIoc.Default.Register<PromotionViewModel>();
             NavigationServ.Configure(typeof(PromotionViewModel).FullName, typeof(PromotionView));
+
             SimpleIoc.Default.Register<MyEnterpriseViewModel>();
             NavigationServ.Configure(typeof(MyEnterpriseViewModel).FullName, typeof(MyEnterpriseView));
             SimpleIoc.Default.Register<MyEventViewModel>();
             NavigationServ.Configure(typeof(MyEventViewModel).FullName, typeof(MyEventsView));
             SimpleIoc.Default.Register<MyPromotionsViewModel>();
             NavigationServ.Configure(typeof(MyPromotionsViewModel).FullName, typeof(MyPromotionsView));
+
             SimpleIoc.Default.Register<SettingsViewModel>();
             NavigationServ.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsView));
 
             //Create en Edit ViewModels
             SimpleIoc.Default.Register<EnterpriseCreateViewModel>();
             NavigationServ.Configure(typeof(EnterpriseCreateViewModel).FullName, typeof(EnterpriseCreateView));
+
+            SimpleIoc.Default.Register<EventCreateViewModel>();
+            NavigationServ.Configure(typeof(EventCreateViewModel).FullName, typeof(EventCreateView));
         }
 
-        public UserViewModel User {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<UserViewModel>();
-            }
-        }
+        public NavigationService NavigationServ => SimpleIoc.Default.GetInstance<NavigationService>();
 
-        public EnterpriseViewModel Enterprise {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<EnterpriseViewModel>();
-            }
-        }
+        public UserViewModel User => SimpleIoc.Default.GetInstance<UserViewModel>();
 
-        public SkeletonViewModel Skeleton
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<SkeletonViewModel>();
-            }
-        }
+        public EnterpriseViewModel Enterprise => SimpleIoc.Default.GetInstance<EnterpriseViewModel>();
 
-        public OverviewViewModel Overview
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<OverviewViewModel>();
-            }
-        }
+        public SkeletonViewModel Skeleton => SimpleIoc.Default.GetInstance<SkeletonViewModel>();
 
-        public EventViewModel Event
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<EventViewModel>();
-            }
-        }
+        public OverviewViewModel Overview => SimpleIoc.Default.GetInstance<OverviewViewModel>();
 
-        public PromotionViewModel Promotion
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<PromotionViewModel>();
-            }
-        }
+        public EventViewModel Event => SimpleIoc.Default.GetInstance<EventViewModel>();
 
-        public MyEnterpriseViewModel MyEnterprise
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MyEnterpriseViewModel>();
-            }
-        }
+        public PromotionViewModel Promotion => SimpleIoc.Default.GetInstance<PromotionViewModel>();
 
-        public MyEventViewModel MyEvents
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MyEventViewModel>();
-            }
-        }
+        public MyEnterpriseViewModel MyEnterprise => SimpleIoc.Default.GetInstance<MyEnterpriseViewModel>();
 
-        public MyPromotionsViewModel MyPromotions
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MyPromotionsViewModel>();
-            }
-        }
+        public MyEventViewModel MyEvents => SimpleIoc.Default.GetInstance<MyEventViewModel>();
 
-        public NavigationService NavigationServ
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<NavigationService>();
-            }
-        }
-        public SettingsViewModel Settings
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<SettingsViewModel>();
-            }
-        }
-        public MapViewModel Map
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MapViewModel>();
-            }
-        }
+        public MyPromotionsViewModel MyPromotions => SimpleIoc.Default.GetInstance<MyPromotionsViewModel>();
 
-        public EnterpriseCreateViewModel EnterpriseCreate
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<EnterpriseCreateViewModel>();
-            }
-        }
+        public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
+
+        public MapViewModel Map => SimpleIoc.Default.GetInstance<MapViewModel>();
+
+        public EnterpriseCreateViewModel EnterpriseCreate => SimpleIoc.Default.GetInstance<EnterpriseCreateViewModel>();
+
+        public EventCreateViewModel EventCreate => SimpleIoc.Default.GetInstance<EventCreateViewModel>();
 
     }
 }
