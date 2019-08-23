@@ -28,14 +28,14 @@
             <ColumnDefinition Width="0" x:Name="firstColumn"/>
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
-        <my:ImageEx Name="image" Grid.Column="0" Source="/Assets/ghentFromAbove.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+        <my:ImageEx Name="image" Grid.Column="0" Source="/Assets/ghentKorenmarkt.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
         <CommandBar Grid.Column="1" IsSticky="True"  ClosedDisplayMode="Compact" DefaultLabelPosition="Right" Canvas.ZIndex="2">
             <AppBarButton Icon="Save" Label="Opslaan" />
             <AppBarButton Icon="Cancel" Label="Annuleren" Command="{x:Bind EventCreateViewModel.CancelClickCommand}"/>
         </CommandBar>
         <ScrollViewer  Grid.Column="1" HorizontalScrollMode="Enabled" >
             <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}" HorizontalAlignment="Stretch">
-                <TextBlock Text="Nieuwe Ghenterprise" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Text="Nieuw Event" Style="{StaticResource TitleTextBlockStyle}"/>
                 <TextBox x:Name="Name" Header= "Naam" Margin="0,24,0,0" MaxLength="32" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" PlaceholderText="Naam van het evenement"/>
                 <TextBox x:Name="Description" Header="Beschrijving" Margin="0,24,0,0" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" SelectionHighlightColor="Green" MinHeight="200" PlaceholderText="Beschrijving van uw evenement" />
                 <Grid Margin="0,24,0,0" HorizontalAlignment="Stretch" RowSpacing="24">

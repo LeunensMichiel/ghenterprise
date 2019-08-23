@@ -50,9 +50,10 @@ namespace Ghenterprise.ViewModels
             //Create en Edit ViewModels
             SimpleIoc.Default.Register<EnterpriseCreateViewModel>();
             NavigationServ.Configure(typeof(EnterpriseCreateViewModel).FullName, typeof(EnterpriseCreateView));
-
             SimpleIoc.Default.Register<EventCreateViewModel>();
             NavigationServ.Configure(typeof(EventCreateViewModel).FullName, typeof(EventCreateView));
+            SimpleIoc.Default.Register<PromotionCreateViewModel>();
+            NavigationServ.Configure(typeof(PromotionCreateViewModel).FullName, typeof(PromotionCreateView));
         }
 
         public NavigationService NavigationServ => SimpleIoc.Default.GetInstance<NavigationService>();
@@ -82,6 +83,8 @@ namespace Ghenterprise.ViewModels
         public EnterpriseCreateViewModel EnterpriseCreate => SimpleIoc.Default.GetInstance<EnterpriseCreateViewModel>();
 
         public EventCreateViewModel EventCreate => SimpleIoc.Default.GetInstance<EventCreateViewModel>();
+
+        public PromotionCreateViewModel PromotionCreate => SimpleIoc.Default.GetInstance<PromotionCreateViewModel>();
 
     }
 }

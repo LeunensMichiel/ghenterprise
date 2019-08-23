@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\MyPromotionsViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
+    <Compile Include="ViewModels\PromotionCreateViewModel.cs" />
     <Compile Include="ViewModels\PromotionViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SkeletonViewModel.cs" />
@@ -182,8 +183,14 @@
     <Compile Include="Views\Overview\Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Promotion\MyPromotionsDetailView.xaml.cs">
+      <DependentUpon>MyPromotionsDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Promotion\MyPromotionsView.xaml.cs">
       <DependentUpon>MyPromotionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Promotion\PromotionCreateView.xaml.cs">
+      <DependentUpon>PromotionCreateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Promotion\PromotionView.xaml.cs">
       <DependentUpon>PromotionView.xaml</DependentUpon>
@@ -208,6 +215,7 @@
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\example.jpg" />
     <Content Include="Assets\ghentFromAbove.jpg" />
+    <Content Include="Assets\ghentKorenmarkt.jpg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -312,7 +320,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Promotion\MyPromotionsDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Promotion\MyPromotionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Promotion\PromotionCreateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
