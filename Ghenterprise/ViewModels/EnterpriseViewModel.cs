@@ -82,13 +82,13 @@ namespace Ghenterprise.ViewModels
                     _saveEnterpriseCommand = new RelayCommand(async () =>
                     {
                         ButtonEnabled = false;
-                        int result = 0;
+                        Boolean result = false;
                         ErrorText = "";
                         try
                         {
                             ButtonText = "Aan het opslaan...";
                             Debug.WriteLine(JsonConvert.SerializeObject(Enterprise));
-                            result = await entService.PostEnterprise(1, Enterprise);
+                            result = await entService.SaveEnterprise(Enterprise);
                         }
                         catch (Exception ex)
                         {
@@ -97,7 +97,7 @@ namespace Ghenterprise.ViewModels
                         }
                         ButtonText = "Opslaan";
                         ButtonEnabled = true;
-                        if (result == 0)
+                        if (!result)
                         {
                             ErrorText = "Niet opgeslagen.";
                         }

@@ -14,6 +14,6 @@ namespace Ghenterprise.Models
 
         public City City { get; set; }
 
-        public int Number { get; set; }
+        public int Street_Number { get; set; }
     }
 }

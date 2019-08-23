@@ -71,7 +71,7 @@
                                                 FontSize="{StaticResource CardTextFontSize}"
                                                 Margin="{StaticResource XXSmallTopMargin}"
                                                 HorizontalAlignment="Left"
-                                                Text="{x:Bind DateCreated}" 
+                                                Text="{x:Bind Date_Created}" 
                                                 Foreground="{StaticResource SystemBaseMediumColor}"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
