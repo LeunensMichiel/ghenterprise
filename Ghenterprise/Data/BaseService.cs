@@ -93,16 +93,12 @@ namespace Ghenterprise.Data
             {
                 return false;
             }
-           Client.DefaultRequestHeaders.Add("username", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImhvSmlyNDdVcTg5ciIsIm5iZiI6MTU2NjUwMDA4MCwiZXhwIjoxNTY3MTA0ODgwLCJpYXQiOjE1NjY1MDAwODB9.LkHgGgembArNR40ePNCMzHbMGeSb4YwLGLlCo4YY-Jg");
+            Client.DefaultRequestHeaders.Add("username", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImhvSmlyNDdVcTg5ciIsIm5iZiI6MTU2NjUwMDA4MCwiZXhwIjoxNTY3MTA0ODgwLCJpYXQiOjE1NjY1MDAwODB9.LkHgGgembArNR40ePNCMzHbMGeSb4YwLGLlCo4YY-Jg");
 
             var stringPayload = JsonConvert.SerializeObject(item, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-            Debug.WriteLine(GetRequestUri(uri));
             var response = await Client.PostAsync(GetRequestUri(uri), content);
-            Debug.WriteLine(stringPayload);
-            Debug.WriteLine(response.ReasonPhrase);
-            Debug.WriteLine(response.StatusCode);
-            Debug.WriteLine(response.Content);
+
             return response.IsSuccessStatusCode;
         }
 

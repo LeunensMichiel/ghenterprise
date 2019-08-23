@@ -16,7 +16,7 @@
         <StackPanel Name="block" Padding="0,15,0,0">
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Id, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Name, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.DateCreated, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Date_Created, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Description, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Tags, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Categories, Mode=OneWay}" />
