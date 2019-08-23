@@ -5,11 +5,20 @@
     xmlns:local="using:Ghenterprise.Views.Settings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock HorizontalAlignment="Center" Margin="0,485,0,0" Text="Settings" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontSize="72"/>
+    <Grid Margin="{StaticResource LargeLeftTopRightBottomMargin}">
+        <StackPanel>
+        <TextBlock FontSize="{StaticResource LargeFontSize}" Text="About This Application" />
+        <TextBlock
+                x:Uid="Settings_AboutDescription"
+                FontSize="{StaticResource SmallFontSize}"
+                Margin="{StaticResource XSmallTopMargin}"
+                Text="Ghenterprise - v1.0.0"
+                    />
+        <TextBlock FontSize="{StaticResource SmallFontSize}" Margin="{StaticResource MediumTopMargin}" Text="Lorem Ipsum Doloret" />
 
+        <HyperlinkButton Content="Privacy Statement" x:Uid="Settings_PrivacyTermsLink" />
+        </StackPanel>
     </Grid>
 </Page>

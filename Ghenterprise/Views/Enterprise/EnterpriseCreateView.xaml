@@ -1,0 +1,52 @@
+﻿<Page xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    x:Class="Ghenterprise.Views.Enterprise.EnterpriseCreateView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ghenterprise.Views.Enterprise"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!-- VisualState to be triggered when the
+                             window width is >=640 effective pixels. -->
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="firstColumn.Width" Value="320"/>
+                        <Setter Target="image.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0" x:Name="firstColumn"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <my:ImageEx Name="image" Grid.Column="0" Source="/Assets/example.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+        <CommandBar Grid.Column="1" IsSticky="True"  ClosedDisplayMode="Compact" DefaultLabelPosition="Right" Canvas.ZIndex="2">
+            <AppBarButton Icon="Save" Label="Opslaan" />
+            <AppBarButton Icon="Cancel" Label="Annuleren" Command="{x:Bind ViewModel.CancelClickCommand}"/>
+        </CommandBar>
+        <ScrollViewer  Grid.Column="1" HorizontalScrollMode="Enabled" >
+            <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}" HorizontalAlignment="Stretch">
+                <TextBlock Text="Nieuwe Ghenterprise" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBox x:Name="Name" Header= "Naam" Margin="0,24,0,0" MaxLength="32" Width="Auto" HorizontalAlignment="Stretch" InputScope="PersonalFullName" PlaceholderText="Voer uw bedrijfsnaam in"/>
+                <TextBox x:Name="Description" Header="Beschrijving" Margin="0,24,0,0" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" SelectionHighlightColor="Green" MinHeight="200" PlaceholderText="Beschrijving van uw bedrijf" />
+                <TextBox x:Name="Email" Header="Email" Margin="0,24,0,0" MaxLength="50" Width="Auto" HorizontalAlignment="Stretch"  InputScope="EmailNameOrAddress" PlaceholderText="Email van uw bedrijf" />
+                <TextBox x:Name="Address" Header="Adres" PlaceholderText="Adres" Margin="0,24,0,0" MaxLength="60"  HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" />
+                <ComboBox x:Name="State" Header="Categorie" PlaceholderText="Categorie" Margin="0,24,0,0"  HorizontalAlignment="Stretch" RelativePanel.RightOf="City">
+                    <x:String>Bar</x:String>
+                    <x:String>Restaurant</x:String>
+                    <x:String>Shop</x:String>
+                    <x:String>School</x:String>
+                </ComboBox>
+                <TextBox x:Name="Tags" Header="Tags" Margin="0,24,0,0" MaxLength="50" HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" PlaceholderText="Geef zoektermen op, gescheiden door kommas (,)" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
