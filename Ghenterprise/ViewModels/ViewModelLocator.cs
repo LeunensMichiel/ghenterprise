@@ -45,6 +45,10 @@ namespace Ghenterprise.ViewModels
             NavigationServ.Configure(typeof(MyPromotionsViewModel).FullName, typeof(MyPromotionsView));
             SimpleIoc.Default.Register<SettingsViewModel>();
             NavigationServ.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsView));
+
+            //Create en Edit ViewModels
+            SimpleIoc.Default.Register<EnterpriseCreateViewModel>();
+            NavigationServ.Configure(typeof(EnterpriseCreateViewModel).FullName, typeof(EnterpriseCreateView));
         }
 
         public UserViewModel User {
@@ -136,6 +140,14 @@ namespace Ghenterprise.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<MapViewModel>();
+            }
+        }
+
+        public EnterpriseCreateViewModel EnterpriseCreate
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<EnterpriseCreateViewModel>();
             }
         }
 

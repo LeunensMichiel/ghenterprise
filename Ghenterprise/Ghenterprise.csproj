@@ -140,6 +140,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="ViewModels\EnterpriseCreateViewModel.cs" />
     <Compile Include="ViewModels\EnterpriseViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
@@ -155,6 +156,12 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\EnterpriseCreationTestScreen.xaml.cs">
       <DependentUpon>EnterpriseCreationTestScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Enterprise\EnterpriseCreateView.xaml.cs">
+      <DependentUpon>EnterpriseCreateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Enterprise\MyEnterpriseDetailView.xaml.cs">
+      <DependentUpon>MyEnterpriseDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Enterprise\MyEnterpriseView.xaml.cs">
       <DependentUpon>MyEnterpriseView.xaml</DependentUpon>
@@ -262,6 +269,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EnterpriseCreationTestScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Enterprise\EnterpriseCreateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Enterprise\MyEnterpriseDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
