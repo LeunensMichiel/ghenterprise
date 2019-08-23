@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="Ghenterprise.Views.Enterprise.MyEnterpriseDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ghenterprise.Views.Enterprise"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        Name="ForegroundElement"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        Padding="{StaticResource SmallLeftTopRightBottomMargin}"
+        HorizontalAlignment="Stretch"
+        VerticalScrollMode="Enabled">
+        <StackPanel Name="block" Padding="0,15,0,0">
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Id, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Name, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.DateCreated, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Description, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Tags, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Categories, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Events, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEnterpriseItem.Promotions, Mode=OneWay}" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
