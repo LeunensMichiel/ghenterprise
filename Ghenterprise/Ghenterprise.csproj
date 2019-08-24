@@ -123,6 +123,7 @@
     </Compile>
     <Compile Include="Data\BaseService.cs" />
     <Compile Include="Data\EnterpriseService.cs" />
+    <Compile Include="Data\EventService.cs" />
     <Compile Include="Data\UserService.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Models\Category.cs" />
@@ -225,6 +226,7 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\confused.svg" />
     <Content Include="Assets\example.jpg" />
     <Content Include="Assets\ghentFromAbove.jpg" />
     <Content Include="Assets\ghentKorenmarkt.jpg" />

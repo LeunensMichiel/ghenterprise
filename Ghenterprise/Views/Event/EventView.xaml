@@ -4,12 +4,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ghenterprise.Views.EventView"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:models="using:Ghenterprise.Models"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
     mc:Ignorable="d">
     <Grid>
+        <i:Interaction.Behaviors>
+            <Core:DataTriggerBehavior Binding="{x:Bind EventViewModel.Source.Count}" Value="0">
+                <Core:ChangePropertyAction TargetObject="{Binding ElementName=NoSubscriptionsGrid}" PropertyName="Visibility" Value="Visible"/>
+            </Core:DataTriggerBehavior>
+        </i:Interaction.Behaviors>
+        <Grid x:Name="NoSubscriptionsGrid" HorizontalAlignment="Stretch" VerticalAlignment="Center" RowSpacing="10" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="/Assets/confused.svg" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Text="Geen events!" FontSize="{StaticResource TitleFontSize }" TextAlignment="Center"/>
+            <TextBlock Grid.Row="2" Text="Ofwel is er niets te doen in Gent, of je internet werkt niet ;-)" FontSize="{StaticResource MediumFontSize }" TextAlignment="Center" Foreground="{StaticResource SystemBaseMediumColor}"/>
+        </Grid>
         <controls:AdaptiveGridView
                         animations:Connected.ListItemElementName="itemThumbnail"
                         animations:Connected.ListItemKey="animationKeyContentGrid"
