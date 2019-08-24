@@ -18,10 +18,38 @@
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Name, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Date_Created, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEnterpriseItem.Description, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Tags, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Categories, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Events, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Promotions, Mode=OneWay}" />
+            <TextBlock Text="Tags"/>
+            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Tags, Mode=OneWay}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <TextBlock Text="Categorieën"/>
+            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Categories, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <TextBlock Text="Events"/>
+            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Events, Mode=OneWay}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <TextBlock Text="Promoties"/>
+            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Promotions, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

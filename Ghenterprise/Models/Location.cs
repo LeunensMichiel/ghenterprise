@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    public class Location
+    public class Location:ObservableObject
     {
         public string Id { get; set; }
 
@@ -15,5 +16,10 @@ namespace Ghenterprise.Models
         public City City { get; set; }
 
         public int Street_Number { get; set; }
+        public Location()
+        {
+            Street = new Street();
+            City = new City();
+        }
     }
 }
