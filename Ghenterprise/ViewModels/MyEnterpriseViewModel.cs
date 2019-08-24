@@ -15,6 +15,7 @@ namespace Ghenterprise.ViewModels
     {
         private Enterprise _selected;
         private EnterpriseService entService = new EnterpriseService();
+        private List<Enterprise> _entlist = new List<Enterprise>();
 
         public Enterprise Selected
         {
@@ -23,6 +24,7 @@ namespace Ghenterprise.ViewModels
         }
 
         public ObservableCollection<Enterprise> Source { get; private set; } = new ObservableCollection<Enterprise>();
+       
 
         public MyEnterpriseViewModel()
         {
@@ -33,9 +35,11 @@ namespace Ghenterprise.ViewModels
         {
             Source.Clear();
 
-            List<Enterprise> entlist = await entService.GetEnterprisesAsync();
+            _entlist = await entService.GetEnterprisesAsync();
 
-            entlist.ForEach(ent => { Source.Add(ent); });
+            _entlist.ForEach(ent => { Source.Add(ent); });
+
+
 
             //Enterprise enti = new Enterprise();
             //enti.Name = "Leunes Media";
