@@ -25,10 +25,19 @@ namespace Ghenterprise.ViewModels
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
         private ICommand _itemClickCommand;
-
         public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<Event>(OnItemClick));
 
         public ObservableCollection<Event> Source { get; } = new ObservableCollection<Event>();
+        private bool _isDataUnavailable = true;
+        public bool IsDataUnavailable
+        {
+            get => _isDataUnavailable;
+            set
+            {
+                _isDataUnavailable = value;
+                RaisePropertyChanged("IsDataUnavailable");
+            }
+        }
 
         public EventService eventService { get; set; }
 
@@ -37,8 +46,13 @@ namespace Ghenterprise.ViewModels
         {
             Source.Clear();
 
-            List<Event> eventList = await eventService.GetEventsAsync();
+            var eventList = await eventService.GetEventsAsync();
             eventList.ForEach((item) => Source.Add(item));
+
+            if (Source.Count() > 0)
+            {
+                IsDataUnavailable = false;
+            }
         }
 
         private void OnItemClick(Event clickedItem)

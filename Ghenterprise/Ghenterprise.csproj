@@ -164,9 +164,6 @@
     <Compile Include="ViewModels\SkeletonViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\EnterpriseCreationTestScreen.xaml.cs">
-      <DependentUpon>EnterpriseCreationTestScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Enterprise\EnterpriseCardDetailView.xaml.cs">
       <DependentUpon>EnterpriseCardDetailView.xaml</DependentUpon>
     </Compile>
@@ -299,10 +296,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Margins.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EnterpriseCreationTestScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

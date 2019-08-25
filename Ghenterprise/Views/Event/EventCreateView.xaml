@@ -7,12 +7,9 @@
       xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:local1="using:Ghenterprise.Helpers"
       mc:Ignorable="d">
-    <Page.Resources>
-        <local1:DateToOffsetConverter x:Key="DateConverter" />
-    </Page.Resources>
+    
+    
 
-    
-    
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

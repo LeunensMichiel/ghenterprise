@@ -23,7 +23,8 @@
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Source="/Assets/notification.svg" Stretch="Uniform" />
                     <TextBlock Grid.Row="1" Text="Het is hier leeg!" FontSize="{StaticResource TitleFontSize }" TextAlignment="Center"/>
-                    <TextBlock Grid.Row="2" Text="Maak een account aan om een gepersonaliseerd overzicht te krijgen!" FontSize="{StaticResource MediumFontSize }" TextAlignment="Center"/>
+                    <TextBlock Grid.Row="2"
+                               Text="Maak een account aan om een gepersonaliseerd overzicht te krijgen! 👊" FontSize="{StaticResource MediumFontSize }" TextAlignment="Center"/>
                 </Grid>
             </PivotItem>
             <PivotItem Header="Alle">

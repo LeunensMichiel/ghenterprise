@@ -24,10 +24,20 @@ namespace Ghenterprise.ViewModels
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
         private ICommand _itemClickCommand;
-
         public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<Promotion>(OnItemClick));
 
         public ObservableCollection<Promotion> Source { get; } = new ObservableCollection<Promotion>();
+
+        private bool _isDataUnavailable = true;
+        public bool IsDataUnavailable
+        {
+            get => _isDataUnavailable;
+            set
+            {
+                _isDataUnavailable = value;
+                    RaisePropertyChanged("IsDataUnavailable");
+            }
+        }
 
         public PromotionService promoService { get; set; }
 
@@ -35,8 +45,12 @@ namespace Ghenterprise.ViewModels
         public async Task LoadDataAsync()
         {
             Source.Clear();
-            List<Promotion> promoList = await promoService.GetPromosAsync();
-            promoList.ForEach((item) => Source.Add(item));
+            var items = await promoService.GetPromosAsync();
+            items.ForEach((item) => Source.Add(item));
+            if (Source.Count() > 0)
+            {
+                IsDataUnavailable = false;
+            }
         }
 
         private void OnItemClick(Promotion clickedItem)

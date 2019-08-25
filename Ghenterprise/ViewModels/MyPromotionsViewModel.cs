@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Ghenterprise.Data;
 using Ghenterprise.Models;
 using Ghenterprise.Services;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -37,36 +38,19 @@ namespace Ghenterprise.ViewModels
         public ICommand DeletePromoCommand => _deletePromoCommand ?? (_deletePromoCommand = new RelayCommand(new Action(OnDeleteClick)));
 
         public ObservableCollection<Promotion> Source { get; private set; } = new ObservableCollection<Promotion>();
+        private PromotionService promotionService = new PromotionService();
 
         public async Task LoadDataAsync(MasterDetailsViewState viewState)
         {
             Source.Clear();
 
-            Promotion promotion = new Promotion();
-            promotion.Description = "Lorem Ipsum Doloret";
-            promotion.Name = "Solden Leunes Media";
-            promotion.StartDate = new DateTime().Date;
-            promotion.EndDate = new DateTime().AddDays(7).Date;
-
-            Promotion promotion2 = new Promotion();
-            promotion2.Description = "Lorem Ipsum Doloret";
-            promotion2.Name = "Solden Nicolaas zijn Lekkere spaghetti!!!!";
-            promotion2.StartDate = new DateTime().Date;
-            promotion2.EndDate = new DateTime().AddDays(7).Date;
-
-            Source.Add(promotion);
-            Source.Add(promotion2);
-
-            /*var data = await SampleDataService.GetMasterDetailDataAsync();
-
-            foreach (var item in data)
-            {
-                SampleItems.Add(item);
-            }*/
+            var items = await promotionService.GetPromosAsync();
+            System.Diagnostics.Debug.WriteLine(items.Count());
+            items.ForEach(item => { Source.Add(item); });
 
             if (viewState == MasterDetailsViewState.Both)
             {
-                Selected = Source.First();
+                Selected = Source.FirstOrDefault();
             }
         }
 
