@@ -1,12 +1,14 @@
-﻿<Page
-    x:Class="Ghenterprise.Views.Event.EventCreateView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Ghenterprise.Views.Event"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+﻿<Page x:Class="Ghenterprise.Views.Event.EventCreateView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Ghenterprise.Views.Event"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:local1="using:Ghenterprise.Helpers"
+      mc:Ignorable="d">
+    
+    
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -18,40 +20,121 @@
                         <AdaptiveTrigger MinWindowWidth="640" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="firstColumn.Width" Value="320"/>
-                        <Setter Target="image.Visibility" Value="Visible"/>
+                        <Setter Target="firstColumn.Width"
+                                Value="320" />
+                        <Setter Target="image.Visibility"
+                                Value="Visible" />
+                        <Setter Target="EndDate.(RelativePanel.RightOf)"
+                                Value="StartDate" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!-- VisualState to be triggered when the
+                             window width is >=640 effective pixels. -->
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="EndDate.(RelativePanel.Below)"
+                                Value="StartDate" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0" x:Name="firstColumn"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="0"
+                              x:Name="firstColumn" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-        <my:ImageEx Name="image" Grid.Column="0" Source="/Assets/ghentKorenmarkt.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
-        <CommandBar Grid.Column="1" IsSticky="True"  ClosedDisplayMode="Compact" DefaultLabelPosition="Right" Canvas.ZIndex="2">
-            <AppBarButton Icon="Save" Label="Opslaan" />
-            <AppBarButton Icon="Cancel" Label="Annuleren" Command="{x:Bind EventCreateViewModel.CancelClickCommand}"/>
+        <my:ImageEx Name="image"
+                    Grid.Column="0"
+                    Source="/Assets/ghentKorenmarkt.jpg"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed" />
+        <CommandBar Grid.Column="1"
+                    IsSticky="True"
+                    ClosedDisplayMode="Compact"
+                    DefaultLabelPosition="Right"
+                    Canvas.ZIndex="2">
+            <AppBarButton Icon="Save"
+                          Label="Opslaan"
+                          Command="{x:Bind EventCreateViewModel.SaveClickCommand}" />
+            <AppBarButton Icon="Cancel"
+                          Label="Annuleren"
+                          Command="{x:Bind EventCreateViewModel.CancelClickCommand}" />
         </CommandBar>
-        <ScrollViewer  Grid.Column="1" HorizontalScrollMode="Enabled" >
-            <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}" HorizontalAlignment="Stretch">
-                <TextBlock Text="Nieuw Event" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBox x:Name="Name" Header= "Naam" Margin="0,24,0,0" MaxLength="32" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" PlaceholderText="Naam van het evenement"/>
-                <TextBox x:Name="Description" Header="Beschrijving" Margin="0,24,0,0" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" SelectionHighlightColor="Green" MinHeight="200" PlaceholderText="Beschrijving van uw evenement" />
-                <Grid Margin="0,24,0,0" HorizontalAlignment="Stretch" RowSpacing="24">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <DatePicker Grid.Row="0" x:Name="StartDate" Header="Kies een startdatum" HorizontalAlignment="Left" />
-                    <DatePicker Grid.Row="1" x:Name="EndDate" Header="Kies een eindDatum" HorizontalAlignment="Left" />
-                </Grid>
-                
-                <ComboBox x:Name="Enterprise" Header="Ghenterprise" PlaceholderText="Uw Ghenterprise" Margin="0,24,0,0"  HorizontalAlignment="Stretch">
-                    <x:String>Leunes Media</x:String>
-                    <x:String>Nicolaas Media</x:String>
-                    <x:String>Iedereen Media</x:String>
-                    <x:String>HoGent</x:String>
+        <ScrollViewer  Grid.Column="1"
+                       HorizontalScrollMode="Enabled">
+            <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}"
+                        HorizontalAlignment="Stretch">
+                <TextBlock Text="Nieuw Event"
+                           Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock Foreground="Red"
+                           Visibility="{x:Bind EventCreateViewModel.ErrorVisibility, Mode=TwoWay}"
+                           Text="{x:Bind EventCreateViewModel.ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           x:Name="NameError"
+                           Margin="0,24,0,0"
+                           Width="Auto"
+                           HorizontalAlignment="Stretch" />
+
+                <TextBox IsEnabled="{x:Bind EventCreateViewModel.IsEnabled, Mode=TwoWay}"
+                         Text="{x:Bind EventCreateViewModel.Event.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="Name"
+                         Header="Naam"
+                         Margin="0,24,0,0"
+                         MaxLength="32"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch"
+                         InputScope="Text"
+                         PlaceholderText="Naam van het evenement" />
+                <TextBox x:Name="Description"
+                         Header="Beschrijving"
+                         Margin="0,24,0,0"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch"
+                         InputScope="Text"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         IsSpellCheckEnabled="True"
+                         SelectionHighlightColor="Green"
+                         MinHeight="200"
+                         IsEnabled="{x:Bind EventCreateViewModel.IsEnabled, Mode=TwoWay}"
+                         Text="{x:Bind EventCreateViewModel.Event.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="Beschrijving van uw evenement" />
+                <RelativePanel Margin="0,24,0,0"
+                               HorizontalAlignment="Stretch">
+                    <CalendarDatePicker x:Name="StartDate"
+                                        Margin="0, 0, 24, 24"
+                                        IsEnabled="{x:Bind EventCreateViewModel.IsEnabled, Mode=TwoWay}"
+                                        Date="{x:Bind EventCreateViewModel.Event.Start_Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateConverter}}"
+                                        Header="Kies een startdatum"
+                                        PlaceholderText="Selecteer startdatum"
+                                        HorizontalAlignment="Left"
+                                        FirstDayOfWeek="Monday" />
+                    <CalendarDatePicker
+                                        Margin="0, 0, 0, 24"
+                                        x:Name="EndDate"
+                                        Date="{x:Bind EventCreateViewModel.Event.End_Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateConverter}}"
+                                        IsEnabled="{x:Bind EventCreateViewModel.IsEnabled, Mode=TwoWay}"
+                                        Header="Kies een einddatum"
+                                        PlaceholderText="Selecteer einddatum"
+                                        HorizontalAlignment="Left"
+                                        FirstDayOfWeek="Monday" />
+                </RelativePanel>
+
+                <ComboBox x:Name="Enterprise"
+                          Header="Ghenterprise"
+                          PlaceholderText="Kies Ghenterprise"
+                          HorizontalAlignment="Stretch"
+                          ItemsSource="{x:Bind EventCreateViewModel.Enterprises, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{x:Bind EventCreateViewModel.Enterprise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
         </ScrollViewer>

@@ -32,5 +32,13 @@ namespace Ghenterprise.Views.Promotion
         {
             this.InitializeComponent();
         }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            await PromoCreateViewModel.LoadDataAsync();
+            StartDate.MinDate = DateTimeOffset.Now;
+            EndDate.MinDate = DateTimeOffset.Now;
+        }
     }
 }

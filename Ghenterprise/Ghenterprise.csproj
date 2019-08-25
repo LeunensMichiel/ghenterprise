@@ -127,6 +127,8 @@
     <Compile Include="Data\EventService.cs" />
     <Compile Include="Data\PromotionService.cs" />
     <Compile Include="Data\UserService.cs" />
+    <Compile Include="Helpers\DateFormatter.cs" />
+    <Compile Include="Helpers\DateToOffsetConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
@@ -163,9 +165,6 @@
     <Compile Include="ViewModels\SkeletonViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\EnterpriseCreationTestScreen.xaml.cs">
-      <DependentUpon>EnterpriseCreationTestScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Enterprise\EnterpriseCardDetailView.xaml.cs">
       <DependentUpon>EnterpriseCardDetailView.xaml</DependentUpon>
     </Compile>
@@ -298,10 +297,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Margins.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EnterpriseCreationTestScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

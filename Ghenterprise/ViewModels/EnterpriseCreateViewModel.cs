@@ -33,6 +33,7 @@ namespace Ghenterprise.ViewModels
         private Visibility _errorVisibility = Visibility.Collapsed;
         private bool _isEnabled = true;
         private string _tagList = "";
+        private bool _isEditScreen = false;
 
         public Enterprise Enterprise
         {
@@ -78,8 +79,7 @@ namespace Ghenterprise.ViewModels
             }
             set
             {
-                _isEnabled = value;
-                RaisePropertyChanged("IsReadOnly");
+                Set(ref _isEnabled, value);
             }
         }
 
@@ -106,17 +106,6 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public Category SelectedCategory
-        {
-            get
-            {
-                return _category;
-            }
-            set
-            {
-                Set(ref _category, value);
-            }
-        }
 
         public string TagList {
             get
@@ -133,19 +122,6 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public Location Location
-        {
-            get
-            {
-                return _location;
-            }
-            set
-            {
-                _location = value;
-                RaisePropertyChanged("Location");
-            }
-        }
-
         private ICommand _cancelClickCommand;
         private ICommand _saveClickCommand;
         public ICommand CancelClickCommand => _cancelClickCommand ?? (_cancelClickCommand = new RelayCommand(new Action(OnCancelClick)));
@@ -153,13 +129,48 @@ namespace Ghenterprise.ViewModels
 
         public EnterpriseCreateViewModel()
         {
-            LoadDataAsync();
         }
 
-        public async void LoadDataAsync()
+        public async Task LoadDataAsync(string enterprise_id = null)
         {
+            IsEnabled = false;
+            IsEnabled = IsEnabled;
             _catList = await catService.GetAllCategoriesAsync();
             CategoryNames = _catList.Select((c) => c.Name).ToList();
+            if (enterprise_id != null)
+            {
+                _isEditScreen = true;
+                try
+                {
+                    var items = await entService.GetEnterpriseAsync(enterprise_id);
+                    Enterprise = items.First();
+                    if (Enterprise.Tags != null)
+                    {
+                        if (Enterprise.Tags.Count > 0)
+                        {
+                            TagList = string.Join(",", Enterprise.Tags.Select(t => t.Name));
+                        }
+                    }
+                    if (Enterprise.Categories != null)
+                    {
+                        if (Enterprise.Categories.Count > 0)
+                        {
+                            SelectedCatName = Enterprise.Categories[0].Name;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    Debug.WriteLine(ex.Message);
+                    ErrorText = "Er ging iets verkeerd. Probeer later opnieuw.";
+                    ErrorVsibility = Visibility.Visible;
+                    IsEnabled = true;
+                    IsEnabled = IsEnabled;
+                }
+            }
+            IsEnabled = true;
+            IsEnabled = IsEnabled;
         }
 
         private void OnCancelClick()
@@ -202,13 +213,30 @@ namespace Ghenterprise.ViewModels
             Enterprise.Categories.Add(_catList.Where((c) => c.Name == SelectedCatName).FirstOrDefault());
             Debug.WriteLine(JsonConvert.SerializeObject(Enterprise));
             IsEnabled = false;
-            result = await entService.SaveEnterprise(Enterprise);
+            try
+            {
+                Debug.WriteLine(_isEditScreen);
+                if (_isEditScreen)
+                {
+                    result = await entService.UpdateEnterprise(Enterprise);
+                } else
+                {
+                    result = await entService.SaveEnterprise(Enterprise);
+                }
+                Debug.WriteLine(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Er ging iets fout. Onderneming is niet opgeslagen.";
+                ErrorVsibility = Visibility.Visible;
+            }
+            
             if (result)
             {
                 NavigationService.GoBack();
             } else
             {
-                ErrorText = "Onderneming is niet opgeslagen";
+                ErrorText = "Onderneming is niet opgeslagen.";
                 ErrorVsibility = Visibility.Visible;
             }
             IsEnabled = true;

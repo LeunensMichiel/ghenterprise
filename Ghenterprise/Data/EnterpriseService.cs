@@ -18,14 +18,24 @@ namespace Ghenterprise.Data
             return await PostAsync("Enterprise", enterprise);
         }
 
-        public async Task<List<Enterprise>> GetEnterprisesAsync()
+        public async Task<List<Enterprise>> GetEnterprisesAsync(bool refresh = true)
         {
-            return await GetAsync<List<Enterprise>>("Enterprise");
+            return await GetAsync<List<Enterprise>>("Enterprise", forceRefresh:refresh);
         }
 
         public async Task<List<Enterprise>> GetEnterpriseAsync(string Id)
         {
             return await GetAsync<List<Enterprise>>($"Enterprise?enterprise_id={Id}");
+        }
+
+        public async Task<bool> UpdateEnterprise(Enterprise enterprise)
+        {
+            return await PutAsync("Enterprise", enterprise);
+        }
+
+        public async Task<bool> DeleteEnterprise(string Id)
+        {
+            return await DeleteAsync($"Enterprise?enterprise_id={Id}");
         }
     }
 }

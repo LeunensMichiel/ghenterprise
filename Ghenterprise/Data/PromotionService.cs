@@ -16,12 +16,12 @@ namespace Ghenterprise.Data
 
         public async Task<bool> SavePromoAsync(Promotion promo)
         {
-            return await PostAsync("Event", promo);
+            return await PostAsync("Promotion", promo);
         }
 
         public async Task<List<Promotion>> GetPromosAsync()
         {
-            return await GetAsync<List<Promotion>>("Promotion");
+            return await GetAsync<List<Promotion>>("Promotion", true);
         }
     }
 }
