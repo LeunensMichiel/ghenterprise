@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Ghenterprise.Data;
 using Ghenterprise.Models;
+using Ghenterprise.Services;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Ghenterprise.ViewModels
 {
@@ -24,7 +27,14 @@ namespace Ghenterprise.ViewModels
         }
 
         public ObservableCollection<Enterprise> Source { get; private set; } = new ObservableCollection<Enterprise>();
-       
+        public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+
+        private ICommand _addNewEnterpriseCommand;
+        public ICommand AddNewEnterpriseCommand => _addNewEnterpriseCommand ?? (_addNewEnterpriseCommand = new RelayCommand(new Action(OnNewClick)));
+        private ICommand _editEnterpriseCommand;
+        public ICommand EditEnterpriseCommand => _editEnterpriseCommand ?? (_editEnterpriseCommand = new RelayCommand(new Action(OnEditClick)));
+        private ICommand _deleteEnterpriseCommand;
+        public ICommand DeleteEnterpriseCommand => _deleteEnterpriseCommand ?? (_deleteEnterpriseCommand = new RelayCommand(new Action(OnDeleteClick)));
 
         public MyEnterpriseViewModel()
         {
@@ -36,31 +46,8 @@ namespace Ghenterprise.ViewModels
             Source.Clear();
 
             _entlist = await entService.GetEnterprisesAsync();
-
             _entlist.ForEach(ent => { Source.Add(ent); });
 
-
-
-            //Enterprise enti = new Enterprise();
-            //enti.Name = "Leunes Media";
-            //enti.Description = "Fotografie / Webdev";
-            //enti.Id = "AFER";
-            //enti.Date_Created = new DateTime();
-            //Source.Add(enti);
-
-            //Enterprise enti2 = new Enterprise();
-            //enti2.Name = "Kastart";
-            //enti2.Description = "Fuck ik heb honger";
-            //enti2.Id = "QWERTY";
-            //enti2.Date_Created = new DateTime();
-            //Source.Add(enti2);
-
-            /*var data = await SampleDataService.GetMasterDetailDataAsync();
-
-            foreach (var item in data)
-            {
-                SampleItems.Add(item);
-            }*/
 
             if (viewState == MasterDetailsViewState.Both)
             {
@@ -68,5 +55,22 @@ namespace Ghenterprise.ViewModels
                     Selected = Source.First();
             }
         }
+
+        private void OnNewClick()
+        {
+            NavigationService.Navigate(typeof(EnterpriseCreateViewModel).FullName);
+        }
+
+        private void OnEditClick()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private void OnDeleteClick()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="Ghenterprise.Views.Promotion.MyPromotionsDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ghenterprise.Views.Promotion"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        Name="ForegroundElement"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        Padding="{StaticResource SmallLeftTopRightBottomMargin}"
+        HorizontalAlignment="Stretch"
+        VerticalScrollMode="Enabled">
+        <StackPanel Name="block" Padding="0,15,0,0">
+            <TextBlock Text="{x:Bind MasterPromoItem.Id, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterPromoItem.Name, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterPromoItem.Description, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterPromoItem.StartDate, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterPromoItem.EndDate, Mode=OneWay}" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

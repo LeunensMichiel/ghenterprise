@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using Ghenterprise.Data;
 using Ghenterprise.Models;
 using Ghenterprise.Services;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -85,18 +86,6 @@ namespace Ghenterprise.ViewModels
             List<Category> catList = await catService.GetAllCategoriesAsync();
             CategoryNames.Add("Categorie");
             CategoryNames.AddRange( catList.Select((c) => c.Name).ToList());
-            //Enterprise enti2 = new Enterprise();
-            //enti2.Name = "Kastart";
-            //enti2.Description = "Fuck ik heb honger";
-            //enti2.Id = "QWERTY";
-            //enti2.DateCreated = new DateTime();
-            //Source.Add(enti2);
-            //// TODO WTS: Replace this with your actual data
-            //var data = await SampleDataService.GetContentGridDataAsync();
-            //foreach (var item in data)
-            //{
-            //    Source.Add(item);
-            //}
 
         }
 
@@ -125,8 +114,8 @@ namespace Ghenterprise.ViewModels
         {
             if (clickedItem != null)
             {
-                //NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
-                //NavigationService.Navigate(typeof(ContentGridDetailViewModel).FullName, clickedItem.OrderID);
+                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
+                NavigationService.Navigate(typeof(EnterpriseCardDetailViewModel).FullName, clickedItem.Id);
             }
         }
     }

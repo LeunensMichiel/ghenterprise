@@ -5,51 +5,109 @@
     xmlns:local="using:Ghenterprise.Views.Enterprise"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d">
 
     <ScrollViewer
         Name="ForegroundElement"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-        Padding="{StaticResource SmallLeftTopRightBottomMargin}"
         HorizontalAlignment="Stretch"
-        VerticalScrollMode="Enabled">
-        <StackPanel Name="block" Padding="0,15,0,0">
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Id, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Name, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Date_Created, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEnterpriseItem.Description, Mode=OneWay}" />
-            <TextBlock Text="Tags"/>
-            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Tags, Mode=OneWay}" >
-                <ListView.ItemTemplate>
-                    <DataTemplate >
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <TextBlock Text="Categorieën"/>
-            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Categories, Mode=OneWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate >
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <TextBlock Text="Events"/>
-            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Events, Mode=OneWay}" >
-                <ListView.ItemTemplate>
-                    <DataTemplate >
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <TextBlock Text="Promoties"/>
-            <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Promotions, Mode=OneWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate >
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
+        VerticalScrollMode="Enabled" Padding="{StaticResource SmallLeftTopRightBottomMargin}">
+        <StackPanel Grid.Row="0" Name="block" Padding="0,15,0,0">
+                <TextBlock Text="{x:Bind MasterEnterpriseItem.Name, Mode=OneWay}" FontSize="{StaticResource ExtraLargeFontSize}" FontWeight="SemiBold"/>
+                <TextBlock FontSize="{StaticResource SmallFontSize}" Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Aangemaakt op: </Run>
+                    <Run Text="{x:Bind MasterEnterpriseItem.Date_Created, Mode=OneWay}"></Run>
+                </TextBlock>
+                <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Categories, Mode=OneWay}"
+                          Height="40"
+                          SelectionMode="None"
+                          ScrollViewer.HorizontalScrollMode="Enabled" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0, 0, 5, 0"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="MinWidth" Value="0"/>
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <Border Background="{ThemeResource SystemAccentColor}" CornerRadius="4" Padding="8, 2, 8, 2" BorderBrush="Transparent">
+                                <TextBlock Text="{Binding Name}" Foreground="White"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <TextBlock Text="{x:Bind MasterEnterpriseItem.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" TextAlignment="Justify" Margin="{StaticResource MediumTopBottomMargin}"/>
+
+                <ListView Header="Tags: " ItemsSource="{x:Bind MasterEnterpriseItem.Tags, Mode=OneWay}" Foreground="{ThemeResource SystemBaseMediumColor}"
+                          SelectionMode="None"
+                          ScrollViewer.HorizontalScrollMode="Enabled" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="5, 0, 0, 0"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="MinWidth" Value="0"/>
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <TextBlock>
+                                    <Run Text="{Binding Name}"/>
+                                    <Run>,</Run>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Grid Margin="{StaticResource LargeTopMargin}" RowSpacing="100">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" x:Name="EventRow" MinHeight="0"/>
+                        <RowDefinition Height="*" x:Name="PromoRow" MinHeight="0"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" >
+                        <TextBlock Text="Komende Events" FontSize="{StaticResource MediumFontSize}" FontWeight="SemiBold"/>
+                        <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Events, Mode=OneWay}" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate >
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" >
+                        <TextBlock Text="Nieuwe Promoties" FontSize="{StaticResource MediumFontSize}" FontWeight="SemiBold"/>
+                        <ListView ItemsSource="{x:Bind MasterEnterpriseItem.Promotions, Mode=OneWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate >
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
     </ScrollViewer>
 </UserControl>
