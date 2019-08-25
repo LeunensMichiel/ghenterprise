@@ -36,7 +36,14 @@ namespace Ghenterprise.Views.Promotion
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await PromoCreateViewModel.LoadDataAsync();
+            if (e.Parameter is string id)
+            {
+                await PromoCreateViewModel.LoadDataAsync(id);
+            } else
+            {
+                await PromoCreateViewModel.LoadDataAsync();
+            }
+            
             StartDate.MinDate = DateTimeOffset.Now;
             EndDate.MinDate = DateTimeOffset.Now;
         }

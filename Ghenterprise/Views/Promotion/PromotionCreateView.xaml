@@ -71,7 +71,7 @@
                        HorizontalScrollMode="Enabled">
             <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}"
                         HorizontalAlignment="Stretch">
-                <TextBlock Text="Nieuwe Promotie"
+                <TextBlock Text="{x:Bind PromoCreateViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            Style="{StaticResource TitleTextBlockStyle}" />
                 <TextBlock Foreground="Red"
                            Visibility="{x:Bind PromoCreateViewModel.ErrorVisibility, Mode=TwoWay}"
@@ -128,6 +128,7 @@
                           Header="Ghenterprise"
                           PlaceholderText="Kies Ghenterprise"
                           HorizontalAlignment="Stretch"
+                          IsEnabled="{x:Bind PromoCreateViewModel.IsEnabled, Mode=TwoWay}"
                           ItemsSource="{x:Bind PromoCreateViewModel.Enterprises, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{x:Bind PromoCreateViewModel.Enterprise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBox.ItemTemplate>

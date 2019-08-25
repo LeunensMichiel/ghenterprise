@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,8 +31,7 @@ namespace Ghenterprise.ViewModels
             {
                 if (_enterprise != value)
                 {
-                    _enterprise = value;
-                    RaisePropertyChanged("Enterprise");
+                    Set(ref _enterprise, value);
                 }
             }
         }
@@ -52,14 +52,26 @@ namespace Ghenterprise.ViewModels
         private ICommand _saveClickCommand;
         public ICommand SaveClickCommand => _saveClickCommand ?? (_saveClickCommand = new RelayCommand(new Action(OnSaveClick)));
 
+        private bool _isEditScreen = false;
+        private string _title = "NIEUWE PROMOTIE";
         private bool _isEnabled = true;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                Set(ref _title, value);
+            }
+        }
         public bool IsEnabled
         {
             get => _isEnabled;
             set
             {
-                _isEnabled = value;
-                RaisePropertyChanged("IsReadOnly");
+                Set(ref _isEnabled, value);
             }
         }
         private string _errorText = "";
@@ -88,38 +100,61 @@ namespace Ghenterprise.ViewModels
 
         }
 
-        public async Task LoadDataAsync()
+        public async Task LoadDataAsync(string prom_id = null)
         {
-            Enterprises.Clear();
+            IsEnabled = false;
+            try
+            {
+                if (prom_id != null) { Title = "WIJZIG PROMOTIE";  }
+                Enterprises.Clear();
 
-            var items = await entService.GetEnterprisesAsync();
-            items.ForEach((item) => Enterprises.Add(item));
-
+                var items = await entService.GetEnterprisesAsync();
+                items.ForEach((item) => Enterprises.Add(item));
+                if (prom_id != null)
+                {
+                    _isEditScreen = true;
+                    Promotion = await promotionService.GetPromotionById(prom_id);
+                    Enterprise = items.Where(p => p.Id == Promotion.Enterprise.Id).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            IsEnabled = true;
         }
 
         private async void OnSaveClick()
         {
             bool result = false;
             ErrorVisibility = Visibility.Collapsed;
-            if (Promotion.Name == null || Promotion.Name.Trim() == "")
+            if (Promotion.Name == null )
             {
-                ErrorText = "Naam is niet ingevuld";
-                ErrorVisibility = Visibility.Visible;
-                return;
+                if (Promotion.Name.Trim() == "")
+                {
+                    ErrorText = "Naam is niet ingevuld";
+                    ErrorVisibility = Visibility.Visible;
+                    return;
+                }            }
+
+            if (Promotion.Description == null)
+            {
+                if (Promotion.Description.Trim() == "")
+                {
+                    ErrorText = "Beschrijving is niet ingevuld";
+                    ErrorVisibility = Visibility.Visible;
+                    return;
+                }
             }
 
-            if (Promotion.Description == null || Promotion.Description.Trim() == "")
+            if (Promotion.Start_Date == null || Promotion.End_Date == null)
             {
-                ErrorText = "Beschrijving is niet ingevuld";
-                ErrorVisibility = Visibility.Visible;
-                return;
-            }
-
-            if (Promotion.Start_Date == null || Promotion.End_Date == null || Promotion.End_Date < Promotion.Start_Date)
-            {
-                ErrorText = "Datums kloppen niet";
-                ErrorVisibility = Visibility.Visible;
-                return;
+                if (Promotion.End_Date < Promotion.Start_Date)
+                {
+                    ErrorText = "Datums kloppen niet";
+                    ErrorVisibility = Visibility.Visible;
+                    return;
+                }
             }
 
             if (Enterprise == null)
@@ -131,7 +166,13 @@ namespace Ghenterprise.ViewModels
 
             IsEnabled = false;
             Promotion.Enterprise = Enterprise;
-            result = await promotionService.SavePromoAsync(Promotion);
+            if (_isEditScreen)
+            {
+                result = await promotionService.UpdatePromotion(Promotion);
+            } else
+            {
+                result = await promotionService.SavePromoAsync(Promotion);
+            }
             if (result)
             {
                 NavigationService.GoBack();

@@ -78,49 +78,52 @@ namespace Ghenterprise.ViewModels
 
         private async void OnDeleteClick()
         {
-            IsEnabled = true;
-            try
+            if (Selected != null)
             {
-                ContentDialog dialog = new ContentDialog();
-                dialog.Title = $"Bent u zeker dat u {Selected.Name} wilt verwijderen?";
-                dialog.IsSecondaryButtonEnabled = true;
-                dialog.PrimaryButtonText = "Ja";
-                dialog.SecondaryButtonText = "Nee";
-                var result = await dialog.ShowAsync();
-                if (result == ContentDialogResult.Primary)
+                IsEnabled = true;
+                try
                 {
-                    Debug.WriteLine(Selected.Id);
-                    var success = await eventService.DeleteEvent(Selected.Id);
-                    if (success)
+                    ContentDialog dialog = new ContentDialog();
+                    dialog.Title = $"Bent u zeker dat u {Selected.Name} wilt verwijderen?";
+                    dialog.IsSecondaryButtonEnabled = true;
+                    dialog.PrimaryButtonText = "Ja";
+                    dialog.SecondaryButtonText = "Nee";
+                    var result = await dialog.ShowAsync();
+                    if (result == ContentDialogResult.Primary)
                     {
-                        ContentDialog successDialog = new ContentDialog();
-                        successDialog.Title = "event verwijderd.";
-                        successDialog.PrimaryButtonText = "ok";
-                        await successDialog.ShowAsync();
+                        Debug.WriteLine(Selected.Id);
+                        var success = await eventService.DeleteEvent(Selected.Id);
+                        if (success)
+                        {
+                            ContentDialog successDialog = new ContentDialog();
+                            successDialog.Title = "event verwijderd.";
+                            successDialog.PrimaryButtonText = "ok";
+                            await successDialog.ShowAsync();
 
-                        Source.Clear();
-                        var items = await eventService.GetEventsOfOwner();
-                        items.ForEach(item => { Source.Add(item); });
-                        if (Source.Count > 0)
-                            Selected = Source.First();
-                    }
-                    else
-                    {
-                        ContentDialog failureDialog = new ContentDialog();
-                        failureDialog.Title = "event niet verwijderd.";
-                        failureDialog.PrimaryButtonText = "ok";
-                        await failureDialog.ShowAsync();
+                            Source.Clear();
+                            var items = await eventService.GetEventsOfOwner();
+                            items.ForEach(item => { Source.Add(item); });
+                            if (Source.Count > 0)
+                                Selected = Source.First();
+                        }
+                        else
+                        {
+                            ContentDialog failureDialog = new ContentDialog();
+                            failureDialog.Title = "event niet verwijderd.";
+                            failureDialog.PrimaryButtonText = "ok";
+                            await failureDialog.ShowAsync();
+                        }
                     }
                 }
+                catch (Exception)
+                {
+                    ContentDialog exceptionDialog = new ContentDialog();
+                    exceptionDialog.Title = "Er ging iets mis probeer later opnieuw.";
+                    exceptionDialog.PrimaryButtonText = "ok";
+                    await exceptionDialog.ShowAsync();
+                }
+                IsEnabled = true;
             }
-            catch (Exception)
-            {
-                ContentDialog exceptionDialog = new ContentDialog();
-                exceptionDialog.Title = "Er ging iets mis probeer later opnieuw.";
-                exceptionDialog.PrimaryButtonText = "ok";
-                await exceptionDialog.ShowAsync();
-            }
-            IsEnabled = true;
         }
     }
 }
