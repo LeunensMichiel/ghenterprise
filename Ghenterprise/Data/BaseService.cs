@@ -1,4 +1,4 @@
-﻿using Ghenterprise.Models;
+using Ghenterprise.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;

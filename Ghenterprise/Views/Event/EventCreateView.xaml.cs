@@ -31,5 +31,13 @@ namespace Ghenterprise.Views.Event
         {
             this.InitializeComponent();
         }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            await EventCreateViewModel.LoadDataAsync();
+            StartDate.MinDate = DateTimeOffset.Now;
+            EndDate.MinDate = DateTimeOffset.Now;
+        }
     }
 }
