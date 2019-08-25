@@ -15,7 +15,7 @@ namespace Ghenterprise.Data
     public class UserService : BaseService
     {
 
-        public async Task<int> PostRegisterUser(User user)
+        public async Task<User> PostRegisterUser(User user)
         {
             var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(user));
             var content = new StringContent(stringPayload.ToString(), Encoding.UTF8, "application/json");
@@ -26,19 +26,19 @@ namespace Ghenterprise.Data
 
             var result = await response.Content.ReadAsStringAsync();
 
-            return int.Parse(result);
+            return JsonConvert.DeserializeObject<User>(result);
         }
 
-        public async Task<Response> GetCheckEmail(String email)
+        public async Task<User> GetCheckEmail(User user)
         { 
-            var response = await Client.GetAsync(GetRequestUri(String.Format("{0}?email={1}", "/User/check-email", email)));
+            var response = await Client.GetAsync(GetRequestUri(String.Format("{0}?email={1}", "/User/check-email", user.Email)));
 
             var result = await response.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<Response>(result);
+            user.Token = JsonConvert.DeserializeObject<User>(result).Token;
+            return user ;
         }
 
-        public async Task<Response> PostLogin(User user)
+        public async Task<User> PostLogin(User user)
         {
             var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(user));
             var content = new StringContent(stringPayload.ToString(), Encoding.UTF8, "application/json");
@@ -48,8 +48,8 @@ namespace Ghenterprise.Data
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<Response>(result);
+            Debug.WriteLine(result);
+            return JsonConvert.DeserializeObject<User>(result);
         }
     }
 }
