@@ -69,7 +69,7 @@
                        HorizontalScrollMode="Enabled">
             <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}"
                         HorizontalAlignment="Stretch">
-                <TextBlock Text="Nieuw Event"
+                <TextBlock Text="{x:Bind EventCreateViewModel.Title, Mode=OneWay}"
                            Style="{StaticResource TitleTextBlockStyle}" />
                 <TextBlock Foreground="Red"
                            Visibility="{x:Bind EventCreateViewModel.ErrorVisibility, Mode=TwoWay}"
@@ -128,6 +128,7 @@
                           Header="Ghenterprise"
                           PlaceholderText="Kies Ghenterprise"
                           HorizontalAlignment="Stretch"
+                          IsEnabled="{x:Bind EventCreateViewModel.IsEnabled, Mode=TwoWay}"
                           ItemsSource="{x:Bind EventCreateViewModel.Enterprises, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{x:Bind EventCreateViewModel.Enterprise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBox.ItemTemplate>

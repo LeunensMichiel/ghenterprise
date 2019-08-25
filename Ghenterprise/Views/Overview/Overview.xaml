@@ -31,11 +31,10 @@
                 <ScrollViewer>
                 <StackPanel Margin="{StaticResource LargeTopMargin}" Spacing="45">
                     <StackPanel x:Name="CardFilters" Orientation="Horizontal" Spacing="18">
-                        <ComboBox 
-                            Width="160" PlaceholderText="Categorie"
-                            ItemsSource="{x:Bind OverviewViewModel.CategoryNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{x:Bind OverviewViewModel.SelectedCatName, Mode=TwoWay}"/>
-                        <AutoSuggestBox Text="{x:Bind OverviewViewModel.SeachQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Ondernemers en plaatsen zoeken" QueryIcon="Find" Width="300"/>
+                        <ComboBox Width="160" PlaceholderText="Categorie" IsEnabled="{x:Bind OverviewViewModel.IsEnbabled ,Mode=OneWay}"
+                                  ItemsSource="{x:Bind OverviewViewModel.CategoryNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{x:Bind OverviewViewModel.SelectedCatName, Mode=TwoWay}"/>
+                        <AutoSuggestBox IsEnabled="{x:Bind OverviewViewModel.IsEnbabled ,Mode=OneWay}" Text="{x:Bind OverviewViewModel.SeachQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Ondernemers en plaatsen zoeken" QueryIcon="Find" Width="300"/>
                     </StackPanel>
                     <controls:AdaptiveGridView
                         animations:Connected.ListItemElementName="itemThumbnail"

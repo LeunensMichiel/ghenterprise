@@ -106,9 +106,9 @@
             SelectedItem="{x:Bind MyEnterpriseViewModel.Selected, Mode=TwoWay}" Background="{ThemeResource AppBarBackgroundThemeBrush}">
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar Background="Transparent" IsOpen="True" DefaultLabelPosition="Right" HorizontalContentAlignment="Right">
-                    <AppBarButton Icon="Delete" Label="Verwijderen" Command="{x:Bind MyEnterpriseViewModel.DeleteEnterpriseCommand}" />
-                    <AppBarButton Icon="Edit" Label="Wijzigen" Command="{x:Bind MyEnterpriseViewModel.EditEnterpriseCommand}" />
-                    <AppBarButton Icon="Add" Label="Toevoegen" Command="{x:Bind MyEnterpriseViewModel.AddNewEnterpriseCommand}" />
+                    <AppBarButton IsEnabled="{x:Bind MyEnterpriseViewModel.IsEnabled, Mode=OneWay}" Icon="Delete" Label="Verwijderen" Command="{x:Bind MyEnterpriseViewModel.DeleteEnterpriseCommand}" />
+                    <AppBarButton IsEnabled="{x:Bind MyEnterpriseViewModel.IsEnabled, Mode=OneWay}" Icon="Edit" Label="Wijzigen" Command="{x:Bind MyEnterpriseViewModel.EditEnterpriseCommand}" />
+                    <AppBarButton IsEnabled="{x:Bind MyEnterpriseViewModel.IsEnabled, Mode=OneWay}" Icon="Add" Label="Toevoegen" Command="{x:Bind MyEnterpriseViewModel.AddNewEnterpriseCommand}" />
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>
         </controls:MasterDetailsView>

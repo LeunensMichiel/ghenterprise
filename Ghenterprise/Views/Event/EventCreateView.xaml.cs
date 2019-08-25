@@ -35,7 +35,13 @@ namespace Ghenterprise.Views.Event
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await EventCreateViewModel.LoadDataAsync();
+            if (e.Parameter is string Id)
+            {
+                await EventCreateViewModel.LoadDataAsync(Id);
+            } else
+            {
+                await EventCreateViewModel.LoadDataAsync();
+            }
             StartDate.MinDate = DateTimeOffset.Now;
             EndDate.MinDate = DateTimeOffset.Now;
         }
