@@ -143,15 +143,15 @@ namespace Ghenterprise.ViewModels
                         try
                         {
                             ButtonText = "Aan het registreren...";
-                            res = await userService.GetCheckEmail(User.Email);
+                            //res = await userService.GetCheckEmail(User.Email);
 
-                            if (res.Message == "email doesn't exist")
-                            {
-                                result = await userService.PostRegisterUser(User);
-                            } else
-                            {
-                                ErrorText = "email bestaat al";
-                            }
+                            //if (res.Message == "email doesn't exist")
+                            //{
+                            //    //result = await userService.PostRegisterUser(User);
+                            //} else
+                            //{
+                            //    ErrorText = "email bestaat al";
+                            //}
                             
                         }
                         catch (Exception ex)
@@ -208,7 +208,7 @@ namespace Ghenterprise.ViewModels
 
                         try
                         {
-                            res = await userService.PostLogin(User);
+                            //res = await userService.PostLogin(User);
                         }
                         catch (Exception ex)
                         {
