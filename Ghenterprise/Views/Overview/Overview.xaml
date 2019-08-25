@@ -27,10 +27,13 @@
                 </Grid>
             </PivotItem>
             <PivotItem Header="Alle">
+                <ScrollViewer>
                 <StackPanel Margin="{StaticResource LargeTopMargin}" Spacing="45">
                     <StackPanel x:Name="CardFilters" Orientation="Horizontal" Spacing="18">
-                        <ComboBox Width="160" PlaceholderText="Categorie"/>
-                        <AutoSuggestBox PlaceholderText="Ondernemers en plaatsen zoeken" QueryIcon="Find" Width="300"/>
+                        <ComboBox Width="160" PlaceholderText="Categorie"
+                                  ItemsSource="{x:Bind OverviewViewModel.CategoryNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{x:Bind OverviewViewModel.SelectedCatName, Mode=TwoWay}"/>
+                        <AutoSuggestBox Text="{x:Bind OverviewViewModel.SeachQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Ondernemers en plaatsen zoeken" QueryIcon="Find" Width="300"/>
                     </StackPanel>
                     <controls:AdaptiveGridView
                         animations:Connected.ListItemElementName="itemThumbnail"
@@ -91,7 +94,8 @@
                             </DataTemplate>
                         </controls:AdaptiveGridView.ItemTemplate>
                     </controls:AdaptiveGridView>
-                </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Kaart">
                 <Grid Margin="{StaticResource LargeTopBottomMargin}">

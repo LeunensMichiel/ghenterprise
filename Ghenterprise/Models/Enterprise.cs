@@ -27,5 +27,13 @@ namespace Ghenterprise.Models
 
         public List<Tag> Tags { get; set; }
 
+        public Enterprise()
+        {
+            Location = new Location();
+            Events = new List<Event>();
+            Promotions = new List<Promotion>();
+            Categories = new List<Category>();
+            Tags = new List<Tag>();
+        }
     }
 }

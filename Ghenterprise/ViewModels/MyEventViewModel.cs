@@ -31,6 +31,10 @@ namespace Ghenterprise.ViewModels
 
         private ICommand _addNewEventCommand;
         public ICommand AddNewEventCommand => _addNewEventCommand ?? (_addNewEventCommand = new RelayCommand(new Action(OnNewClick)));
+        private ICommand _editEventCommand;
+        public ICommand EditEventCommand => _editEventCommand ?? (_editEventCommand = new RelayCommand(new Action(OnEditClick)));
+        private ICommand _deleteEventCommand;
+        public ICommand DeleteEventCommand => _deleteEventCommand ?? (_deleteEventCommand = new RelayCommand(new Action(OnDeleteClick)));
 
         public ObservableCollection<Event> Source { get; private set; } = new ObservableCollection<Event>();
 
@@ -69,6 +73,17 @@ namespace Ghenterprise.ViewModels
         private void OnNewClick()
         {
             NavigationService.Navigate(typeof(EventCreateViewModel).FullName);
+        }
+
+        private void OnEditClick()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private void OnDeleteClick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

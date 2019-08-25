@@ -31,6 +31,10 @@ namespace Ghenterprise.ViewModels
 
         private ICommand _addNewPromotionCommand;
         public ICommand AddNewPromoCommand => _addNewPromotionCommand ?? (_addNewPromotionCommand = new RelayCommand(new Action(OnNewClick)));
+        private ICommand _editPromoCommand;
+        public ICommand EditPromoCommand => _editPromoCommand ?? (_editPromoCommand = new RelayCommand(new Action(OnEditClick)));
+        private ICommand _deletePromoCommand;
+        public ICommand DeletePromoCommand => _deletePromoCommand ?? (_deletePromoCommand = new RelayCommand(new Action(OnDeleteClick)));
 
         public ObservableCollection<Promotion> Source { get; private set; } = new ObservableCollection<Promotion>();
 
@@ -69,6 +73,17 @@ namespace Ghenterprise.ViewModels
         private void OnNewClick()
         {
             NavigationService.Navigate(typeof(PromotionCreateViewModel).FullName);
+        }
+
+        private void OnEditClick()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private void OnDeleteClick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

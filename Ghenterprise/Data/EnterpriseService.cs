@@ -15,20 +15,17 @@ namespace Ghenterprise.Data
     {
         public async Task<bool> SaveEnterprise( Enterprise enterprise)
         {
-            //var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(enterprise));
-            //var content = new StringContent(stringPayload.ToString(), Encoding.UTF8, "application/json");
-            ////https://localhost:44307/api/Enterprise?UserID=1
-            //var response = await Client.PostAsync(String.Format("{0}?UserID={1}", GetRequestUri("/Enterprise"), userId), content);
-
-            //response.EnsureSuccessStatusCode();
-
-            //var result = await response.Content.ReadAsStringAsync();
             return await PostAsync("Enterprise", enterprise);
         }
 
         public async Task<List<Enterprise>> GetEnterprisesAsync()
         {
             return await GetAsync<List<Enterprise>>("Enterprise");
+        }
+
+        public async Task<List<Enterprise>> GetEnterpriseAsync(string Id)
+        {
+            return await GetAsync<List<Enterprise>>($"Enterprise?enterprise_id={Id}");
         }
     }
 }
