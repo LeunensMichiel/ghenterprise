@@ -21,11 +21,17 @@ namespace Ghenterprise.ViewModels
         private Enterprise _selected;
         private EnterpriseService entService = new EnterpriseService();
         private List<Enterprise> _entlist = new List<Enterprise>();
-
+        private bool _isEnabled = true;
         public Enterprise Selected
         {
             get { return _selected; }
             set { Set(ref _selected, value); }
+        }
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { Set(ref _isEnabled, value); }
         }
         public ObservableCollection<Enterprise> Source { get; private set; } = new ObservableCollection<Enterprise>();
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
@@ -70,6 +76,7 @@ namespace Ghenterprise.ViewModels
 
         private async void OnDeleteClick()
         {
+            IsEnabled = false;
             try
             {
                 ContentDialog dialog = new ContentDialog();
@@ -110,7 +117,8 @@ namespace Ghenterprise.ViewModels
                 exceptionDialog.PrimaryButtonText = "ok";
                 await exceptionDialog.ShowAsync();
             }
-            
+            IsEnabled = true;
+
         }
 
     }

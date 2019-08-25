@@ -26,6 +26,7 @@ namespace Ghenterprise.ViewModels
         private List<Enterprise> _entlist = new List<Enterprise>();
         private string _selectedCatName = "";
         private string _searchQuery = "";
+        private bool _isEnabled = true;
 
         private ICommand _itemClickCommand;
 
@@ -33,6 +34,17 @@ namespace Ghenterprise.ViewModels
 
         public ObservableCollection<Enterprise> Source { get; } = new ObservableCollection<Enterprise>();
 
+        public bool IsEnbabled
+        {
+            get
+            {
+                return _isEnabled;
+            }
+            set
+            {
+                Set(ref _isEnabled, value);
+            }
+        }
 
         public List<string> CategoryNames
         {
@@ -77,6 +89,7 @@ namespace Ghenterprise.ViewModels
 
         public async Task LoadDataAsync()
         {
+            IsEnbabled = false;
             Source.Clear();
 
             _entlist = await entService.GetEnterprisesAsync();
@@ -86,7 +99,7 @@ namespace Ghenterprise.ViewModels
             List<Category> catList = await catService.GetAllCategoriesAsync();
             CategoryNames.Add("Categorie");
             CategoryNames.AddRange( catList.Select((c) => c.Name).ToList());
-
+            IsEnbabled = true;
         }
 
         private void FilterSource()
