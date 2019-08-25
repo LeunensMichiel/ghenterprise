@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Ghenterprise.Data;
 using Ghenterprise.Models;
 using Ghenterprise.Services;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -37,36 +38,19 @@ namespace Ghenterprise.ViewModels
         public ICommand DeleteEventCommand => _deleteEventCommand ?? (_deleteEventCommand = new RelayCommand(new Action(OnDeleteClick)));
 
         public ObservableCollection<Event> Source { get; private set; } = new ObservableCollection<Event>();
+        private EventService eventService = new EventService();
+
 
         public async Task LoadDataAsync(MasterDetailsViewState viewState)
         {
             Source.Clear();
 
-            Event eventie = new Event();
-            eventie.Description = "Kijk dit bedrijf doet een event wajow";
-            eventie.Name = "Afterparty";
-            eventie.StartDate = new DateTime().Date;
-            eventie.EndDate = new DateTime().AddDays(7).Date;
-
-            Event eventie2 = new Event();
-            eventie2.Description = "Heeee wij ook haha LOL!";
-            eventie2.Name = "Pukkelpop";
-            eventie2.StartDate = new DateTime().Date;
-            eventie2.EndDate = new DateTime().AddDays(7).Date;
-
-            Source.Add(eventie);
-            Source.Add(eventie2);
-
-            /*var data = await SampleDataService.GetMasterDetailDataAsync();
-
-            foreach (var item in data)
-            {
-                SampleItems.Add(item);
-            }*/
+            var items = await eventService.GetEventsAsync();
+            items.ForEach(item => { Source.Add(item); });
 
             if (viewState == MasterDetailsViewState.Both)
             {
-                Selected = Source.First();
+                Selected = Source.FirstOrDefault();
             }
         }
 
