@@ -42,5 +42,6 @@ namespace Ghenterprise.Views.Enterprise
             var control = d as MyEnterpriseDetailView;
             control.ForegroundElement.ChangeView(0, 0, 1);
         }
+
     }
 }

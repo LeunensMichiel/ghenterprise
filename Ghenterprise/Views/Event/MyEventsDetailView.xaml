@@ -17,8 +17,8 @@
             <TextBlock Text="{x:Bind MasterEventItem.Id, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEventItem.Name, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterEventItem.Description, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEventItem.StartDate, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEventItem.EndDate, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEventItem.Start_Date, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterEventItem.End_Date, Mode=OneWay}" />
         </StackPanel>
     </ScrollViewer>
 </Page>
