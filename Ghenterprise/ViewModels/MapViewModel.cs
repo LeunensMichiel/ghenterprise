@@ -55,14 +55,6 @@ namespace Ghenterprise.ViewModels
 
         }
 
-        private void LocationService_PositionChanged(object sender, Geoposition geoposition)
-        {
-            if (geoposition != null)
-            {
-                Center = geoposition.Coordinate.Point;
-            }
-        }
-
         private void AddMapIcon(MapControl map, Geopoint position, string title)
         {
             var mapIcon = new MapIcon()

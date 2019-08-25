@@ -98,6 +98,8 @@
             SelectedItem="{x:Bind MyEventViewModel.Selected, Mode=TwoWay}" Background="{ThemeResource AppBarBackgroundThemeBrush}">
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar Background="Transparent" IsOpen="True" DefaultLabelPosition="Right" HorizontalContentAlignment="Right">
+                    <AppBarButton Icon="Delete" Label="Verwijderen" Command="{x:Bind MyEventViewModel.DeleteEventCommand}" />
+                    <AppBarButton Icon="Edit" Label="Wijzigen" Command="{x:Bind MyEventViewModel.EditEventCommand}" />
                     <AppBarButton Icon="Add" Label="Toevoegen" Command="{x:Bind MyEventViewModel.AddNewEventCommand}" />
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>

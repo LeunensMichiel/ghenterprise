@@ -86,18 +86,6 @@ namespace Ghenterprise.ViewModels
             List<Category> catList = await catService.GetAllCategoriesAsync();
             CategoryNames.Add("Categorie");
             CategoryNames.AddRange( catList.Select((c) => c.Name).ToList());
-            //Enterprise enti2 = new Enterprise();
-            //enti2.Name = "Kastart";
-            //enti2.Description = "Fuck ik heb honger";
-            //enti2.Id = "QWERTY";
-            //enti2.DateCreated = new DateTime();
-            //Source.Add(enti2);
-            //// TODO WTS: Replace this with your actual data
-            //var data = await SampleDataService.GetContentGridDataAsync();
-            //foreach (var item in data)
-            //{
-            //    Source.Add(item);
-            //}
 
         }
 

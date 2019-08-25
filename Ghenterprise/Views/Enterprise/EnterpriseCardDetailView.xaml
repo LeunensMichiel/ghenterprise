@@ -4,11 +4,127 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ghenterprise.Views.Enterprise"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d">
 
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="601,500,0,0" Text="Enterprise" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ScrollViewer
+        Name="ForegroundElement"
+        HorizontalAlignment="Stretch"
+        VerticalScrollMode="Enabled">
+            <Grid  Margin="{StaticResource LargeLeftTopRightBottomMargin}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Name="block" Padding="0,15,0,0">
+                    <TextBlock Text="{x:Bind ViewModel.Enterprise.Name, Mode=OneWay}" FontSize="{StaticResource ExtraLargeFontSize}" FontWeight="SemiBold"/>
+                    <TextBlock FontSize="{StaticResource SmallFontSize}" Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Aangemaakt op: </Run>
+                    <Run Text="{x:Bind ViewModel.Enterprise.Date_Created, Mode=OneWay}"></Run>
+                    </TextBlock>
+                    <ListView ItemsSource="{x:Bind ViewModel.Enterprise.Categories, Mode=OneWay}"
+                          Height="40"
+                          SelectionMode="None"
+                          ScrollViewer.HorizontalScrollMode="Enabled" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0, 0, 5, 0"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="MinWidth" Value="0"/>
+                                <Setter Property="MinHeight" Value="0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate >
+                                <Border Background="{ThemeResource SystemAccentColor}" CornerRadius="4" Padding="8, 2, 8, 2" BorderBrush="Transparent">
+                                    <TextBlock Text="{Binding Name}" Foreground="White"/>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <TextBlock Text="{x:Bind ViewModel.Enterprise.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" TextAlignment="Justify" Margin="{StaticResource MediumTopBottomMargin}"/>
+
+                    <ListView Header="Tags: " ItemsSource="{x:Bind ViewModel.Enterprise.Tags, Mode=OneWay}" Foreground="{ThemeResource SystemBaseMediumColor}"
+                          SelectionMode="None"
+                          ScrollViewer.HorizontalScrollMode="Enabled" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="5, 0, 0, 0"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="MinWidth" Value="0"/>
+                                <Setter Property="MinHeight" Value="0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate >
+                                <TextBlock>
+                                    <Run Text="{Binding Name}"/>
+                                    <Run>,</Run>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Grid Margin="{StaticResource LargeTopMargin}" RowSpacing="100">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" x:Name="EventRow" MinHeight="0"/>
+                            <RowDefinition Height="*" x:Name="PromoRow" MinHeight="0"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" >
+                            <TextBlock Text="Komende Events" FontSize="{StaticResource MediumFontSize}" FontWeight="SemiBold"/>
+                            <ListView ItemsSource="{x:Bind ViewModel.Enterprise.Events, Mode=OneWay}" >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate >
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" >
+                            <TextBlock Text="Nieuwe Promoties" FontSize="{StaticResource MediumFontSize}" FontWeight="SemiBold"/>
+                            <ListView ItemsSource="{x:Bind ViewModel.Enterprise.Promotions, Mode=OneWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate >
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <Maps:MapControl 
+                    Grid.Row="1"
+                    x:Name="MapControl"
+                    Center="{x:Bind ViewModel.Center, Mode=OneWay}"
+                    ZoomLevel="{x:Bind ViewModel.ZoomLevel, Mode=OneWay}"
+                    ZoomInteractionMode="GestureAndControl"
+                    TiltInteractionMode="GestureAndControl"/>   
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

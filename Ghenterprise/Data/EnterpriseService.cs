@@ -22,5 +22,10 @@ namespace Ghenterprise.Data
         {
             return await GetAsync<List<Enterprise>>("Enterprise");
         }
+
+        public async Task<List<Enterprise>> GetEnterpriseAsync(string Id)
+        {
+            return await GetAsync<List<Enterprise>>($"Enterprise?enterprise_id={Id}");
+        }
     }
 }
