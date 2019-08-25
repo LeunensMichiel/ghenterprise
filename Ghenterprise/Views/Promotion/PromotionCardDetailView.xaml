@@ -5,11 +5,67 @@
     xmlns:local="using:Ghenterprise.Views.Promotion"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      xmlns:conv="using:Ghenterprise.Helpers"
+      mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="601,500,0,0" Text="Promotion" TextWrapping="Wrap" VerticalAlignment="Top"/>
-
+    <Page.Resources>
+        <conv:DateFormatter x:Name="DateFormatter" />
+    </Page.Resources>
+    <Grid Margin="{StaticResource LargeLeftTopRightBottomMargin}">
+        <ScrollViewer Name="ForegroundElement"
+                      HorizontalAlignment="Stretch"
+                      VerticalScrollMode="Enabled">
+            <StackPanel Name="block"
+                        Padding="0,15,0,0">
+                <TextBlock Text="{x:Bind ViewModel.Promotion.Name, Mode=OneWay}"
+                           FontSize="{StaticResource ExtraLargeFontSize}"
+                           FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xEC06;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}"
+                               Text="Promotie van " />
+                    <HyperlinkButton Content="{x:Bind ViewModel.Promotion.Enterprise.Name, Mode=OneWay}"
+                                     FontSize="{StaticResource SmallFontSize}"
+                                     Padding="6, 0 ,0 ,0"
+                                     Command="{x:Bind ViewModel.EnterpriseClickCommand}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xEC24;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Geldig van </Run>
+                    <Run Text="{x:Bind ViewModel.Promotion.Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xE789;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Geldig tot </Run>
+                    <Run Text="{x:Bind ViewModel.Promotion.End_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock Text="{x:Bind ViewModel.Promotion.Description, Mode=OneWay}"
+                           TextWrapping="WrapWholeWords"
+                           TextAlignment="Justify"
+                           Margin="{StaticResource MediumTopBottomMargin}" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

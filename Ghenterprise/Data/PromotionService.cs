@@ -23,5 +23,10 @@ namespace Ghenterprise.Data
         {
             return await GetAsync<List<Promotion>>("Promotion", true);
         }
+
+        public async Task<Promotion> GetPromoAsync(string Id)
+        {
+            return await GetAsync<Promotion>($"Promotion?Promotion_ID={Id}", true);
+        }
     }
 }

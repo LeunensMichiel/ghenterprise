@@ -10,12 +10,14 @@
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:conv="using:Ghenterprise.Helpers"
       mc:Ignorable="d">
 
     <Page.Resources>
         <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
                                           TrueValue="Visible"
                                           FalseValue="Collapsed" />
+        <conv:DateFormatter x:Name="DateFormatter" />
     </Page.Resources>
     <Grid>
         <Grid x:Name="NoSubscriptionsGrid"
@@ -45,7 +47,7 @@
         </Grid>
         <controls:AdaptiveGridView animations:Connected.ListItemElementName="itemThumbnail"
                                    animations:Connected.ListItemKey="animationKeyContentGrid"
-                                   DesiredWidth="350"
+                                   DesiredWidth="400"
                                    ItemHeight="175"
                                    IsItemClickEnabled="True"
                                    ItemClickCommand="{x:Bind PromotionViewModel.ItemClickCommand}"
@@ -62,52 +64,80 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
-                        <controls:ImageEx Grid.Column="0"
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <controls:ImageEx Grid.Column="0" Grid.RowSpan="2"
                                           IsCacheEnabled="True"
-                                          Source="/Assets/example.jpg"
+                                          Source="/Assets/ghentFromAbove.jpg"
                                           Stretch="UniformToFill" />
                         <StackPanel Padding="{StaticResource SmallLeftTopRightBottomMargin}"
                                     Grid.Column="1"
+                                    Grid.Row="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top">
                             <TextBlock  x:Name="Title"
-                                        Margin="{StaticResource XXSmallTopMargin}"
+                                        Margin="{StaticResource XXSmallTopRightBottomMargin}"
                                         HorizontalAlignment="Left"
                                         FontSize="{StaticResource MediumFontSize}"
                                         FontWeight="SemiBold"
                                         Text="{x:Bind Name}"
                                         TextWrapping="WrapWholeWords" />
-
-                            <TextBlock  x:Name="EnterPrise"
-                                        Margin="{StaticResource XXSmallTopMargin}"
-                                        HorizontalAlignment="Left"
-                                        FontSize="{StaticResource SmallFontSize}"
-                                        FontWeight="SemiBold"
-                                        Text="ViewModel Enterprise Naam"
-                                        TextWrapping="WrapWholeWords" />
-
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Stretch">
+                                <FontIcon Glyph="&#xEC06;"
+                                          FontSize="{StaticResource SmallFontSize}"
+                                          Margin="{StaticResource XSmallRightMargin}"
+                                          Foreground="{ThemeResource SystemAccentColor}" />
+                                <TextBlock FontSize="{StaticResource SmallFontSize}"
+                                           TextWrapping="WrapWholeWords"
+                                           HorizontalAlignment="Left"
+                                           TextTrimming="WordEllipsis"
+                                           Foreground="{StaticResource SystemBaseMediumColor}">
+                                    <Run>Promotie van </Run>
+                                    <Run Text="{x:Bind Enterprise.Name, Mode=OneWay}" />
+                                </TextBlock>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Left">
-                                <FontIcon Glyph="&#xEE93;"
+                                <FontIcon Glyph="&#xEC24;"
                                           FontSize="{StaticResource SmallFontSize}"
-                                          Margin="{StaticResource XXSmallTopRightBottomMargin}"
+                                          Margin="{StaticResource XSmallRightMargin}"
                                           Foreground="{ThemeResource SystemAccentColor}" />
-                                <TextBlock FontSize="{StaticResource CardTextFontSize}"
-                                           Margin="{StaticResource XXSmallTopMargin}"
-                                           HorizontalAlignment="Left"
+                                <TextBlock FontSize="{StaticResource SmallFontSize}"
+                                           TextTrimming="WordEllipsis"
+                                           TextWrapping="WrapWholeWords"
                                            Foreground="{StaticResource SystemBaseMediumColor}">
-                                    <Run>Van: </Run>
-                                    <Run Text="{x:Bind Start_Date}"></Run>
-                                    <Run> Tot </Run>
-                                    <Run Text="{x:Bind End_Date}"></Run>
+                                    <Run>Van </Run>
+                                    <Run Text="{x:Bind Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>   
                                 </TextBlock>
                             </StackPanel>
-                            <TextBlock  Text="{x:Bind Description}"
-                                        FontSize="{StaticResource CardTextFontSize}"
-                                        Margin="{StaticResource SmallTopMargin}"
-                                        TextWrapping="WrapWholeWords" />
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left">
+                                <FontIcon Glyph="&#xE789;"
+                                          FontSize="{StaticResource SmallFontSize}"
+                                          Margin="{StaticResource XSmallRightMargin}"
+                                          Foreground="{ThemeResource SystemAccentColor}" />
+                                <TextBlock FontSize="{StaticResource SmallFontSize}"
+                                           TextTrimming="WordEllipsis"
+                                           TextWrapping="WrapWholeWords"
+                                           Foreground="{StaticResource SystemBaseMediumColor}">
+                                    <Run>Tot </Run>
+                                    <Run Text="{x:Bind End_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run> 
+                                </TextBlock>
+                            </StackPanel>
                         </StackPanel>
+                        <TextBlock Grid.Column="1" 
+                                   Grid.Row="1" 
+                                   Text="Meer Info >" 
+                                   HorizontalAlignment="Right"
+                                   Margin="0, 0, 10, 0"
+                                   FontWeight="SemiBold"
+                                   FontSize="{StaticResource SmallFontSize}"/>
                     </Grid>
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>
