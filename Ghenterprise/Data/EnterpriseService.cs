@@ -23,6 +23,11 @@ namespace Ghenterprise.Data
             return await GetAsync<List<Enterprise>>("Enterprise", forceRefresh:refresh);
         }
 
+        public async Task<List<Enterprise>> GetEnterprisesByOwner(bool refresh = true)
+        {
+            return await GetAsync<List<Enterprise>>("Enterprise/Owner", forceRefresh: refresh);
+        }
+
         public async Task<List<Enterprise>> GetEnterpriseAsync(string Id)
         {
             return await GetAsync<List<Enterprise>>($"Enterprise?enterprise_id={Id}");

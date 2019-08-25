@@ -52,7 +52,7 @@ namespace Ghenterprise.ViewModels
         {
             Source.Clear();
 
-            _entlist = await entService.GetEnterprisesAsync();
+            _entlist = await entService.GetEnterprisesByOwner();
             _entlist.ForEach(ent => { Source.Add(ent); });
 
 
@@ -97,7 +97,7 @@ namespace Ghenterprise.ViewModels
                         await successDialog.ShowAsync();
 
                         Source.Clear();
-                        _entlist = await entService.GetEnterprisesAsync();
+                        _entlist = await entService.GetEnterprisesByOwner();
                         _entlist.ForEach(ent => { Source.Add(ent); });
                         if (Source.Count > 0)
                             Selected = Source.First();

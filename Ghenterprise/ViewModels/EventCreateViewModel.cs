@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,11 +28,7 @@ namespace Ghenterprise.ViewModels
         {
             get { return _enterprise; }
             set {
-                if (_enterprise != value)
-                {
-                    _enterprise = value;
-                    RaisePropertyChanged("Enterprise");
-                }
+                Set(ref _enterprise, value);
             }
         }
 
@@ -51,13 +48,24 @@ namespace Ghenterprise.ViewModels
         public ICommand SaveClickCommand => _saveClickCommand ?? (_saveClickCommand = new RelayCommand(new Action(OnSaveClick)));
 
         private bool _isEnabled = true;
+        private bool _isEditScreen = false;
+        private string _title = "NIEUW EVENT";
+        public string Title {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                Set(ref _title, value);
+            }
+        }
         public bool IsEnabled
         {
             get => _isEnabled;
             set
             {
-                _isEnabled = value;
-                RaisePropertyChanged("IsReadOnly");
+               Set(ref _isEnabled, value);
             }
         }
         private string _errorText = "";
@@ -85,13 +93,27 @@ namespace Ghenterprise.ViewModels
         {
         }
 
-        public async Task LoadDataAsync()
+        public async Task LoadDataAsync(string event_id = null)
         {
-            Enterprises.Clear();
-
-            var items = await entService.GetEnterprisesAsync();
-            items.ForEach((item) => Enterprises.Add(item));
-
+            IsEnabled = false;
+            try
+            {
+                if (event_id != null) { Title = "WIJZIG EVENT"; }
+                Enterprises.Clear();
+                var items = await entService.GetEnterprisesByOwner();
+                items.ForEach((item) => Enterprises.Add(item));
+                if (event_id != null)
+                {
+                    _isEditScreen = true;
+                    Event = await eventService.GetEventsById(event_id);
+                    Enterprise = items.Where(i => i.Id == Event.Enterprise.Id).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            IsEnabled = true;
         }
         
         private async void OnSaveClick()
@@ -99,25 +121,34 @@ namespace Ghenterprise.ViewModels
             bool result = false;
 
             ErrorVisibility = Visibility.Collapsed;
-            if (Event.Name == null || Event.Name.Trim() == "")
+            if (Event.Name == null)
             {
-                ErrorText = "Naam is niet ingevuld";
-                ErrorVisibility = Visibility.Visible;
-                return;
+                if (Event.Name.Trim() == "")
+                {
+                    ErrorText = "Naam is niet ingevuld";
+                    ErrorVisibility = Visibility.Visible;
+                    return;
+                }
             }
 
-            if (Event.Description == null || Event.Description.Trim() == "")
+            if (Event.Description == null)
             {
-                ErrorText = "Beschrijving is niet ingevuld";
-                ErrorVisibility = Visibility.Visible;
-                return;
+                if (Event.Description.Trim() == "")
+                {
+                    ErrorText = "Beschrijving is niet ingevuld";
+                    ErrorVisibility = Visibility.Visible;
+                    return;
+                }
             }
 
-            if (Event.Start_Date == null || Event.End_Date == null || Event.End_Date < Event.Start_Date)
+            if (Event.Start_Date == null || Event.End_Date == null)
             {
-                ErrorText = "Datums kloppen niet";
-                ErrorVisibility = Visibility.Visible;
-                return;
+                if (Event.End_Date < Event.Start_Date)
+                {
+                    ErrorText = "Datums kloppen niet";
+                    ErrorVisibility = Visibility.Visible;
+                    return;
+                }
             }
 
             if (Enterprise == null)
@@ -129,7 +160,14 @@ namespace Ghenterprise.ViewModels
 
             IsEnabled = false;
             Event.Enterprise = Enterprise;
-            result = await eventService.SaveEventAsync(Event);
+            if (_isEditScreen)
+            {
+                result = await eventService.UpdateEvent(Event);
+            } else
+            {
+                result = await eventService.SaveEventAsync(Event);
+            }
+            
             if (result)
             {
                 NavigationService.GoBack();
