@@ -24,7 +24,7 @@ namespace Ghenterprise.Views.Enterprise
     public sealed partial class MyEnterpriseDetailView : UserControl
     {
         public static readonly DependencyProperty MasterEnterpriseItemProperty = DependencyProperty.Register("MasterEnterpriseItem", typeof(Models.Enterprise), typeof(MyEnterpriseDetailView), new PropertyMetadata(null, OnMasterMenuItemPropertyChanged));
-
+        private string _category = "";
 
         public Models.Enterprise MasterEnterpriseItem
         {

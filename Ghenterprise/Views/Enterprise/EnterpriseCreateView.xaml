@@ -29,23 +29,22 @@
         </Grid.ColumnDefinitions>
         <my:ImageEx Name="image" Grid.Column="0" Source="/Assets/example.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
         <CommandBar Grid.Column="1" IsSticky="True"  ClosedDisplayMode="Compact" DefaultLabelPosition="Right" Canvas.ZIndex="2">
-            <AppBarButton Icon="Save" Label="Opslaan" />
+            <AppBarButton Icon="Save" Label="Opslaan" Command="{x:Bind ViewModel.SaveClickCommand}"/>
             <AppBarButton Icon="Cancel" Label="Annuleren" Command="{x:Bind ViewModel.CancelClickCommand}"/>
         </CommandBar>
         <ScrollViewer  Grid.Column="1" HorizontalScrollMode="Enabled" >
             <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}" HorizontalAlignment="Stretch">
                 <TextBlock Text="Nieuwe Ghenterprise" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBox x:Name="Name" Header= "Naam" Margin="0,24,0,0" MaxLength="32" Width="Auto" HorizontalAlignment="Stretch" InputScope="PersonalFullName" PlaceholderText="Voer uw bedrijfsnaam in"/>
-                <TextBox x:Name="Description" Header="Beschrijving" Margin="0,24,0,0" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" SelectionHighlightColor="Green" MinHeight="200" PlaceholderText="Beschrijving van uw bedrijf" />
-                <TextBox x:Name="Email" Header="Email" Margin="0,24,0,0" MaxLength="50" Width="Auto" HorizontalAlignment="Stretch"  InputScope="EmailNameOrAddress" PlaceholderText="Email van uw bedrijf" />
-                <TextBox x:Name="Address" Header="Adres" PlaceholderText="Adres" Margin="0,24,0,0" MaxLength="60"  HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" />
-                <ComboBox x:Name="State" Header="Categorie" PlaceholderText="Categorie" Margin="0,24,0,0"  HorizontalAlignment="Stretch" RelativePanel.RightOf="City">
-                    <x:String>Bar</x:String>
-                    <x:String>Restaurant</x:String>
-                    <x:String>Shop</x:String>
-                    <x:String>School</x:String>
-                </ComboBox>
-                <TextBox x:Name="Tags" Header="Tags" Margin="0,24,0,0" MaxLength="50" HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" PlaceholderText="Geef zoektermen op, gescheiden door kommas (,)" />
+                <TextBlock Foreground="Red" Visibility="{x:Bind ViewModel.ErrorVsibility, Mode=TwoWay}" Text="{x:Bind ViewModel.ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="NameError" Margin="0,24,0,0"  Width="Auto" HorizontalAlignment="Stretch" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}" Text="{x:Bind ViewModel.Enterprise.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Name" Header= "Naam" Margin="0,24,0,0" MaxLength="32" Width="Auto" HorizontalAlignment="Stretch" InputScope="PersonalFullName" PlaceholderText="Voer uw bedrijfsnaam in"/>
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}" Text="{x:Bind ViewModel.Enterprise.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Description" Header="Beschrijving" Margin="0,24,0,0" MaxLength="500" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" SelectionHighlightColor="Green" MinHeight="200" PlaceholderText="Beschrijving van uw bedrijf" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}" Text="{x:Bind ViewModel.Enterprise.Location.Street.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Email" Header="Email" Margin="0,24,0,0" MaxLength="50" Width="Auto" HorizontalAlignment="Stretch"  InputScope="EmailNameOrAddress" PlaceholderText="Email van uw bedrijf" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}" Text="{x:Bind ViewModel.Enterprise.Location.Street_Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Address" Header="Adres" PlaceholderText="Adres" Margin="0,24,0,0" MaxLength="60"  HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" />
+                <ComboBox  IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                    ItemsSource="{x:Bind ViewModel.CategoryNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{x:Bind ViewModel.SelectedCatName, Mode=TwoWay}"
+                    x:Name="State" Header="Categorie" PlaceholderText="Categorie" Margin="0,24,0,0"  HorizontalAlignment="Stretch" RelativePanel.RightOf="City"/>
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"  Text="{x:Bind ViewModel.TagList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Tags" Header="Tags" Margin="0,24,0,0" MaxLength="50" HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" PlaceholderText="Geef zoektermen op, gescheiden door kommas (,)" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

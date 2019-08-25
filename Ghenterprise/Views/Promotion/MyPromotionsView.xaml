@@ -98,6 +98,8 @@
             SelectedItem="{x:Bind MyPromotionsViewModel.Selected, Mode=TwoWay}" Background="{ThemeResource AppBarBackgroundThemeBrush}">
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar Background="Transparent" IsOpen="True" DefaultLabelPosition="Right" HorizontalContentAlignment="Right">
+                    <AppBarButton Icon="Delete" Label="Verwijderen" Command="{x:Bind MyPromotionsViewModel.DeletePromoCommand}" />
+                    <AppBarButton Icon="Edit" Label="Wijzigen" Command="{x:Bind MyPromotionsViewModel.EditPromoCommand}" />
                     <AppBarButton Icon="Add" Label="Toevoegen" Command="{x:Bind MyPromotionsViewModel.AddNewPromoCommand}" />
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>

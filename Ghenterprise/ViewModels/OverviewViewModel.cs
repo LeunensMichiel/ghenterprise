@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -19,60 +20,94 @@ namespace Ghenterprise.ViewModels
     {
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
+        private EnterpriseService entService = new EnterpriseService();
+        private CategoryService catService = new CategoryService();
+        private List<string> _catListNames = new List<string>();
+        private List<Enterprise> _entlist = new List<Enterprise>();
+        private string _selectedCatName = "";
+        private string _searchQuery = "";
+
         private ICommand _itemClickCommand;
 
         public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<Enterprise>(OnItemClick));
 
         public ObservableCollection<Enterprise> Source { get; } = new ObservableCollection<Enterprise>();
 
-        public EnterpriseService entService { get; set; }
+
+        public List<string> CategoryNames
+        {
+            get
+            {
+                return _catListNames;
+            }
+            set
+            {
+                Set(ref _catListNames, value);
+            }
+        }
+        public string SelectedCatName
+        {
+            get
+            {
+                return _selectedCatName;
+            }
+            set
+            {
+                Set(ref _selectedCatName, value);
+                FilterSource();
+            }
+        }
+
+        public string SeachQuery {
+            get
+            {
+                return _searchQuery;
+            }
+            set
+            {
+                Set(ref _searchQuery, value);
+                FilterSource();
+            }
+        }
 
         public OverviewViewModel()
         {
-            entService = new EnterpriseService();
+            
         }
 
         public async Task LoadDataAsync()
         {
             Source.Clear();
 
-            List<Enterprise> entList = await entService.GetEnterprisesAsync();
+            _entlist = await entService.GetEnterprisesAsync();
 
-            entList.ForEach((item) => Source.Add(item));
+            _entlist.ForEach((item) => Source.Add(item));
 
-            Debug.WriteLine(JsonConvert.SerializeObject(entList));
+            List<Category> catList = await catService.GetAllCategoriesAsync();
+            CategoryNames.Add("Categorie");
+            CategoryNames.AddRange( catList.Select((c) => c.Name).ToList());
 
-            Enterprise enti = new Enterprise();
-            enti.Name = "Leunes Media";
-            enti.Description = "Fotografie / Webdev";
-            enti.Location = new Location
+        }
+
+        private void FilterSource()
+        {
+            Source.Clear();
+            List<Enterprise> filteredList = _entlist;
+            if (_selectedCatName != "Categorie" || _searchQuery.Trim() != "")
             {
-                Street_Number = 7,
-                Street = new Street
+                if (_selectedCatName != "Categorie")
                 {
-                    Id= "A9wOjHPQxnoG"
-                },
-                City = new City
-                {
-                    Id= "PFTDg1mGC2rs"
+                    filteredList = filteredList.Where((e) => e.Categories.Select(c => c.Name).Contains(_selectedCatName)).ToList();
                 }
-            };
 
-            bool success = await entService.SaveEnterprise(enti);
-            Debug.WriteLine(success);
-            //Enterprise enti2 = new Enterprise();
-            //enti2.Name = "Kastart";
-            //enti2.Description = "Fuck ik heb honger";
-            //enti2.Id = "QWERTY";
-            //enti2.DateCreated = new DateTime();
-            //Source.Add(enti2);
-            //// TODO WTS: Replace this with your actual data
-            //var data = await SampleDataService.GetContentGridDataAsync();
-            //foreach (var item in data)
-            //{
-            //    Source.Add(item);
-            //}
+                if (_searchQuery.Trim() != "")
+                {
+                    filteredList = filteredList.Where((e) => e.Name.ToLower().Contains(_searchQuery.ToLower())).ToList();
 
+                }
+            } 
+
+            filteredList.ForEach(f => Source.Add(f));
         }
 
         private void OnItemClick(Enterprise clickedItem)
