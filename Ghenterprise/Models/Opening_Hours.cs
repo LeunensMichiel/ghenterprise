@@ -10,9 +10,9 @@ namespace Ghenterprise.Models
     {
         public string Id { get; set; }
         public int Day_Of_Week { get; set; }
-        public string Morning_Start { get; set; }
-        public string Morning_End { get; set; }
-        public string Afternoon_Start { get; set; }
-        public string Afternoon_End { get; set; }
+        public DateTime Morning_Start { get; set; }
+        public DateTime Morning_End { get; set; }
+        public DateTime Afternoon_Start { get; set; }
+        public DateTime Afternoon_End { get; set; }
     }
 }

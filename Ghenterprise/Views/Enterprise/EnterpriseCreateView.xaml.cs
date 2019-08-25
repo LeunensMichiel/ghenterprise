@@ -32,5 +32,17 @@ namespace Ghenterprise.Views.Enterprise
         {
             this.InitializeComponent();
         }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is string Id)
+            {
+                await ViewModel.LoadDataAsync(Id);
+            } else
+            {
+                await ViewModel.LoadDataAsync();
+            }
+        }
     }
 }

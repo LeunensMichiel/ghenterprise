@@ -25,6 +25,7 @@ namespace Ghenterprise.Data
                         ServerCertificateCustomValidationCallback = (a, b, c, d) => true
                     }
                 );
+            Client.DefaultRequestHeaders.Add("username", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImhvSmlyNDdVcTg5ciIsIm5iZiI6MTU2NjUwMDA4MCwiZXhwIjoxNTY3MTA0ODgwLCJpYXQiOjE1NjY1MDAwODB9.LkHgGgembArNR40ePNCMzHbMGeSb4YwLGLlCo4YY-Jg");
 
             if (!string.IsNullOrEmpty(baseAdress))
             {
@@ -58,7 +59,7 @@ namespace Ghenterprise.Data
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(string.Format("{0} returned {1}", GetRequestUri(uri), response.StatusCode));
+                    throw new Exception(string.Format("{0} returned {1} message: {2}", GetRequestUri(uri), response.StatusCode, response.ReasonPhrase));
                 }
 
                 var json = await response.Content.ReadAsStringAsync();
@@ -93,8 +94,7 @@ namespace Ghenterprise.Data
             {
                 return false;
             }
-            Client.DefaultRequestHeaders.Add("username", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImhvSmlyNDdVcTg5ciIsIm5iZiI6MTU2NjUwMDA4MCwiZXhwIjoxNTY3MTA0ODgwLCJpYXQiOjE1NjY1MDAwODB9.LkHgGgembArNR40ePNCMzHbMGeSb4YwLGLlCo4YY-Jg");
-
+        
             var stringPayload = JsonConvert.SerializeObject(item, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync(GetRequestUri(uri), content);
@@ -123,12 +123,10 @@ namespace Ghenterprise.Data
             {
                 return false;
             }
-
-            var serializedItem = JsonConvert.SerializeObject(item);
-            var buffer = Encoding.UTF8.GetBytes(serializedItem);
-            var byteContent = new ByteArrayContent(buffer);
-
-            var response = await Client.PutAsync(uri, byteContent);
+            
+            var stringPayload = JsonConvert.SerializeObject(item, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+            var response = await Client.PutAsync(GetRequestUri(uri), content);
 
             return response.IsSuccessStatusCode;
         }
@@ -149,8 +147,10 @@ namespace Ghenterprise.Data
 
         public async Task<bool> DeleteAsync(string uri)
         {
-            var response = await Client.DeleteAsync(uri);
-
+            Debug.WriteLine(GetRequestUri(uri));
+            var response = await Client.DeleteAsync(GetRequestUri(uri));
+            Debug.WriteLine(response.StatusCode);
+            Debug.WriteLine(await response.Content.ReadAsStringAsync());
             return response.IsSuccessStatusCode;
         }
     }

@@ -7,10 +7,12 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace Ghenterprise.ViewModels
 {
@@ -25,7 +27,6 @@ namespace Ghenterprise.ViewModels
             get { return _selected; }
             set { Set(ref _selected, value); }
         }
-
         public ObservableCollection<Enterprise> Source { get; private set; } = new ObservableCollection<Enterprise>();
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
@@ -63,13 +64,53 @@ namespace Ghenterprise.ViewModels
 
         private void OnEditClick()
         {
-            throw new NotImplementedException();
+            NavigationService.Navigate(typeof(EnterpriseCreateViewModel).FullName, Selected.Id);
         }
 
 
-        private void OnDeleteClick()
+        private async void OnDeleteClick()
         {
-            throw new NotImplementedException();
+            try
+            {
+                ContentDialog dialog = new ContentDialog();
+                dialog.Title = $"Bent u zeker dat u {Selected.Name} wilt verwijderen?";
+                dialog.IsSecondaryButtonEnabled = true;
+                dialog.PrimaryButtonText = "Ja";
+                dialog.SecondaryButtonText = "Nee";
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    Debug.WriteLine(Selected.Id);
+                    var success = await entService.DeleteEnterprise(Selected.Id);
+                    if (success)
+                    {
+                        ContentDialog successDialog = new ContentDialog();
+                        successDialog.Title = "Onderneming verwijderd.";
+                        successDialog.PrimaryButtonText = "ok";
+                        await successDialog.ShowAsync();
+
+                        Source.Clear();
+                        _entlist = await entService.GetEnterprisesAsync();
+                        _entlist.ForEach(ent => { Source.Add(ent); });
+                        if (Source.Count > 0)
+                            Selected = Source.First();
+                    }
+                    else
+                    {
+                        ContentDialog failureDialog = new ContentDialog();
+                        failureDialog.Title = "Onderneming niet verwijderd.";
+                        failureDialog.PrimaryButtonText = "ok";
+                        await failureDialog.ShowAsync();
+                    }
+                }
+            } catch(Exception)
+            {
+                ContentDialog exceptionDialog = new ContentDialog();
+                exceptionDialog.Title = "Er ging iets mis probeer later opnieuw.";
+                exceptionDialog.PrimaryButtonText = "ok";
+                await exceptionDialog.ShowAsync();
+            }
+            
         }
 
     }
