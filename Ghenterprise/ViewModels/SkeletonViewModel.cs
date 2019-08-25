@@ -242,80 +242,80 @@ namespace Ghenterprise.ViewModels
 
         private async void OnUserProfile()
         {
-            Models.User user = new Models.User();
-            if (localSettings.Values["Username"] == null)
-            {
-                try
-                {
-                    string error = "";
-                    do
-                    {
-                        error = null;
+            //Models.User user = new Models.User();
+            //if (localSettings.Values["Username"] == null)
+            //{
+            //    try
+            //    {
+            //        string error = "";
+            //        do
+            //        {
+            //            error = null;
 
-                        if (_isRegsitrating && (
-                            user.Password == "Wachtwoorden komen niet overeen" 
-                            || user.Password == "Wachtwoord is leeg" 
-                            || user.Password == "Email is leeg of verkeerd formaat"
-                            || user.Password == "Familienaam is leeg"
-                            || user.Password == "Voornaam is leeg"))
-                        {
-                            error = user.Password == ""?null:user.Password;
-                        }
+            //            if (_isRegsitrating && (
+            //                user.Password == "Wachtwoorden komen niet overeen" 
+            //                || user.Password == "Wachtwoord is leeg" 
+            //                || user.Password == "Email is leeg of verkeerd formaat"
+            //                || user.Password == "Familienaam is leeg"
+            //                || user.Password == "Voornaam is leeg"))
+            //            {
+            //                error = user.Password == ""?null:user.Password;
+            //            }
 
-                        if (user.Password == "Password invalid" || user.Password == "User doesn't exist")
-                        {
-                            error = "Verkeerde email/wachtwoord combinatie";
-                        }
+            //            if (user.Password == "Password invalid" || user.Password == "User doesn't exist")
+            //            {
+            //                error = "Verkeerde email/wachtwoord combinatie";
+            //            }
 
-                        user = await LoginDialog(error);
-                        Debug.WriteLine(user.Token);
-                    }
-                    while ((user.Password != "Password valid" && user.Password != "stop") || (user.Token != "email doesn't exists"));
+            //            user = await LoginDialog(error);
+            //            Debug.WriteLine(user.Token);
+            //        }
+            //        while ((user.Password != "Password valid" && user.Password != "stop") || (user.Token != "email doesn't exists"));
 
-                    if (user.Password == "Password valid")
-                    {
-                        ContentDialog dialog = new ContentDialog();
-                        dialog.Title = "Inloggen";
-                        dialog.Content = "Gebruiker ingelogd!";
-                        dialog.PrimaryButtonText = "Wow! Dankuwel!";
-                        await dialog.ShowAsync();
-                        localSettings.Values["Token"] = user.Token;
-                        localSettings.Values["Username"] = user.Email;
-                        Username = user.Email;
-                    }
+            //        if (user.Password == "Password valid")
+            //        {
+            //            ContentDialog dialog = new ContentDialog();
+            //            dialog.Title = "Inloggen";
+            //            dialog.Content = "Gebruiker ingelogd!";
+            //            dialog.PrimaryButtonText = "Wow! Dankuwel!";
+            //            await dialog.ShowAsync();
+            //            localSettings.Values["Token"] = user.Token;
+            //            localSettings.Values["Username"] = user.Email;
+            //            Username = user.Email;
+            //        }
 
                     
 
-                    if (user.Token == "email doesn't exists")
-                    {
-                        user = await userService.PostRegisterUser(user);
-                        dialog.Title = "Account aanmaken";
-                        dialog.Content = "Account aangemaakt!";
-                        dialog.PrimaryButtonText = "Wow! Dankuwel!";
-                        await dialog.ShowAsync();
-                        localSettings.Values["Token"] = user.Token;
-                        localSettings.Values["Username"] = user.Email;
-                        Username = user.Email;
-                    }
+            //        if (user.Token == "email doesn't exists")
+            //        {
+            //            user = await userService.PostRegisterUser(user);
+            //            dialog.Title = "Account aanmaken";
+            //            dialog.Content = "Account aangemaakt!";
+            //            dialog.PrimaryButtonText = "Wow! Dankuwel!";
+            //            await dialog.ShowAsync();
+            //            localSettings.Values["Token"] = user.Token;
+            //            localSettings.Values["Username"] = user.Email;
+            //            Username = user.Email;
+            //        }
 
-                }
-                catch (Exception)
-                {
-                    ContentDialog dialog = new ContentDialog();
-                    dialog.Title = "Er ging iets verkeerd";
-                    dialog.Content = "Inloggen is gefaald";
-                    dialog.IsSecondaryButtonEnabled = true;
-                    dialog.PrimaryButtonText = "Ok";
-                    dialog.SecondaryButtonText = "Niet ok";
-                    await dialog.ShowAsync();
-                }
-            }
-            else
-            {
-                localSettings.Values["Username"] = null;
-                localSettings.Values["Token"] = null;
-                Username = "Inloggen";
-            }
+            //    }
+            //    catch (Exception)
+            //    {
+            //        ContentDialog dialog = new ContentDialog();
+            //        dialog.Title = "Er ging iets verkeerd";
+            //        dialog.Content = "Inloggen is gefaald";
+            //        dialog.IsSecondaryButtonEnabled = true;
+            //        dialog.PrimaryButtonText = "Ok";
+            //        dialog.SecondaryButtonText = "Niet ok";
+            //        await dialog.ShowAsync();
+            //    }
+            //}
+            //else
+            //{
+            //    localSettings.Values["Username"] = null;
+            //    localSettings.Values["Token"] = null;
+            //    Username = "Inloggen";
+            //}
            
             
         }

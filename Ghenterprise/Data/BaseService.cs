@@ -108,7 +108,7 @@ namespace Ghenterprise.Data
             if (item == null)
             {
                 return false;
-            }
+            } 
 
             var serializedItem = JsonConvert.SerializeObject(item);
 
