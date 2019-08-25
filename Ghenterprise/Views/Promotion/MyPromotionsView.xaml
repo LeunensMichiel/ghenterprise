@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:Ghenterprise.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+      xmlns:conv="using:Ghenterprise.Helpers"
+      mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -15,6 +16,7 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
+        <conv:DateFormatter x:Name="DateFormatter" />
         <DataTemplate x:Key="ItemTemplate" x:DataType="model:Promotion">
             <Grid Height="60">
                 <Grid.ColumnDefinitions>
@@ -31,7 +33,12 @@
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center">
                     <TextBlock Text="{x:Bind Name}" FontSize="{StaticResource SmallFontSize}" FontWeight="Bold" MaxLines="1" TextTrimming="CharacterEllipsis" />
-                    <TextBlock Text="{x:Bind Start_Date}" FontSize="{StaticResource SmallFontSize}" FontWeight="Normal" MaxLines="1" TextTrimming="CharacterEllipsis" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               MaxLines="1"
+                               TextTrimming="CharacterEllipsis">
+                    <Run>Vanaf </Run>
+                    <Run Text="{x:Bind Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                    </TextBlock>
                 </StackPanel>
             </Grid>
         </DataTemplate>

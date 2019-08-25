@@ -5,13 +5,13 @@
     xmlns:local="using:Ghenterprise.Views.Event"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:conv="using:Ghenterprise.Helpers"
-      mc:Ignorable="d"
+    xmlns:conv="using:Ghenterprise.Helpers"
+    mc:Ignorable="d"
 >
     <Page.Resources>
         <conv:DateFormatter x:Name="DateFormatter" />
     </Page.Resources>
-    <Grid Margin="{StaticResource LargeLeftTopRightBottomMargin}">
+    <Grid Margin="{StaticResource MediumLeftTopRightBottomMargin}">
         <ScrollViewer Name="ForegroundElement"
                       HorizontalAlignment="Stretch"
                       VerticalScrollMode="Enabled">

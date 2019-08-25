@@ -5,20 +5,65 @@
     xmlns:local="using:Ghenterprise.Views.Promotion"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+      xmlns:conv="using:Ghenterprise.Helpers"
+      mc:Ignorable="d">
 
-    <ScrollViewer
-        Name="ForegroundElement"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-        Padding="{StaticResource SmallLeftTopRightBottomMargin}"
-        HorizontalAlignment="Stretch"
-        VerticalScrollMode="Enabled">
-        <StackPanel Name="block" Padding="0,15,0,0">
-            <TextBlock Text="{x:Bind MasterPromoItem.Id, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterPromoItem.Name, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterPromoItem.Description, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterPromoItem.Start_Date, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterPromoItem.End_Date, Mode=OneWay}" />
-        </StackPanel>
-    </ScrollViewer>
+    <Page.Resources>
+        <conv:DateFormatter x:Name="DateFormatter" />
+    </Page.Resources>
+    <Grid Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+        <ScrollViewer Name="ForegroundElement"
+                      HorizontalAlignment="Stretch"
+                      VerticalScrollMode="Enabled">
+            <StackPanel Name="block"
+                        Padding="0,15,0,0">
+                <TextBlock Text="{x:Bind MasterPromoItem.Name, Mode=OneWay}"
+                           FontSize="{StaticResource ExtraLargeFontSize}"
+                           FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xEC06;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                                    <Run>Promotie van </Run>
+                                    <Run Text="{x:Bind MasterPromoItem.Enterprise.Name, Mode=OneWay}" />
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xEC24;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Geldig van </Run>
+                    <Run Text="{x:Bind MasterPromoItem.Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xE789;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Geldig tot </Run>
+                    <Run Text="{x:Bind MasterPromoItem.End_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock Text="{x:Bind MasterPromoItem.Description, Mode=OneWay}"
+                           TextWrapping="WrapWholeWords"
+                           TextAlignment="Justify"
+                           Margin="{StaticResource MediumTopBottomMargin}" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Page>

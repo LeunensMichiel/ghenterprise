@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ghenterprise.Services;
+using Ghenterprise.ViewModels;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +25,33 @@ namespace Ghenterprise.Views.Promotion
     /// </summary>
     public sealed partial class PromotionCardDetailView : Page
     {
+        public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+        private PromotionCardDetailViewModel ViewModel
+        {
+            get { return ViewModelLocator.Current.PromoDetail; }
+        }
+
         public PromotionCardDetailView()
         {
             this.InitializeComponent();
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is string Id)
+            {
+                await ViewModel.InitializeAsync(Id);
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(ViewModel.Promotion);
+            }
         }
     }
 }
