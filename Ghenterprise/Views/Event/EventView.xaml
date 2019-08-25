@@ -1,63 +1,81 @@
-﻿<Page
-    x:Class="Ghenterprise.Views.EventView.EventView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Ghenterprise.Views.EventView"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:models="using:Ghenterprise.Models"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
-    mc:Ignorable="d">
+﻿<Page x:Class="Ghenterprise.Views.EventView.EventView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Ghenterprise.Views.EventView"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:models="using:Ghenterprise.Models"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
+                                          TrueValue="Visible"
+                                          FalseValue="Collapsed" />
+    </Page.Resources>
     <Grid>
-        <i:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind EventViewModel.Source.Count}" Value="0">
-                <Core:ChangePropertyAction TargetObject="{Binding ElementName=NoSubscriptionsGrid}" PropertyName="Visibility" Value="Visible"/>
-            </Core:DataTriggerBehavior>
-        </i:Interaction.Behaviors>
-        <Grid x:Name="NoSubscriptionsGrid" HorizontalAlignment="Stretch" VerticalAlignment="Center" RowSpacing="10" Visibility="Collapsed">
+        <Grid x:Name="NoSubscriptionsGrid"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Center"
+              RowSpacing="10"
+              Visibility="{x:Bind EventViewModel.IsDataUnavailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="/Assets/confused.svg" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="1" Text="Geen events!" FontSize="{StaticResource TitleFontSize }" TextAlignment="Center"/>
-            <TextBlock Grid.Row="2" Text="Ofwel is er niets te doen in Gent, of je internet werkt niet ;-)" FontSize="{StaticResource MediumFontSize }" TextAlignment="Center" Foreground="{StaticResource SystemBaseMediumColor}"/>
+            <Image Grid.Row="0"
+                   Source="/Assets/confused.svg"
+                   Stretch="Uniform"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center" />
+            <TextBlock Grid.Row="1"
+                       Text="Geen events!"
+                       FontSize="{StaticResource TitleFontSize }"
+                       TextAlignment="Center" />
+            <TextBlock Grid.Row="2"
+                       Text="Ofwel is er niets te doen in Gent, of je internet werkt niet 😉"
+                       FontSize="{StaticResource MediumFontSize }"
+                       TextAlignment="Center"
+                       Foreground="{StaticResource SystemBaseMediumColor}" />
         </Grid>
-        <controls:AdaptiveGridView
-                        animations:Connected.ListItemElementName="itemThumbnail"
-                        animations:Connected.ListItemKey="animationKeyContentGrid"
-                        DesiredWidth="720"
-                        ItemHeight="540"
-                        IsItemClickEnabled="True"
-                        ItemClickCommand="{x:Bind EventViewModel.ItemClickCommand}"
-                        ItemsSource="{x:Bind EventViewModel.Source, Mode=OneWay}"
-                        SelectionMode="None"
-                        StretchContentForSingleRow="False" Margin="{StaticResource LargeLeftTopRightBottomMargin}">
+        <controls:AdaptiveGridView animations:Connected.ListItemElementName="itemThumbnail"
+                                   animations:Connected.ListItemKey="animationKeyContentGrid"
+                                   DesiredWidth="720"
+                                   ItemHeight="540"
+                                   IsItemClickEnabled="True"
+                                   ItemClickCommand="{x:Bind EventViewModel.ItemClickCommand}"
+                                   ItemsSource="{x:Bind EventViewModel.Source, Mode=OneWay}"
+                                   SelectionMode="None"
+                                   StretchContentForSingleRow="False"
+                                   Margin="{StaticResource LargeLeftTopRightBottomMargin}">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Event">
-                    <Grid
-                        x:Name="itemThumbnail"
-                        Background="{ThemeResource CardBackground}"
-                        CornerRadius="8">
+                    <Grid x:Name="itemThumbnail"
+                          Background="{ThemeResource CardBackground}"
+                          CornerRadius="8">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <controls:ImageEx Grid.Row="0" IsCacheEnabled="True" Source="/Assets/example.jpg" Stretch="UniformToFill" />
-                        <StackPanel                                     
-                            Padding="{StaticResource SmallLeftTopRightBottomMargin}"
-                            Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <controls:ImageEx Grid.Row="0"
+                                          IsCacheEnabled="True"
+                                          Source="/Assets/example.jpg"
+                                          Stretch="UniformToFill" />
+                        <StackPanel Padding="{StaticResource SmallLeftTopRightBottomMargin}"
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
                             <TextBlock  x:Name="Title"
                                         Margin="{StaticResource XXSmallTopMargin}"
                                         HorizontalAlignment="Left"
                                         FontSize="{StaticResource MediumFontSize}"
                                         FontWeight="SemiBold"
-                                        Text="{x:Bind Name}"                                       
-                                        TextWrapping="WrapWholeWords"/>
+                                        Text="{x:Bind Name}"
+                                        TextWrapping="WrapWholeWords" />
 
                             <TextBlock  x:Name="EnterPrise"
                                         Margin="{StaticResource XXSmallTopMargin}"
@@ -65,18 +83,19 @@
                                         FontSize="{StaticResource SmallFontSize}"
                                         FontWeight="SemiBold"
                                         Text="ViewModel Enterprise Naam"
-                                        TextWrapping="WrapWholeWords"/>
+                                        TextWrapping="WrapWholeWords" />
 
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                <FontIcon Glyph="&#xEE93;" 
-                                                      FontSize="{StaticResource SmallFontSize}" 
-                                                      Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                                                      Foreground="{ThemeResource SystemAccentColor}"/>
-                                <TextBlock
-                                                FontSize="{StaticResource CardTextFontSize}"
-                                                Margin="{StaticResource XXSmallTopMargin}"
-                                                HorizontalAlignment="Left"
-                                                Foreground="{StaticResource SystemBaseMediumColor}">
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left">
+                                <FontIcon Glyph="&#xEE93;"
+                                          FontSize="{StaticResource SmallFontSize}"
+                                          Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                                          Foreground="{ThemeResource SystemAccentColor}" />
+                                <TextBlock FontSize="{StaticResource CardTextFontSize}"
+                                           Margin="{StaticResource XXSmallTopMargin}"
+                                           HorizontalAlignment="Left"
+                                           Foreground="{StaticResource SystemBaseMediumColor}">
                                     <Run>VAN </Run>
                                     <Run>VAN </Run>
                                     <Run Text="{x:Bind Start_Date}"></Run>
@@ -84,7 +103,10 @@
                                     <Run Text="{x:Bind End_Date}"></Run>
                                 </TextBlock>
                             </StackPanel>
-                            <TextBlock Text="{x:Bind Description}" FontSize="{StaticResource CardTextFontSize}" Margin="{StaticResource SmallTopMargin}" TextWrapping="WrapWholeWords"/>
+                            <TextBlock Text="{x:Bind Description}"
+                                       FontSize="{StaticResource CardTextFontSize}"
+                                       Margin="{StaticResource SmallTopMargin}"
+                                       TextWrapping="WrapWholeWords" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

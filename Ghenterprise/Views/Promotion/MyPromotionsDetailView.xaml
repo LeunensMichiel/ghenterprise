@@ -17,8 +17,8 @@
             <TextBlock Text="{x:Bind MasterPromoItem.Id, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterPromoItem.Name, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MasterPromoItem.Description, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterPromoItem.StartDate, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterPromoItem.EndDate, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterPromoItem.Start_Date, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MasterPromoItem.End_Date, Mode=OneWay}" />
         </StackPanel>
     </ScrollViewer>
 </Page>
