@@ -79,9 +79,9 @@
                                                 Foreground="{StaticResource SystemBaseMediumColor}">
                                     <Run>VAN </Run>
                                     <Run>VAN </Run>
-                                    <Run Text="{x:Bind StartDate}"></Run>
+                                    <Run Text="{x:Bind Start_Date}"></Run>
                                     <Run> TOT </Run>
-                                    <Run Text="{x:Bind EndDate}"></Run>
+                                    <Run Text="{x:Bind End_Date}"></Run>
                                 </TextBlock>
                             </StackPanel>
                             <TextBlock Text="{x:Bind Description}" FontSize="{StaticResource CardTextFontSize}" Margin="{StaticResource SmallTopMargin}" TextWrapping="WrapWholeWords"/>
