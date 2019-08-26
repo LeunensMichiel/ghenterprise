@@ -29,12 +29,107 @@ namespace Ghenterprise.ViewModels
         private List<string> _catListNames = new List<string>();
         private Category _category = new Category();
         private Location _location = new Location();
+
         private string _selectedCatName = "";
         private string _errorText = "";
         private Visibility _errorVisibility = Visibility.Collapsed;
         private bool _isEnabled = true;
         private string _tagList = "";
         private bool _isEditScreen = false;
+
+        public List<Opening_Hours> OpeningHours { get; set; } = new List<Opening_Hours>();
+        private Opening_Hours _monday = new Opening_Hours()
+        {
+            Day_Of_Week = 0
+        };
+        public Opening_Hours Monday
+        {
+            get { return _monday; }
+            set
+            {
+                _monday = value;
+                RaisePropertyChanged("Monday");
+            }
+        }
+        private Opening_Hours _tuesday = new Opening_Hours()
+        {
+            Day_Of_Week = 1
+        };
+        public Opening_Hours Tuesday
+        {
+            get { return _tuesday; }
+            set
+            {
+                _tuesday = value;
+                RaisePropertyChanged("Tuesday");
+            }
+        }
+        private Opening_Hours _wednesday = new Opening_Hours()
+        {
+            Day_Of_Week = 2
+        };
+        public Opening_Hours Wednesday
+        {
+            get { return _wednesday; }
+            set
+            {
+                _wednesday = value;
+                RaisePropertyChanged("Wednesday");
+            }
+        }
+        private Opening_Hours _thursday = new Opening_Hours()
+        {
+            Day_Of_Week = 3
+        };
+        public Opening_Hours Thursday
+        {
+            get { return _thursday; }
+            set
+            {
+                _thursday = value;
+                RaisePropertyChanged("Thursday");
+            }
+        }
+        private Opening_Hours _friday = new Opening_Hours()
+        {
+            Day_Of_Week = 4
+        };
+        public Opening_Hours Friday
+        {
+            get { return _friday; }
+            set
+            {
+                _friday = value;
+                RaisePropertyChanged("Friday");
+            }
+        }
+        private Opening_Hours _saturday = new Opening_Hours()
+        {
+            Day_Of_Week = 5
+        };
+        public Opening_Hours Saturday
+        {
+            get { return _saturday; }
+            set
+            {
+                _saturday = value;
+                RaisePropertyChanged("Saturday");
+            }
+        }
+        private Opening_Hours _sunday = new Opening_Hours()
+        {
+            Day_Of_Week = 6
+        };
+        public Opening_Hours Sunday
+        {
+            get { return _sunday; }
+            set
+            {
+                _sunday = value;
+                RaisePropertyChanged("Sunday");
+            }
+        }
+
 
         public Enterprise Enterprise
         {
@@ -130,6 +225,13 @@ namespace Ghenterprise.ViewModels
 
         public EnterpriseCreateViewModel()
         {
+            for (int i = 0; i < 7; i++)
+            {
+                OpeningHours.Add(new Opening_Hours()
+                {
+                    Day_Of_Week = i
+                });
+            }
         }
 
         public async Task LoadDataAsync(string enterprise_id = null)
@@ -172,6 +274,11 @@ namespace Ghenterprise.ViewModels
             IsEnabled = IsEnabled;
         }
 
+        //public void initTimePickers(List<TimePicker> timePickers)
+        //{
+        //    TimePickers = timePickers;
+        //}
+
         private void OnCancelClick()
         {
             NavigationService.GoBack();
@@ -203,40 +310,42 @@ namespace Ghenterprise.ViewModels
                 return;
             }
 
+            System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(Monday));
+            System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(Tuesday));
+            System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(Wednesday));
+
+
             Enterprise.Location.City = new City
             {
                 Id = "PFTDg1mGC2rs"
             };
             Enterprise.Categories.Clear();
-            Debug.WriteLine(SelectedCatName);
             Enterprise.Categories.Add(_catList.Where((c) => c.Name == SelectedCatName).FirstOrDefault());
-            Debug.WriteLine(JsonConvert.SerializeObject(Enterprise));
             IsEnabled = false;
-            try
-            {
-                Debug.WriteLine(_isEditScreen);
-                if (_isEditScreen)
-                {
-                    result = await entService.UpdateEnterprise(Enterprise);
-                } else
-                {
-                    result = await entService.SaveEnterprise(Enterprise);
-                }
-                Debug.WriteLine(result);
-            }
-            catch (Exception ex)
-            {
-                ErrorText = "Er ging iets fout. Onderneming is niet opgeslagen.";
-                ErrorVsibility = Visibility.Visible;
-            }
+            //try
+            //{
+            //    if (_isEditScreen)
+            //    {
+            //        result = await entService.UpdateEnterprise(Enterprise);
+            //    } else
+            //    {
+            //        result = await entService.SaveEnterprise(Enterprise);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ErrorText = "Er ging iets fout. Onderneming is niet opgeslagen.";
+            //    ErrorVsibility = Visibility.Visible;
+            //}
             
-            if (result)
-            {
-                NavigationService.GoBack();
-            } else
-            {
-                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
-            }
+            //if (result)
+            //{
+            //    NavigationService.GoBack();
+            //} else
+            //{
+            //    ErrorText = "Onderneming is niet opgeslagen.";
+            //    ErrorVsibility = Visibility.Visible;
+            //}
             IsEnabled = true;
         }
     }

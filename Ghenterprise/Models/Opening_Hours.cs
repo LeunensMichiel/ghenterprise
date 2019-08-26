@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    class Opening_Hours
+    public class Opening_Hours
     {
         public string Id { get; set; }
         public int Day_Of_Week { get; set; }
-        public DateTime Morning_Start { get; set; }
-        public DateTime Morning_End { get; set; }
-        public DateTime Afternoon_Start { get; set; }
-        public DateTime Afternoon_End { get; set; }
+        public TimeSpan Start { get; set; }
+        public TimeSpan End { get; set; }
     }
 }
