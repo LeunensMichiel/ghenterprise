@@ -93,8 +93,15 @@ namespace Ghenterprise.ViewModels
                         AddMapIcon(map, new Geopoint(_ghenterpriseLocation), Enterprise.Name);
                     } else
                     {
-                        AddMapIcon(map, Center, "Geen locatie gevonden");
-                    }
+                        Latitude = result.Locations[0].Point.Position.Latitude,
+                        Longitude = result.Locations[0].Point.Position.Longitude
+                    };
+                    Geopoint newCenter = new Geopoint(_ghenterpriseLocation);
+                    AddMapIcon(map, newCenter, Enterprise.Name);
+                    Center = newCenter;
+                } else
+                {
+                    AddMapIcon(map, Center, "Geen locatie gevonden");
                 }
             }
             catch (Exception ex)
