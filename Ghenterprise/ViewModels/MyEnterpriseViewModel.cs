@@ -22,6 +22,7 @@ namespace Ghenterprise.ViewModels
         private EnterpriseService entService = new EnterpriseService();
         private List<Enterprise> _entlist = new List<Enterprise>();
         private bool _isEnabled = true;
+        private ToastService toastService = new ToastService();
         public Enterprise Selected
         {
             get { return _selected; }
@@ -91,10 +92,7 @@ namespace Ghenterprise.ViewModels
                     var success = await entService.DeleteEnterprise(Selected.Id);
                     if (success)
                     {
-                        ContentDialog successDialog = new ContentDialog();
-                        successDialog.Title = "Onderneming verwijderd.";
-                        successDialog.PrimaryButtonText = "ok";
-                        await successDialog.ShowAsync();
+                        toastService.ShowToast("Onderneming verwijderd", "");
 
                         Source.Clear();
                         _entlist = await entService.GetEnterprisesByOwner();
@@ -104,18 +102,12 @@ namespace Ghenterprise.ViewModels
                     }
                     else
                     {
-                        ContentDialog failureDialog = new ContentDialog();
-                        failureDialog.Title = "Onderneming niet verwijderd.";
-                        failureDialog.PrimaryButtonText = "ok";
-                        await failureDialog.ShowAsync();
+                        toastService.ShowToast("Onderneming niet verwijderd", "probeer later opnieuw");
                     }
                 }
             } catch(Exception)
             {
-                ContentDialog exceptionDialog = new ContentDialog();
-                exceptionDialog.Title = "Er ging iets mis probeer later opnieuw.";
-                exceptionDialog.PrimaryButtonText = "ok";
-                await exceptionDialog.ShowAsync();
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
             }
             IsEnabled = true;
 
