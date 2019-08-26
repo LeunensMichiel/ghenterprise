@@ -126,9 +126,11 @@
     <Compile Include="Data\EnterpriseService.cs" />
     <Compile Include="Data\EventService.cs" />
     <Compile Include="Data\PromotionService.cs" />
+    <Compile Include="Data\ToastService.cs" />
     <Compile Include="Data\UserService.cs" />
     <Compile Include="Helpers\DateFormatter.cs" />
     <Compile Include="Helpers\DateToOffsetConverter.cs" />
+    <Compile Include="Helpers\JsonTimeConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />

@@ -23,6 +23,7 @@ namespace Ghenterprise.ViewModels
 
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
+        private ToastService toastService = new ToastService();
         private ICommand _itemClickCommand;
         public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<Promotion>(OnItemClick));
 
@@ -44,13 +45,21 @@ namespace Ghenterprise.ViewModels
 
         public async Task LoadDataAsync()
         {
-            Source.Clear();
-            var items = await promoService.GetPromosAsync();
-            items.ForEach((item) => Source.Add(item));
-            if (Source.Count() > 0)
+            try
             {
-                IsDataUnavailable = false;
+                Source.Clear();
+                var items = await promoService.GetPromosAsync();
+                items.ForEach((item) => Source.Add(item));
+                if (Source.Count() > 0)
+                {
+                    IsDataUnavailable = false;
+                }
             }
+            catch (Exception)
+            {
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
+            }
+            
         }
 
         private void OnItemClick(Promotion clickedItem)

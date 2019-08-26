@@ -15,6 +15,7 @@
           Margin="{StaticResource DefaultPageMargin}">
         <Pivot  FontSize="{StaticResource LargeFontSize}" SelectionChanged="OnSelectionChanged">
             <PivotItem Header="Abonnementen">
+                
                 <Grid x:Name="NoSubscriptionsGrid" HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="20">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -40,7 +41,6 @@
                         animations:Connected.ListItemElementName="itemThumbnail"
                         animations:Connected.ListItemKey="animationKeyContentGrid"
                         DesiredWidth="175"
-                        ItemHeight="235"
                         IsItemClickEnabled="True"
                         ItemClickCommand="{x:Bind OverviewViewModel.ItemClickCommand}"
                         ItemsSource="{x:Bind OverviewViewModel.Source, Mode=OneWay}"
@@ -50,34 +50,37 @@
                             <DataTemplate x:DataType="models:Enterprise">
                                 <Grid
                                     x:Name="itemThumbnail"
+                                    MinWidth="175"
                                     Background="{ThemeResource CardBackground}"
                                     CornerRadius="8">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="150"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-                                    <controls:ImageEx Grid.Row="0" IsCacheEnabled="True" Source="/Assets/example.jpg" Stretch="UniformToFill" />
+                                    <controls:ImageEx Grid.Row="0" IsCacheEnabled="True" Source="/Assets/example.jpg" Stretch="UniformToFill" VerticalAlignment="Bottom"/>
                                     <StackPanel                                     
                                         Padding="{StaticResource SmallLeftTopRightBottomMargin}"
-                                        Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                        Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                         <TextBlock x:Name="Title"
-                                            Margin="{StaticResource XXSmallTopMargin}"
+                                            Margin="{StaticResource XSmallBottomMargin}"
                                             HorizontalAlignment="Left"
                                             FontSize="{StaticResource CardHeaderFontSize}"
                                             FontWeight="SemiBold"
                                             Text="{x:Bind Name}" />
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                            <FontIcon Glyph="&#xEC43;" 
+                                            <FontIcon Glyph="&#xE81D;" 
                                                       FontSize="{StaticResource SmallFontSize}" 
                                                       Margin="{StaticResource XSmallRightMargin}"
                                                       Foreground="{ThemeResource SystemAccentColor}"/>
-                                            <TextBlock
-                                                FontSize="{StaticResource CardTextFontSize}"
-                                                Margin="{StaticResource XXSmallTopMargin}"
-                                                HorizontalAlignment="Left"
-                                                Text="{x:Bind Date_Created}" 
-                                                Foreground="{StaticResource SystemBaseMediumColor}"/>
-                                        </StackPanel>
+                                                <TextBlock FontSize="{StaticResource CardTextFontSize}"
+                                                           Margin="{StaticResource XXSmallTopMargin}"
+                                                           HorizontalAlignment="Left"
+                                                           Foreground="{StaticResource SystemBaseMediumColor}">
+                                                    <Run Text="{x:Bind Location.Street.Name}"/>
+                                                    <Run Text="{x:Bind Location.Street_Number}"/>
+                                                    <Run >, 9000 Gent</Run>
+                                                </TextBlock>
+                                            </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                             <FontIcon Glyph="&#xE823;" 
                                                       FontSize="{StaticResource SmallFontSize}" 
@@ -90,7 +93,12 @@
                                                 Text="Open - Sluit om 12u" 
                                                 Foreground="{StaticResource SystemBaseMediumColor}"/>
                                         </StackPanel>
-                                    </StackPanel>
+                                            <TextBlock Text="Meer Info >"
+                                                       HorizontalAlignment="Right"
+                                                       Margin="0, 10, 10, 0"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="{StaticResource SmallFontSize}" />
+                                        </StackPanel>
                                 </Grid>
                             </DataTemplate>
                         </controls:AdaptiveGridView.ItemTemplate>

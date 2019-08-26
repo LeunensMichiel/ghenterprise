@@ -22,18 +22,114 @@ namespace Ghenterprise.ViewModels
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
         private CategoryService catService = new CategoryService();
         private EnterpriseService entService = new EnterpriseService();
+        private ToastService toastService = new ToastService();
 
         private Enterprise _enterprise = new Enterprise();
         private List<Category> _catList = new List<Category>();
         private List<string> _catListNames = new List<string>();
         private Category _category = new Category();
         private Location _location = new Location();
+
         private string _selectedCatName = "";
         private string _errorText = "";
         private Visibility _errorVisibility = Visibility.Collapsed;
         private bool _isEnabled = true;
         private string _tagList = "";
         private bool _isEditScreen = false;
+
+        public List<Opening_Hours> OpeningHours { get; set; } = new List<Opening_Hours>();
+        private Opening_Hours _monday = new Opening_Hours()
+        {
+            Day_Of_Week = 0,
+        };
+        public Opening_Hours Monday
+        {
+            get { return _monday; }
+            set
+            {
+                _monday = value;
+                RaisePropertyChanged("Monday");
+            }
+        }
+        private Opening_Hours _tuesday = new Opening_Hours()
+        {
+            Day_Of_Week = 1
+        };
+        public Opening_Hours Tuesday
+        {
+            get { return _tuesday; }
+            set
+            {
+                _tuesday = value;
+                RaisePropertyChanged("Tuesday");
+            }
+        }
+        private Opening_Hours _wednesday = new Opening_Hours()
+        {
+            Day_Of_Week = 2
+        };
+        public Opening_Hours Wednesday
+        {
+            get { return _wednesday; }
+            set
+            {
+                _wednesday = value;
+                RaisePropertyChanged("Wednesday");
+            }
+        }
+        private Opening_Hours _thursday = new Opening_Hours()
+        {
+            Day_Of_Week = 3
+        };
+        public Opening_Hours Thursday
+        {
+            get { return _thursday; }
+            set
+            {
+                _thursday = value;
+                RaisePropertyChanged("Thursday");
+            }
+        }
+        private Opening_Hours _friday = new Opening_Hours()
+        {
+            Day_Of_Week = 4
+        };
+        public Opening_Hours Friday
+        {
+            get { return _friday; }
+            set
+            {
+                _friday = value;
+                RaisePropertyChanged("Friday");
+            }
+        }
+        private Opening_Hours _saturday = new Opening_Hours()
+        {
+            Day_Of_Week = 5
+        };
+        public Opening_Hours Saturday
+        {
+            get { return _saturday; }
+            set
+            {
+                _saturday = value;
+                RaisePropertyChanged("Saturday");
+            }
+        }
+        private Opening_Hours _sunday = new Opening_Hours()
+        {
+            Day_Of_Week = 6
+        };
+        public Opening_Hours Sunday
+        {
+            get { return _sunday; }
+            set
+            {
+                _sunday = value;
+                RaisePropertyChanged("Sunday");
+            }
+        }
+
 
         public Enterprise Enterprise
         {
@@ -116,7 +212,6 @@ namespace Ghenterprise.ViewModels
             {
                 _tagList = value;
                 Enterprise.Tags = value.Split(",").Select((t) => new Tag { Name = t }).ToList();
-                Enterprise.Tags.ForEach((t) => Debug.WriteLine(t.Name));
                 Enterprise = Enterprise;
                 RaisePropertyChanged("TagList");
             }
@@ -162,15 +257,21 @@ namespace Ghenterprise.ViewModels
                 catch (Exception ex)
                 {
 
-                    Debug.WriteLine(ex.Message);
-                    ErrorText = "Er ging iets verkeerd. Probeer later opnieuw.";
-                    ErrorVsibility = Visibility.Visible;
+                    toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
                     IsEnabled = true;
                     IsEnabled = IsEnabled;
                 }
             }
             IsEnabled = true;
             IsEnabled = IsEnabled;
+
+            OpeningHours.Add(Monday);
+            OpeningHours.Add(Tuesday);
+            OpeningHours.Add(Wednesday);
+            OpeningHours.Add(Thursday);
+            OpeningHours.Add(Friday);
+            OpeningHours.Add(Saturday);
+            OpeningHours.Add(Sunday);
         }
 
         private void OnCancelClick()
@@ -204,37 +305,45 @@ namespace Ghenterprise.ViewModels
                 return;
             }
 
+            List<Opening_Hours> temp = new List<Opening_Hours>();
+            foreach (Opening_Hours day in OpeningHours)
+            {
+                if (day.Start != day.End)
+                {
+                    temp.Add(day);
+                }
+            }
+            Enterprise.Opening_Hours = temp;
+
             Enterprise.Location.City = new City
             {
                 Id = "PFTDg1mGC2rs"
             };
             Enterprise.Categories.Clear();
-            Debug.WriteLine(SelectedCatName);
             Enterprise.Categories.Add(_catList.Where((c) => c.Name == SelectedCatName).FirstOrDefault());
-            Debug.WriteLine(JsonConvert.SerializeObject(Enterprise));
             IsEnabled = false;
             try
             {
-                Debug.WriteLine(_isEditScreen);
                 if (_isEditScreen)
                 {
-                    result = await entService.UpdateEnterprise(Enterprise);
-                } else
+                    //result = await entService.UpdateEnterprise(Enterprise);
+                }
+                else
                 {
                     result = await entService.SaveEnterprise(Enterprise);
                 }
-                Debug.WriteLine(result);
             }
             catch (Exception ex)
             {
                 ErrorText = "Er ging iets fout. Onderneming is niet opgeslagen.";
                 ErrorVsibility = Visibility.Visible;
             }
-            
+
             if (result)
             {
                 NavigationService.GoBack();
-            } else
+            }
+            else
             {
                 ErrorText = "Onderneming is niet opgeslagen.";
                 ErrorVsibility = Visibility.Visible;

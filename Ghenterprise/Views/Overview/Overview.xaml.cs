@@ -38,7 +38,7 @@ namespace Ghenterprise.Views.Overview
             {
                 case "Abonnementen":
                     MapViewModel.Cleanup();
-
+                    await OverviewViewModel.LoadDataAsync();
                     break;
                 case "Alle":
                     MapViewModel.Cleanup();
