@@ -87,26 +87,26 @@
                          SelectionHighlightColor="Green"
                          MinHeight="200"
                          PlaceholderText="Beschrijving van uw bedrijf" />
-                    <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Text="{x:Bind ViewModel.Enterprise.Location.Street.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             x:Name="Street"
-                             Header="Straat"
-                             Margin="0,24,0,0"
-                             MaxLength="50"
-                             Width="Auto"
-                             HorizontalAlignment="Stretch"
-                             InputScope="EmailNameOrAddress"
-                             PlaceholderText="Straat" />
-                    <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Text="{x:Bind ViewModel.Enterprise.Location.Street_Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             x:Name="Number"
-                             RelativePanel.Below="Street"
-                             Margin="0, 24, 0, 0"
-                             Header="Huisnummer"
-                             PlaceholderText="Huisnummer"
-                             MaxLength="60"
-                             HorizontalAlignment="Left"
-                             InputScope="Number" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{x:Bind ViewModel.Enterprise.Location.Street.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="Street"
+                         Header="Straat"
+                         Margin="0,24,0,0"
+                         MaxLength="50"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch"
+                         InputScope="EmailNameOrAddress"
+                         PlaceholderText="Straat" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{x:Bind ViewModel.Enterprise.Location.Street_Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="Number"
+                         RelativePanel.Below="Street"
+                         Margin="0, 24, 0, 0"
+                         Header="Huisnummer"
+                         PlaceholderText="Huisnummer"
+                         MaxLength="60"
+                         HorizontalAlignment="Left"
+                         InputScope="Number" />
                 <ComboBox  IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            ItemsSource="{x:Bind ViewModel.CategoryNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            SelectedItem="{x:Bind ViewModel.SelectedCatName, Mode=TwoWay}"
@@ -125,6 +125,142 @@
                          HorizontalAlignment="Stretch"
                          InputScope="EmailNameOrAddress"
                          PlaceholderText="Geef zoektermen op, gescheiden door kommas (,)" />
+                <TextBlock Text="Openingsuren"
+                           Margin="{StaticResource MediumTopBottomMargin}"
+                           Style="{StaticResource SubtitleTextBlockStyle}" />
+                <StackPanel Orientation="Vertical" Name="Openings">
+                    <TextBlock FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold">Ma</TextBlock>
+                    <StackPanel Spacing="5"
+                                Orientation="Vertical">
+                        <TimePicker x:Name="MoStartTime"
+                                    Header="Van"
+                                    Time="{x:Bind ViewModel.Monday.Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                        <TimePicker x:Name="MoEndTime"
+                                    Header="Tot"
+                                    Time="{x:Bind ViewModel.Monday.End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold">Di</TextBlock>
+                    <StackPanel Spacing="5"
+                                Orientation="Vertical">
+                        <TimePicker x:Name="TuStartTime"
+                                    Header="Van"
+                                    Time="{x:Bind ViewModel.Tuesday.Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                        <TimePicker x:Name="TuEndTime"
+                                    Header="Tot"
+                                    MinuteIncrement="15"
+                                    Time="{x:Bind ViewModel.Tuesday.End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold">Wo</TextBlock>
+                    <StackPanel Spacing="5"
+                                Orientation="Vertical">
+                        <TimePicker x:Name="WeStartTime"
+                                    Header="Van"
+                                    Time="{x:Bind ViewModel.Wednesday.Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                        <TimePicker x:Name="WeEndTime"
+                                    Header="Tot"
+                                    Time="{x:Bind ViewModel.Wednesday.End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold">Do</TextBlock>
+                    <StackPanel Spacing="5"
+                                Orientation="Vertical">
+                        <TimePicker x:Name="ThStartTime"
+                                    Header="Van"
+                                    Time="{x:Bind ViewModel.Thursday.Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                        <TimePicker x:Name="ThEndTime"
+                                    Header="Tot"
+                                    Time="{x:Bind ViewModel.Thursday.End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold">Vr</TextBlock>
+                    <StackPanel Spacing="5"
+                                Orientation="Vertical">
+                        <TimePicker x:Name="FrStartTime"
+                                    Header="Van"
+                                    Time="{x:Bind ViewModel.Friday.Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                        <TimePicker x:Name="FrEndTime"
+                                    Header="Tot"
+                                    Time="{x:Bind ViewModel.Friday.End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold">Za</TextBlock>
+                    <StackPanel Spacing="5"
+                                Orientation="Vertical">
+                        <TimePicker x:Name="SaStartTime"
+                                    Header="Van"
+                                    Time="{x:Bind ViewModel.Saturday.Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                        <TimePicker x:Name="SaEndTime"
+                                    Header="Tot"
+                                    Time="{x:Bind ViewModel.Saturday.End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold">Zo</TextBlock>
+                    <StackPanel Spacing="5"
+                                Orientation="Vertical">
+                        <TimePicker x:Name="SuStartTime"
+                                    Header="Van"
+                                    Time="{x:Bind ViewModel.Sunday.Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                        <TimePicker x:Name="SuEndTime"
+                                    Header="Tot"
+                                    Time="{x:Bind ViewModel.Sunday.End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                                    MinuteIncrement="15"
+                                    ClockIdentifier="24HourClock" />
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
