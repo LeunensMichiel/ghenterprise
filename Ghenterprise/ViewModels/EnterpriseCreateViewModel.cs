@@ -253,6 +253,40 @@ namespace Ghenterprise.ViewModels
                             SelectedCatName = Enterprise.Categories[0].Name;
                         }
                     }
+                    if (Enterprise.Opening_Hours != null)
+                    {
+                        if (Enterprise.Opening_Hours.Count > 0)
+                        {
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 0).FirstOrDefault() != null)
+                            {
+                                _monday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 0).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 1).FirstOrDefault() != null)
+                            {
+                                _tuesday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 2).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 2).FirstOrDefault() != null)
+                            {
+                                _wednesday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 2).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 3).FirstOrDefault() != null)
+                            {
+                                _thursday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 3).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 4).FirstOrDefault() != null)
+                            {
+                                _friday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 4).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 5).FirstOrDefault() != null)
+                            {
+                                _saturday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 5).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 6).FirstOrDefault() != null)
+                            {
+                                _sunday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 6).First();
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
