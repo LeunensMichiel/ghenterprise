@@ -87,7 +87,9 @@ namespace Ghenterprise.ViewModels
                         Latitude = result.Locations[0].Point.Position.Latitude,
                         Longitude = result.Locations[0].Point.Position.Longitude
                     };
-                    AddMapIcon(map, new Geopoint(_ghenterpriseLocation), Enterprise.Name);
+                    Geopoint newCenter = new Geopoint(_ghenterpriseLocation);
+                    AddMapIcon(map, newCenter, Enterprise.Name);
+                    Center = newCenter;
                 } else
                 {
                     AddMapIcon(map, Center, "Geen locatie gevonden");
