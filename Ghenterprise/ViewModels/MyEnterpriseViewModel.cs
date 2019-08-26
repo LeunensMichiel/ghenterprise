@@ -51,17 +51,24 @@ namespace Ghenterprise.ViewModels
 
         public async Task LoadDataAsync(MasterDetailsViewState viewState)
         {
-            Source.Clear();
-
-            _entlist = await entService.GetEnterprisesByOwner();
-            _entlist.ForEach(ent => { Source.Add(ent); });
-
-
-            if (viewState == MasterDetailsViewState.Both)
+            try
             {
-                if (Source.Count > 0)
-                    Selected = Source.First();
+                Source.Clear();
+
+                _entlist = await entService.GetEnterprisesByOwner();
+                _entlist.ForEach(ent => { Source.Add(ent); });
+
+
+                if (viewState == MasterDetailsViewState.Both)
+                {
+                    if (Source.Count > 0)
+                        Selected = Source.First();
+                }
+            } catch (Exception)
+            {
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
             }
+            
         }
 
         private void OnNewClick()

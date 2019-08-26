@@ -140,6 +140,7 @@ namespace Ghenterprise.ViewModels
             } 
 
             filteredList.ForEach(f => Source.Add(f));
+            filteredSubscriptions.ForEach(f => SubscriptionSource.Add(f));
         }
 
         private void OnItemClick(Enterprise clickedItem)
