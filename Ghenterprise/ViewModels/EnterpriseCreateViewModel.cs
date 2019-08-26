@@ -22,6 +22,7 @@ namespace Ghenterprise.ViewModels
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
         private CategoryService catService = new CategoryService();
         private EnterpriseService entService = new EnterpriseService();
+        private ToastService toastService = new ToastService();
 
         private Enterprise _enterprise = new Enterprise();
         private List<Category> _catList = new List<Category>();
@@ -256,9 +257,7 @@ namespace Ghenterprise.ViewModels
                 catch (Exception ex)
                 {
 
-                    Debug.WriteLine(ex.Message);
-                    ErrorText = "Er ging iets verkeerd. Probeer later opnieuw.";
-                    ErrorVsibility = Visibility.Visible;
+                    toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
                     IsEnabled = true;
                     IsEnabled = IsEnabled;
                 }

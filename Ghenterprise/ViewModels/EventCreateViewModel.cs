@@ -24,6 +24,7 @@ namespace Ghenterprise.ViewModels
         public ObservableCollection<Enterprise> Enterprises { get; set; } = new ObservableCollection<Enterprise>();
 
         private Enterprise _enterprise = new Enterprise();
+        private ToastService toastService = new ToastService();
         public Enterprise Enterprise
         {
             get { return _enterprise; }
@@ -111,7 +112,7 @@ namespace Ghenterprise.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
             }
             IsEnabled = true;
         }
@@ -174,8 +175,8 @@ namespace Ghenterprise.ViewModels
             }
             else
             {
-                ErrorText = "Er ging iets mis. Event is niet opgeslagen";
-                ErrorVisibility = Visibility.Visible;
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
+
             }
             IsEnabled = true;
         }

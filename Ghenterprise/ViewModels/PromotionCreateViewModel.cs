@@ -21,6 +21,7 @@ namespace Ghenterprise.ViewModels
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
         private EnterpriseService entService = new EnterpriseService();
         private PromotionService promotionService = new PromotionService();
+        private ToastService toastService = new ToastService();
         public ObservableCollection<Enterprise> Enterprises { get; set; } = new ObservableCollection<Enterprise>();
 
         private Enterprise _enterprise = new Enterprise();
@@ -119,7 +120,7 @@ namespace Ghenterprise.ViewModels
             }
             catch(Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
             }
             IsEnabled = true;
         }
@@ -179,8 +180,7 @@ namespace Ghenterprise.ViewModels
             }
             else
             {
-                ErrorText = "Er ging iets mis. Promotie is niet opgeslagen";
-                ErrorVisibility = Visibility.Visible;
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
             }
             IsEnabled = true;
         }

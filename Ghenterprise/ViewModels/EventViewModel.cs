@@ -22,6 +22,7 @@ namespace Ghenterprise.ViewModels
             eventService = new EventService();
         }
 
+        private ToastService toastService = new ToastService();
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
         private ICommand _itemClickCommand;
@@ -44,14 +45,20 @@ namespace Ghenterprise.ViewModels
 
         public async Task LoadDataAsync()
         {
-            Source.Clear();
-
-            var eventList = await eventService.GetEventsAsync();
-            eventList.ForEach((item) => Source.Add(item));
-
-            if (Source.Count() > 0)
+            try
             {
-                IsDataUnavailable = false;
+                Source.Clear();
+
+                var eventList = await eventService.GetEventsAsync();
+                eventList.ForEach((item) => Source.Add(item));
+
+                if (Source.Count() > 0)
+                {
+                    IsDataUnavailable = false;
+                }
+            } catch(Exception)
+            {
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
             }
         }
 

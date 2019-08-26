@@ -15,6 +15,7 @@
           Margin="{StaticResource DefaultPageMargin}">
         <Pivot  FontSize="{StaticResource LargeFontSize}" SelectionChanged="OnSelectionChanged">
             <PivotItem Header="Abonnementen">
+                
                 <Grid x:Name="NoSubscriptionsGrid" HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="20">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

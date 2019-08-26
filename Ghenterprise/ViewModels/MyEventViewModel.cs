@@ -25,6 +25,7 @@ namespace Ghenterprise.ViewModels
 
         private Event _selected;
         private bool _isEnabled = true;
+        private ToastService toastService = new ToastService();
         public Event Selected
         {
             get { return _selected; }
@@ -95,10 +96,7 @@ namespace Ghenterprise.ViewModels
                         var success = await eventService.DeleteEvent(Selected.Id);
                         if (success)
                         {
-                            ContentDialog successDialog = new ContentDialog();
-                            successDialog.Title = "event verwijderd.";
-                            successDialog.PrimaryButtonText = "ok";
-                            await successDialog.ShowAsync();
+                            toastService.ShowToast("Onderneming verwijderd", "");
 
                             Source.Clear();
                             var items = await eventService.GetEventsOfOwner();
@@ -108,19 +106,15 @@ namespace Ghenterprise.ViewModels
                         }
                         else
                         {
-                            ContentDialog failureDialog = new ContentDialog();
-                            failureDialog.Title = "event niet verwijderd.";
-                            failureDialog.PrimaryButtonText = "ok";
-                            await failureDialog.ShowAsync();
+                            toastService.ShowToast("Onderneming niet verwijderd", "probeer later opnieuw");
+
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    ContentDialog exceptionDialog = new ContentDialog();
-                    exceptionDialog.Title = "Er ging iets mis probeer later opnieuw.";
-                    exceptionDialog.PrimaryButtonText = "ok";
-                    await exceptionDialog.ShowAsync();
+                    toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
+
                 }
                 IsEnabled = true;
             }

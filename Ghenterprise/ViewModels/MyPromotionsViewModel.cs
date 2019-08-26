@@ -25,6 +25,7 @@ namespace Ghenterprise.ViewModels
 
         private Promotion _selected;
         private bool _isEnabled = true;
+        private ToastService toastService = new ToastService();
         public Promotion Selected
         {
             get { return _selected; }
@@ -94,10 +95,7 @@ namespace Ghenterprise.ViewModels
                         var success = await promotionService.DeletePromotion(Selected.Id);
                         if (success)
                         {
-                            ContentDialog successDialog = new ContentDialog();
-                            successDialog.Title = "promotie verwijderd.";
-                            successDialog.PrimaryButtonText = "ok";
-                            await successDialog.ShowAsync();
+                            toastService.ShowToast("Onderneming verwijderd", "");
 
                             Source.Clear();
                             var items = await promotionService.GetPromosOfOwner();
@@ -107,19 +105,13 @@ namespace Ghenterprise.ViewModels
                         }
                         else
                         {
-                            ContentDialog failureDialog = new ContentDialog();
-                            failureDialog.Title = "promotie niet verwijderd.";
-                            failureDialog.PrimaryButtonText = "ok";
-                            await failureDialog.ShowAsync();
+                            toastService.ShowToast("Promotie niet verwijderd", "Probeer later opnieuw");
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    ContentDialog exceptionDialog = new ContentDialog();
-                    exceptionDialog.Title = "Er ging iets mis probeer later opnieuw.";
-                    exceptionDialog.PrimaryButtonText = "ok";
-                    await exceptionDialog.ShowAsync();
+                    toastService.ShowToast("Er ging iets mis", "Probeer later opnieuw");
                 }
                 IsEnabled = true;
             }

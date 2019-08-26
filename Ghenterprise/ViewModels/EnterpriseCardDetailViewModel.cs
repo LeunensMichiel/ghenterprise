@@ -3,6 +3,7 @@ using Ghenterprise.Data;
 using Ghenterprise.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,20 +70,28 @@ namespace Ghenterprise.ViewModels
 
         public async Task InitializeAsync(string Id, MapControl map)
         {
-            var items = await EnterpriseService.GetEnterpriseAsync(Id);
-            Enterprise = items.First();
-
-            if (map != null)
+            try
             {
-                addressString = $"{Enterprise.Location.Street.Name} {Enterprise.Location.Street_Number}, 9000 Ghent";
-                var resources = new Windows.ApplicationModel.Resources.ResourceLoader("api");
-                map.MapServiceToken = resources.GetString("MapServiceToken");
+                var items = await EnterpriseService.GetEnterpriseAsync(Id);
+                Enterprise = items.First();
 
-                MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(addressString, Center, 1);
-
-                if (result.Status == MapLocationFinderStatus.Success)
+                if (map != null)
                 {
-                    BasicGeoposition _ghenterpriseLocation = new BasicGeoposition()
+                     addressString = $"{Enterprise.Location.Street.Name} {Enterprise.Location.Street_Number}, 9000 Ghent";
+                     var resources = new Windows.ApplicationModel.Resources.ResourceLoader("api");
+                     map.MapServiceToken = resources.GetString("MapServiceToken");
+
+                    MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(addressString, Center, 1);
+
+                    if (result.Status == MapLocationFinderStatus.Success)
+                     {
+                        BasicGeoposition _ghenterpriseLocation = new BasicGeoposition()
+                        {
+                            Latitude = result.Locations[0].Point.Position.Latitude,
+                            Longitude = result.Locations[0].Point.Position.Longitude
+                        };
+                        AddMapIcon(map, new Geopoint(_ghenterpriseLocation), Enterprise.Name);
+                    } else
                     {
                         Latitude = result.Locations[0].Point.Position.Latitude,
                         Longitude = result.Locations[0].Point.Position.Longitude
@@ -95,6 +104,12 @@ namespace Ghenterprise.ViewModels
                     AddMapIcon(map, Center, "Geen locatie gevonden");
                 }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+               
+            }
+            
         }
 
         private void AddMapIcon(MapControl map, Geopoint position, string title)
