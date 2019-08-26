@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ghenterprise.Models
 {
-    class Opening_Hours
+    public class Opening_Hours
     {
         public string Id { get; set; }
         public int Day_Of_Week { get; set; }

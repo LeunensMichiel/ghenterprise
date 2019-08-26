@@ -29,7 +29,6 @@ namespace Ghenterprise.ViewModels
         private bool _isEnabled = true;
 
         private ICommand _itemClickCommand;
-
         public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<Enterprise>(OnItemClick));
 
         public ObservableCollection<Enterprise> Source { get; } = new ObservableCollection<Enterprise>();
@@ -97,7 +96,7 @@ namespace Ghenterprise.ViewModels
             _entlist.ForEach((item) => Source.Add(item));
 
             List<Category> catList = await catService.GetAllCategoriesAsync();
-            CategoryNames.Add("Categorie");
+            CategoryNames.Add("Alle");
             CategoryNames.AddRange( catList.Select((c) => c.Name).ToList());
             IsEnbabled = true;
         }
@@ -106,9 +105,9 @@ namespace Ghenterprise.ViewModels
         {
             Source.Clear();
             List<Enterprise> filteredList = _entlist;
-            if (_selectedCatName != "Categorie" || _searchQuery.Trim() != "")
+            if (_selectedCatName != "Alle" || _searchQuery.Trim() != "")
             {
-                if (_selectedCatName != "Categorie")
+                if (_selectedCatName != "Alle")
                 {
                     filteredList = filteredList.Where((e) => e.Categories.Select(c => c.Name).Contains(_selectedCatName)).ToList();
                 }

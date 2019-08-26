@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
+using Windows.Services.Maps;
 using Windows.UI.Xaml.Controls.Maps;
 
 namespace Ghenterprise.ViewModels
@@ -15,6 +16,18 @@ namespace Ghenterprise.ViewModels
     public class EnterpriseCardDetailViewModel : ViewModelBase
     {
         private const double DefaultZoomLevel = 14;
+        private string addressString = "";
+
+        private string _openClosedString = "Geen openingsuren beschikbaar";
+        public string OpenClosedString
+        {
+            get => _openClosedString;
+            set
+            {
+                _openClosedString = value;
+                RaisePropertyChanged("OpenClosedString");
+            }
+        }
 
         private readonly BasicGeoposition _ghentposition = new BasicGeoposition()
         {
@@ -61,9 +74,24 @@ namespace Ghenterprise.ViewModels
 
             if (map != null)
             {
+                addressString = $"{Enterprise.Location.Street.Name} {Enterprise.Location.Street_Number}, 9000 Ghent";
                 var resources = new Windows.ApplicationModel.Resources.ResourceLoader("api");
                 map.MapServiceToken = resources.GetString("MapServiceToken");
-                AddMapIcon(map, Center, Enterprise.Name);
+
+                MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(addressString, Center, 1);
+
+                if (result.Status == MapLocationFinderStatus.Success)
+                {
+                    BasicGeoposition _ghenterpriseLocation = new BasicGeoposition()
+                    {
+                        Latitude = result.Locations[0].Point.Position.Latitude,
+                        Longitude = result.Locations[0].Point.Position.Longitude
+                    };
+                    AddMapIcon(map, new Geopoint(_ghenterpriseLocation), Enterprise.Name);
+                } else
+                {
+                    AddMapIcon(map, Center, "Geen locatie gevonden");
+                }
             }
         }
 

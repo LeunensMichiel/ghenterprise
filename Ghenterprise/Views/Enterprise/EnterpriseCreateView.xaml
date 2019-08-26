@@ -1,11 +1,11 @@
-﻿<Page xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls" 
-    x:Class="Ghenterprise.Views.Enterprise.EnterpriseCreateView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Ghenterprise.Views.Enterprise"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      x:Class="Ghenterprise.Views.Enterprise.EnterpriseCreateView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Ghenterprise.Views.Enterprise"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -17,34 +17,114 @@
                         <AdaptiveTrigger MinWindowWidth="640" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="firstColumn.Width" Value="320"/>
-                        <Setter Target="image.Visibility" Value="Visible"/>
+                        <Setter Target="firstColumn.Width"
+                                Value="320" />
+                        <Setter Target="image.Visibility"
+                                Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0" x:Name="firstColumn"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="0"
+                              x:Name="firstColumn" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-        <my:ImageEx Name="image" Grid.Column="0" Source="/Assets/example.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
-        <CommandBar Grid.Column="1" IsSticky="True"  ClosedDisplayMode="Compact" DefaultLabelPosition="Right" Canvas.ZIndex="2">
-            <AppBarButton Icon="Save" Label="Opslaan" Command="{x:Bind ViewModel.SaveClickCommand}"/>
-            <AppBarButton Icon="Cancel" Label="Annuleren" Command="{x:Bind ViewModel.CancelClickCommand}"/>
+        <my:ImageEx Name="image"
+                    Grid.Column="0"
+                    Source="/Assets/example.jpg"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed" />
+        <CommandBar Grid.Column="1"
+                    IsSticky="True"
+                    ClosedDisplayMode="Compact"
+                    DefaultLabelPosition="Right"
+                    Canvas.ZIndex="2">
+            <AppBarButton Icon="Save"
+                          Label="Opslaan"
+                          Command="{x:Bind ViewModel.SaveClickCommand}" />
+            <AppBarButton Icon="Cancel"
+                          Label="Annuleren"
+                          Command="{x:Bind ViewModel.CancelClickCommand}" />
         </CommandBar>
-        <ScrollViewer  Grid.Column="1" HorizontalScrollMode="Enabled" >
-            <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}" HorizontalAlignment="Stretch">
-                <TextBlock Text="Nieuwe Ghenterprise" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBlock Foreground="Red" Visibility="{x:Bind ViewModel.ErrorVsibility, Mode=TwoWay}" Text="{x:Bind ViewModel.ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="NameError" Margin="0,24,0,0"  Width="Auto" HorizontalAlignment="Stretch" />
-                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{x:Bind ViewModel.Enterprise.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Name" Header= "Naam" Margin="0,24,0,0" MaxLength="32" Width="Auto" HorizontalAlignment="Stretch" InputScope="PersonalFullName" PlaceholderText="Voer uw bedrijfsnaam in"/>
-                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{x:Bind ViewModel.Enterprise.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Description" Header="Beschrijving" Margin="0,24,0,0" MaxLength="500" Width="Auto" HorizontalAlignment="Stretch" InputScope="Text" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" SelectionHighlightColor="Green" MinHeight="200" PlaceholderText="Beschrijving van uw bedrijf" />
-                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{x:Bind ViewModel.Enterprise.Location.Street.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Email" Header="Email" Margin="0,24,0,0" MaxLength="50" Width="Auto" HorizontalAlignment="Stretch"  InputScope="EmailNameOrAddress" PlaceholderText="Email van uw bedrijf" />
-                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{x:Bind ViewModel.Enterprise.Location.Street_Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Address" Header="Adres" PlaceholderText="Adres" Margin="0,24,0,0" MaxLength="60"  HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" />
+        <ScrollViewer  Grid.Column="1"
+                       HorizontalScrollMode="Enabled">
+            <StackPanel Margin="{StaticResource LargeLeftTopRightBottomMargin}"
+                        HorizontalAlignment="Stretch">
+                <TextBlock Text="Nieuwe Ghenterprise"
+                           Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock Foreground="Red"
+                           Visibility="{x:Bind ViewModel.ErrorVsibility, Mode=TwoWay}"
+                           Text="{x:Bind ViewModel.ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           x:Name="NameError"
+                           Margin="0,24,0,0"
+                           Width="Auto"
+                           HorizontalAlignment="Stretch" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{x:Bind ViewModel.Enterprise.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="Name"
+                         Header="Naam"
+                         Margin="0,24,0,0"
+                         MaxLength="32"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch"
+                         InputScope="PersonalFullName"
+                         PlaceholderText="Voer uw bedrijfsnaam in" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{x:Bind ViewModel.Enterprise.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="Description"
+                         Header="Beschrijving"
+                         Margin="0,24,0,0"
+                         MaxLength="500"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch"
+                         InputScope="Text"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         IsSpellCheckEnabled="True"
+                         SelectionHighlightColor="Green"
+                         MinHeight="200"
+                         PlaceholderText="Beschrijving van uw bedrijf" />
+                    <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{x:Bind ViewModel.Enterprise.Location.Street.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             x:Name="Street"
+                             Header="Straat"
+                             Margin="0,24,0,0"
+                             MaxLength="50"
+                             Width="Auto"
+                             HorizontalAlignment="Stretch"
+                             InputScope="EmailNameOrAddress"
+                             PlaceholderText="Straat" />
+                    <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{x:Bind ViewModel.Enterprise.Location.Street_Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             x:Name="Number"
+                             RelativePanel.Below="Street"
+                             Margin="0, 24, 0, 0"
+                             Header="Huisnummer"
+                             PlaceholderText="Huisnummer"
+                             MaxLength="60"
+                             HorizontalAlignment="Left"
+                             InputScope="Number" />
                 <ComboBox  IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    ItemsSource="{x:Bind ViewModel.CategoryNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{x:Bind ViewModel.SelectedCatName, Mode=TwoWay}"
-                    x:Name="State" Header="Categorie" PlaceholderText="Categorie" Margin="0,24,0,0"  HorizontalAlignment="Stretch" RelativePanel.RightOf="City"/>
-                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Text="{x:Bind ViewModel.TagList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Tags" Header="Tags" Margin="0,24,0,0" MaxLength="50" HorizontalAlignment="Stretch" InputScope="EmailNameOrAddress" PlaceholderText="Geef zoektermen op, gescheiden door kommas (,)" />
+                           ItemsSource="{x:Bind ViewModel.CategoryNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           SelectedItem="{x:Bind ViewModel.SelectedCatName, Mode=TwoWay}"
+                           x:Name="State"
+                           Header="Categorie"
+                           PlaceholderText="Categorie"
+                           Margin="0,24,0,0"
+                           HorizontalAlignment="Stretch"
+                           RelativePanel.RightOf="City" />
+                <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{x:Bind ViewModel.TagList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="Tags"
+                         Header="Tags"
+                         Margin="0,24,0,0"
+                         MaxLength="50"
+                         HorizontalAlignment="Stretch"
+                         InputScope="EmailNameOrAddress"
+                         PlaceholderText="Geef zoektermen op, gescheiden door kommas (,)" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

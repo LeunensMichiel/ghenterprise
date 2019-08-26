@@ -28,6 +28,9 @@ namespace Ghenterprise.Models
 
         public List<Tag> Tags { get; set; }
 
+        public List<Opening_Hours> Opening_Hours { get; set; }
+
+
         public Enterprise()
         {
             Location = new Location();
@@ -35,6 +38,7 @@ namespace Ghenterprise.Models
             Promotions = new List<Promotion>();
             Categories = new List<Category>();
             Tags = new List<Tag>();
+            Opening_Hours = new List<Opening_Hours>();
         }
     }
 }
