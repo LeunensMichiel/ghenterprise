@@ -77,29 +77,25 @@ namespace Ghenterprise.ViewModels
 
                 if (map != null)
                 {
-                     addressString = $"{Enterprise.Location.Street.Name} {Enterprise.Location.Street_Number}, 9000 Ghent";
-                     var resources = new Windows.ApplicationModel.Resources.ResourceLoader("api");
-                     map.MapServiceToken = resources.GetString("MapServiceToken");
+                    addressString = $"{Enterprise.Location.Street.Name} {Enterprise.Location.Street_Number}, 9000 Ghent";
+                    var resources = new Windows.ApplicationModel.Resources.ResourceLoader("api");
+                    map.MapServiceToken = resources.GetString("MapServiceToken");
 
                     MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(addressString, Center, 1);
 
                     if (result.Status == MapLocationFinderStatus.Success)
-                     {
+                    {
                         BasicGeoposition _ghenterpriseLocation = new BasicGeoposition()
                         {
                             Latitude = result.Locations[0].Point.Position.Latitude,
                             Longitude = result.Locations[0].Point.Position.Longitude
                         };
-                        AddMapIcon(map, new Geopoint(_ghenterpriseLocation), Enterprise.Name);
-                    } else
-                    {
-                        Latitude = result.Locations[0].Point.Position.Latitude,
-                        Longitude = result.Locations[0].Point.Position.Longitude
-                    };
-                    Geopoint newCenter = new Geopoint(_ghenterpriseLocation);
-                    AddMapIcon(map, newCenter, Enterprise.Name);
-                    Center = newCenter;
-                } else
+                        Geopoint newCenter = new Geopoint(_ghenterpriseLocation);
+                        AddMapIcon(map, newCenter, Enterprise.Name);
+                        Center = newCenter;
+                    }
+                }
+                else
                 {
                     AddMapIcon(map, Center, "Geen locatie gevonden");
                 }
@@ -107,9 +103,9 @@ namespace Ghenterprise.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-               
+
             }
-            
+
         }
 
         private void AddMapIcon(MapControl map, Geopoint position, string title)
