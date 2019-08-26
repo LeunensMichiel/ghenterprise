@@ -94,10 +94,10 @@ namespace Ghenterprise.ViewModels
                         AddMapIcon(map, newCenter, Enterprise.Name);
                         Center = newCenter;
                     }
-                }
-                else
-                {
-                    AddMapIcon(map, Center, "Geen locatie gevonden");
+                    else
+                    {
+                        AddMapIcon(map, Center, "Geen locatie gevonden");
+                    }
                 }
             }
             catch (Exception ex)
