@@ -43,9 +43,9 @@ namespace Ghenterprise.Data
             return await DeleteAsync($"Enterprise?enterprise_id={Id}");
         }
 
-        public async Task<List<Enterprise>> GetSubscriptions(bool refresh = true)
+        public async Task<List<Enterprise>> GetSubscriptionsAsync(bool refresh = true)
         {
-            return await GetAsync<List<Enterprise>>("api/Enterprise/Subscription", refresh);
+            return await GetAsync<List<Enterprise>>("Enterprise/Subscription", forceRefresh: refresh);
         }
     }
 }

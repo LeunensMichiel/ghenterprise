@@ -37,6 +37,17 @@ namespace Ghenterprise.ViewModels
         public ObservableCollection<Enterprise> Source { get; } = new ObservableCollection<Enterprise>();
         public ObservableCollection<Enterprise> SubscriptionSource { get; } = new ObservableCollection<Enterprise>();
 
+        private bool _isDataUnavailable = true;
+        public bool IsDataUnavailable
+        {
+            get => _isDataUnavailable;
+            set
+            {
+                _isDataUnavailable = value;
+                RaisePropertyChanged("IsDataUnavailable");
+            }
+        }
+
         public bool IsEnbabled
         {
             get
@@ -98,16 +109,36 @@ namespace Ghenterprise.ViewModels
                 Source.Clear();
 
                 _entlist = await entService.GetEnterprisesAsync();
-
                 _entlist.ForEach((item) => Source.Add(item));
 
-                _subscriptionlist = await entService.GetSubscriptions();
-
-                _subscriptionlist.ForEach((item) => SubscriptionSource.Add(item));
                 List<Category> catList = await catService.GetAllCategoriesAsync();
                 CategoryNames.Add("Alle");
                 CategoryNames.AddRange(catList.Select((c) => c.Name).ToList());
-                
+
+            }
+            catch (Exception)
+            {
+                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
+            }
+            IsEnbabled = true;
+        }
+
+        public async Task LoadSubsAsync()
+        {
+            IsEnbabled = false;
+            try
+            {
+                SubscriptionSource.Clear();
+
+               var items = await entService.GetSubscriptionsAsync();
+               items.ForEach((item) => SubscriptionSource.Add(item));
+                System.Diagnostics.Debug.WriteLine(SubscriptionSource.Count());
+
+                if (SubscriptionSource.Count() > 0)
+                {
+                    IsDataUnavailable = false;
+                }
+
             }
             catch (Exception)
             {
