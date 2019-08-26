@@ -41,30 +41,6 @@ namespace Ghenterprise.Views.Enterprise
                 await ViewModel.LoadDataAsync(Id);
             } else
             {
-                //List<TimePicker> TimePickers = new List<TimePicker>();
-
-                //TimePickers.Add(MoStartTime);
-                //TimePickers.Add(MoEndTime);
-
-                //TimePickers.Add(TuStartTime);
-                //TimePickers.Add(TuEndTime);
-
-                //TimePickers.Add(WeStartTime);
-                //TimePickers.Add(WeEndTime);
-
-                //TimePickers.Add(ThStartTime);
-                //TimePickers.Add(ThEndTime);
-
-                //TimePickers.Add(FrStartTime);
-                //TimePickers.Add(FrEndTime);
-
-                //TimePickers.Add(SaStartTime);
-                //TimePickers.Add(SaEndTime);
-
-                //TimePickers.Add(SuStartTime);
-                //TimePickers.Add(SuEndTime);
-
-                //ViewModel.initTimePickers(TimePickers);
                 await ViewModel.LoadDataAsync();
             }
         }

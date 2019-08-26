@@ -211,7 +211,6 @@ namespace Ghenterprise.ViewModels
             {
                 _tagList = value;
                 Enterprise.Tags = value.Split(",").Select((t) => new Tag { Name = t }).ToList();
-                Enterprise.Tags.ForEach((t) => Debug.WriteLine(t.Name));
                 Enterprise = Enterprise;
                 RaisePropertyChanged("TagList");
             }
@@ -224,13 +223,6 @@ namespace Ghenterprise.ViewModels
 
         public EnterpriseCreateViewModel()
         {
-            for (int i = 0; i < 7; i++)
-            {
-                OpeningHours.Add(new Opening_Hours()
-                {
-                    Day_Of_Week = i
-                });
-            }
         }
 
         public async Task LoadDataAsync(string enterprise_id = null)
@@ -273,12 +265,15 @@ namespace Ghenterprise.ViewModels
             }
             IsEnabled = true;
             IsEnabled = IsEnabled;
-        }
 
-        //public void initTimePickers(List<TimePicker> timePickers)
-        //{
-        //    TimePickers = timePickers;
-        //}
+            OpeningHours.Add(Monday);
+            OpeningHours.Add(Tuesday);
+            OpeningHours.Add(Wednesday);
+            OpeningHours.Add(Thursday);
+            OpeningHours.Add(Friday);
+            OpeningHours.Add(Saturday);
+            OpeningHours.Add(Sunday);
+        }
 
         private void OnCancelClick()
         {
@@ -311,10 +306,15 @@ namespace Ghenterprise.ViewModels
                 return;
             }
 
-            System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(Monday));
-            System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(Tuesday));
-            System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(Wednesday));
-
+            List<Opening_Hours> temp = new List<Opening_Hours>();
+            foreach (Opening_Hours day in OpeningHours)
+            {
+                if (day.Start != day.End)
+                {
+                    temp.Add(day);
+                }
+            }
+            Enterprise.Opening_Hours = temp;
 
             Enterprise.Location.City = new City
             {
@@ -323,30 +323,32 @@ namespace Ghenterprise.ViewModels
             Enterprise.Categories.Clear();
             Enterprise.Categories.Add(_catList.Where((c) => c.Name == SelectedCatName).FirstOrDefault());
             IsEnabled = false;
-            //try
-            //{
-            //    if (_isEditScreen)
-            //    {
-            //        result = await entService.UpdateEnterprise(Enterprise);
-            //    } else
-            //    {
-            //        result = await entService.SaveEnterprise(Enterprise);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ErrorText = "Er ging iets fout. Onderneming is niet opgeslagen.";
-            //    ErrorVsibility = Visibility.Visible;
-            //}
-            
-            //if (result)
-            //{
-            //    NavigationService.GoBack();
-            //} else
-            //{
-            //    ErrorText = "Onderneming is niet opgeslagen.";
-            //    ErrorVsibility = Visibility.Visible;
-            //}
+            try
+            {
+                if (_isEditScreen)
+                {
+                    result = await entService.UpdateEnterprise(Enterprise);
+                }
+                else
+                {
+                    result = await entService.SaveEnterprise(Enterprise);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Er ging iets fout. Onderneming is niet opgeslagen.";
+                ErrorVsibility = Visibility.Visible;
+            }
+
+            if (result)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                ErrorText = "Onderneming is niet opgeslagen.";
+                ErrorVsibility = Visibility.Visible;
+            }
             IsEnabled = true;
         }
     }
