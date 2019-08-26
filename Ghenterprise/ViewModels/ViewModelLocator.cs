@@ -99,5 +99,6 @@ namespace Ghenterprise.ViewModels
         public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
 
         public MapViewModel Map => SimpleIoc.Default.GetInstance<MapViewModel>();
-    }
+
+     }
 }

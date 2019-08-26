@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -164,6 +164,7 @@
     <Compile Include="ViewModels\PromotionViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SkeletonViewModel.cs" />
+    <Compile Include="ViewModels\SubscribedEventsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Enterprise\EnterpriseCardDetailView.xaml.cs">
@@ -192,6 +193,9 @@
     </Compile>
     <Compile Include="Views\Event\MyEventsView.xaml.cs">
       <DependentUpon>MyEventsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Event\SubscribedEventsView.xaml.cs">
+      <DependentUpon>SubscribedEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Overview\Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>
@@ -334,6 +338,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Event\MyEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Event\SubscribedEventsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
