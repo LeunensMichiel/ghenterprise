@@ -47,8 +47,7 @@ namespace Ghenterprise.ViewModels
             get { return _monday; }
             set
             {
-                _monday = value;
-                RaisePropertyChanged("Monday");
+                Set(ref _monday, value);
             }
         }
         private Opening_Hours _tuesday = new Opening_Hours()
@@ -60,8 +59,7 @@ namespace Ghenterprise.ViewModels
             get { return _tuesday; }
             set
             {
-                _tuesday = value;
-                RaisePropertyChanged("Tuesday");
+                Set(ref _tuesday, value);
             }
         }
         private Opening_Hours _wednesday = new Opening_Hours()
@@ -73,8 +71,7 @@ namespace Ghenterprise.ViewModels
             get { return _wednesday; }
             set
             {
-                _wednesday = value;
-                RaisePropertyChanged("Wednesday");
+                Set(ref _wednesday, value);
             }
         }
         private Opening_Hours _thursday = new Opening_Hours()
@@ -86,8 +83,8 @@ namespace Ghenterprise.ViewModels
             get { return _thursday; }
             set
             {
-                _thursday = value;
-                RaisePropertyChanged("Thursday");
+                Set(ref _thursday, value);
+
             }
         }
         private Opening_Hours _friday = new Opening_Hours()
@@ -99,8 +96,8 @@ namespace Ghenterprise.ViewModels
             get { return _friday; }
             set
             {
-                _friday = value;
-                RaisePropertyChanged("Friday");
+                Set(ref _friday, value);
+
             }
         }
         private Opening_Hours _saturday = new Opening_Hours()
@@ -112,8 +109,8 @@ namespace Ghenterprise.ViewModels
             get { return _saturday; }
             set
             {
-                _saturday = value;
-                RaisePropertyChanged("Saturday");
+                Set(ref _saturday, value);
+
             }
         }
         private Opening_Hours _sunday = new Opening_Hours()
@@ -125,8 +122,8 @@ namespace Ghenterprise.ViewModels
             get { return _sunday; }
             set
             {
-                _sunday = value;
-                RaisePropertyChanged("Sunday");
+                Set(ref _sunday, value);
+
             }
         }
 
@@ -144,7 +141,8 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public Visibility ErrorVsibility {
+        public Visibility ErrorVsibility
+        {
             get
             {
                 return _errorVisibility;
@@ -156,7 +154,8 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public string ErrorText {
+        public string ErrorText
+        {
             get
             {
                 return _errorText;
@@ -168,7 +167,8 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public bool IsEnabled {
+        public bool IsEnabled
+        {
             get
             {
                 return _isEnabled;
@@ -180,7 +180,8 @@ namespace Ghenterprise.ViewModels
         }
 
 
-        public List<string> CategoryNames {
+        public List<string> CategoryNames
+        {
             get
             {
                 return _catListNames;
@@ -191,7 +192,8 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public string SelectedCatName {
+        public string SelectedCatName
+        {
             get
             {
                 return _selectedCatName;
@@ -203,7 +205,8 @@ namespace Ghenterprise.ViewModels
         }
 
 
-        public string TagList {
+        public string TagList
+        {
             get
             {
                 return _tagList;
@@ -253,6 +256,40 @@ namespace Ghenterprise.ViewModels
                             SelectedCatName = Enterprise.Categories[0].Name;
                         }
                     }
+                    if (Enterprise.Opening_Hours != null)
+                    {
+                        if (Enterprise.Opening_Hours.Count > 0)
+                        {
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 0).FirstOrDefault() != null)
+                            {
+                                Monday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 0).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 1).FirstOrDefault() != null)
+                            {
+                                Tuesday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 1).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 2).FirstOrDefault() != null)
+                            {
+                                Wednesday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 2).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 3).FirstOrDefault() != null)
+                            {
+                                Thursday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 3).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 4).FirstOrDefault() != null)
+                            {
+                                Friday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 4).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 5).FirstOrDefault() != null)
+                            {
+                                Saturday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 5).First();
+                            }
+                            if (Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 6).FirstOrDefault() != null)
+                            {
+                                Sunday = Enterprise.Opening_Hours.Where(o => o.Day_Of_Week == 6).First();
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -262,8 +299,6 @@ namespace Ghenterprise.ViewModels
                     IsEnabled = IsEnabled;
                 }
             }
-            IsEnabled = true;
-            IsEnabled = IsEnabled;
 
             OpeningHours.Add(Monday);
             OpeningHours.Add(Tuesday);
@@ -272,6 +307,9 @@ namespace Ghenterprise.ViewModels
             OpeningHours.Add(Friday);
             OpeningHours.Add(Saturday);
             OpeningHours.Add(Sunday);
+
+            IsEnabled = true;
+            IsEnabled = IsEnabled;
         }
 
         private void OnCancelClick()
@@ -326,7 +364,7 @@ namespace Ghenterprise.ViewModels
             {
                 if (_isEditScreen)
                 {
-                    //result = await entService.UpdateEnterprise(Enterprise);
+                    result = await entService.UpdateEnterprise(Enterprise);
                 }
                 else
                 {
