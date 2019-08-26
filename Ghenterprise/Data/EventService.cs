@@ -42,5 +42,10 @@ namespace Ghenterprise.Data
         {
             return await GetAsync<List<Event>>("Event/Owner", true);
         } 
+
+        public async Task<Event> GetEventAsync(string Id)
+        {
+            return await GetAsync<Event>($"Event?Event_ID={Id}");
+        }
     }
 }

@@ -5,20 +5,65 @@
     xmlns:local="using:Ghenterprise.Views.Event"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conv="using:Ghenterprise.Helpers"
     mc:Ignorable="d"
 >
-    <ScrollViewer
-        Name="ForegroundElement"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-        Padding="{StaticResource SmallLeftTopRightBottomMargin}"
-        HorizontalAlignment="Stretch"
-        VerticalScrollMode="Enabled">
-        <StackPanel Name="block" Padding="0,15,0,0">
-            <TextBlock Text="{x:Bind MasterEventItem.Id, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEventItem.Name, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEventItem.Description, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEventItem.Start_Date, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind MasterEventItem.End_Date, Mode=OneWay}" />
-        </StackPanel>
-    </ScrollViewer>
+    <Page.Resources>
+        <conv:DateFormatter x:Name="DateFormatter" />
+    </Page.Resources>
+    <Grid Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+        <ScrollViewer Name="ForegroundElement"
+                      HorizontalAlignment="Stretch"
+                      VerticalScrollMode="Enabled">
+            <StackPanel Name="block"
+                        Padding="0,15,0,0">
+                <TextBlock Text="{x:Bind MasterEventItem.Name, Mode=OneWay}"
+                           FontSize="{StaticResource ExtraLargeFontSize}"
+                           FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xEC06;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                                    <Run>Georganiseerd door</Run>
+                                    <Run Text="{x:Bind MasterEventItem.Enterprise.Name, Mode=OneWay}" />
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xEC92;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Start op </Run>
+                    <Run Text="{x:Bind MasterEventItem.Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <FontIcon Glyph="&#xEE93;"
+                              FontSize="{StaticResource SmallFontSize}"
+                              Margin="{StaticResource XSmallRightMargin}"
+                              Foreground="{ThemeResource SystemAccentColor}" />
+                    <TextBlock FontSize="{StaticResource SmallFontSize}"
+                               Foreground="{StaticResource SystemBaseMediumColor}">
+                    <Run>Eindigt op </Run>
+                    <Run Text="{x:Bind MasterEventItem.End_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock Text="{x:Bind MasterEventItem.Description, Mode=OneWay}"
+                           TextWrapping="WrapWholeWords"
+                           TextAlignment="Justify"
+                           Margin="{StaticResource MediumTopBottomMargin}" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Page>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ghenterprise.Services;
+using Ghenterprise.ViewModels;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,14 +20,36 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Ghenterprise.Views.Event
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class EventCardDetailView : Page
     {
+        private EventCardDetailViewModel ViewModel
+        {
+            get { return ViewModelLocator.Current.EventDetail; }
+        }
+
+        public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+
         public EventCardDetailView()
         {
             this.InitializeComponent();
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is string Id)
+            {
+                await ViewModel.InitializeAsync(Id);
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(ViewModel.Event);
+            }
         }
     }
 }
