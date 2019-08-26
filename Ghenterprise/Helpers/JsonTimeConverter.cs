@@ -9,7 +9,7 @@ namespace Ghenterprise.Helpers
 {
     public class JsonTimeConverter : JsonConverter<TimeSpan>
     {
-        public const string TimeSpanFormatString = @"HH\:mm\:ss";
+        public const string TimeSpanFormatString = @"hh\:mm\:ss";
 
         public override TimeSpan ReadJson(JsonReader reader, Type objectType, TimeSpan existingValue, bool hasExistingValue, JsonSerializer serializer)
         {

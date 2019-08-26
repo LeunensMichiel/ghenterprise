@@ -39,7 +39,7 @@ namespace Ghenterprise.ViewModels
         public List<Opening_Hours> OpeningHours { get; set; } = new List<Opening_Hours>();
         private Opening_Hours _monday = new Opening_Hours()
         {
-            Day_Of_Week = 0
+            Day_Of_Week = 0,
         };
         public Opening_Hours Monday
         {
@@ -327,7 +327,7 @@ namespace Ghenterprise.ViewModels
             {
                 if (_isEditScreen)
                 {
-                    result = await entService.UpdateEnterprise(Enterprise);
+                    //result = await entService.UpdateEnterprise(Enterprise);
                 }
                 else
                 {
