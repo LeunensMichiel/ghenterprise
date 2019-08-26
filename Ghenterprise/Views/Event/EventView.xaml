@@ -64,7 +64,8 @@
                         <controls:ImageEx Grid.Row="0"
                                           IsCacheEnabled="True"
                                           Source="/Assets/ghentKorenmarkt.jpg"
-                                          Stretch="UniformToFill" VerticalAlignment="Center"/>
+                                          Stretch="UniformToFill"
+                                          VerticalAlignment="Center" />
                         <StackPanel Padding="{StaticResource SmallLeftTopRightBottomMargin}"
                                     Grid.Row="1"
                                     HorizontalAlignment="Stretch"
@@ -99,8 +100,8 @@
                                           Foreground="{ThemeResource SystemAccentColor}" />
                                 <TextBlock FontSize="{StaticResource SmallFontSize}"
                                            Foreground="{StaticResource SystemBaseMediumColor}">
-                    <Run>Start op </Run>
-                    <Run Text="{x:Bind Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                                    <Run>Start op </Run>
+                                    <Run Text="{x:Bind Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
@@ -116,8 +117,7 @@
                     <Run Text="{x:Bind End_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
                                 </TextBlock>
                             </StackPanel>
-                            <TextBlock 
-                                       Text="Meer Info >"
+                            <TextBlock Text="Meer Info >"
                                        HorizontalAlignment="Right"
                                        Margin="0, 10, 10, 0"
                                        FontWeight="SemiBold"

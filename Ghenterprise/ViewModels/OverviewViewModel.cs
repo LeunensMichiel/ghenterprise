@@ -26,16 +26,24 @@ namespace Ghenterprise.ViewModels
 
         private List<string> _catListNames = new List<string>();
         private List<Enterprise> _entlist = new List<Enterprise>();
-        private List<Enterprise> _subscriptionlist = new List<Enterprise>();
         private string _selectedCatName = "";
         private string _searchQuery = "";
         private bool _isEnabled = true;
 
         private ICommand _itemClickCommand;
         public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<Enterprise>(OnItemClick));
+        private ICommand _eventClickCommand;
+        public ICommand EventClickCommand => _eventClickCommand ?? (_eventClickCommand = new RelayCommand<Event>(OnEventClick));
+        private ICommand _promoClickCommand;
+        public ICommand PromoClickCommand => _promoClickCommand ?? (_promoClickCommand = new RelayCommand<Promotion>(OnPromoClick));
+        private ICommand _promosCommand;
+        public ICommand PromosCommand => _promosCommand ?? (_promosCommand = new RelayCommand(new Action(GoToPromos)));
+        private ICommand _eventsCommand;
+        public ICommand EventsCommand => _eventsCommand ?? (_eventsCommand = new RelayCommand(new Action(GoToEvents)));
 
         public ObservableCollection<Enterprise> Source { get; } = new ObservableCollection<Enterprise>();
-        public ObservableCollection<Enterprise> SubscriptionSource { get; } = new ObservableCollection<Enterprise>();
+        public ObservableCollection<Event> EventsSource { get; } = new ObservableCollection<Event>();
+        public ObservableCollection<Promotion> PromoSource { get; } = new ObservableCollection<Promotion>();
 
         private bool _isDataUnavailable = true;
         public bool IsDataUnavailable
@@ -107,6 +115,10 @@ namespace Ghenterprise.ViewModels
             try
             {
                 Source.Clear();
+                _entlist.Clear();
+                CategoryNames.Clear();
+                SeachQuery = "";
+                SelectedCatName = "Alle";
 
                 _entlist = await entService.GetEnterprisesAsync();
                 _entlist.ForEach((item) => Source.Add(item));
@@ -128,13 +140,16 @@ namespace Ghenterprise.ViewModels
             IsEnbabled = false;
             try
             {
-                SubscriptionSource.Clear();
+                EventsSource.Clear();
+                PromoSource.Clear();
 
-               var items = await entService.GetSubscriptionsAsync();
-               items.ForEach((item) => SubscriptionSource.Add(item));
-                System.Diagnostics.Debug.WriteLine(SubscriptionSource.Count());
+                var events = await entService.GetSubscriptionsEventsAsync();
+                events.ForEach((item) => EventsSource.Add(item));
 
-                if (SubscriptionSource.Count() > 0)
+                var promos = await entService.GetSubscriptionsPromosAsync();
+                promos.ForEach((promo) => PromoSource.Add(promo));
+
+                if (EventsSource.Count() > 0 || PromoSource.Count() > 0)
                 {
                     IsDataUnavailable = false;
                 }
@@ -150,27 +165,21 @@ namespace Ghenterprise.ViewModels
         private void FilterSource()
         {
             Source.Clear();
-            SubscriptionSource.Clear();
             List<Enterprise> filteredList = _entlist;
-            List<Enterprise> filteredSubscriptions = _subscriptionlist;
-            if (_selectedCatName != "Alle" || _searchQuery.Trim() != "")
+            if (SelectedCatName != "Alle" || SeachQuery.Trim() != "")
             {
-                if (_selectedCatName != "Alle")
+                if (SelectedCatName != "Alle")
                 {
-                    filteredList = filteredList.Where((e) => e.Categories.Select(c => c.Name).Contains(_selectedCatName)).ToList();
-                    filteredSubscriptions = filteredSubscriptions.Where((e) => e.Categories.Select(c => c.Name).Contains(_selectedCatName)).ToList();
+                    filteredList = filteredList.Where((e) => e.Categories.Select(c => c.Name).Contains(SelectedCatName)).ToList();
                 }
 
-                if (_searchQuery.Trim() != "")
+                if (SeachQuery.Trim() != "")
                 {
-                    filteredList = filteredList.Where((e) => e.Name.ToLower().Contains(_searchQuery.ToLower())).ToList();
-                    filteredSubscriptions = filteredSubscriptions.Where((e) => e.Name.ToLower().Contains(_searchQuery.ToLower())).ToList();
-
+                    filteredList = filteredList.Where((e) => e.Name.ToLower().Contains(SeachQuery.ToLower())).ToList();
                 }
-            } 
-
+            }
+            filteredList = filteredList.GroupBy(e => e.Id).Select(en => en.First()).ToList();
             filteredList.ForEach(f => Source.Add(f));
-            filteredSubscriptions.ForEach(f => SubscriptionSource.Add(f));
         }
 
         private void OnItemClick(Enterprise clickedItem)
@@ -180,6 +189,32 @@ namespace Ghenterprise.ViewModels
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
                 NavigationService.Navigate(typeof(EnterpriseCardDetailViewModel).FullName, clickedItem.Id);
             }
+        }
+        private void OnEventClick(Event clickedItem)
+        {
+            if (clickedItem != null)
+            {
+                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
+                NavigationService.Navigate(typeof(EventCardDetailViewModel).FullName, clickedItem.Id);
+            }
+        }
+        private void OnPromoClick(Promotion clickedItem)
+        {
+            if (clickedItem != null)
+            {
+                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
+                NavigationService.Navigate(typeof(PromotionCardDetailViewModel).FullName, clickedItem.Id);
+            }
+        }
+
+        private void GoToPromos()
+        {
+            NavigationService.Navigate(typeof(PromotionViewModel).FullName);
+        }
+
+        private void GoToEvents()
+        {
+            NavigationService.Navigate(typeof(EventViewModel).FullName);
         }
     }
 

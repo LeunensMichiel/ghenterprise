@@ -23,28 +23,228 @@
         <Pivot  FontSize="{StaticResource LargeFontSize}"
                 SelectionChanged="OnSelectionChanged">
             <PivotItem Header="Abonnementen">
-
-                <Grid x:Name="NoSubscriptionsGrid"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      Visibility="{x:Bind OverviewViewModel.IsDataUnavailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      RowSpacing="20">
+                <Grid Margin="{StaticResource LargeTopBottomMargin}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0"
-                           Source="/Assets/notification.svg"
-                           Stretch="Uniform" />
-                    <TextBlock Grid.Row="1"
-                               Text="Het is hier leeg!"
-                               FontSize="{StaticResource TitleFontSize }"
-                               TextAlignment="Center" />
-                    <TextBlock Grid.Row="2"
-                               Text="Maak een account aan om een gepersonaliseerd overzicht te krijgen! 👊"
-                               FontSize="{StaticResource MediumFontSize }"
-                               TextAlignment="Center" />
+                    <Grid x:Name="NoSubscriptionsGrid"
+                          HorizontalAlignment="Stretch"
+                          Grid.ColumnSpan="2"
+                          Grid.RowSpan="5"
+                          Background="{ThemeResource RegionBrush}"
+                          VerticalAlignment="Stretch"
+                          Visibility="{x:Bind OverviewViewModel.IsDataUnavailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Canvas.ZIndex="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="3*" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="1"
+                               Source="/Assets/notification.svg"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                        <TextBlock Grid.Row="2"
+                                   Text="Het is hier leeg!"
+                                   FontSize="{StaticResource TitleFontSize }"
+                                   TextAlignment="Center" />
+                        <TextBlock Grid.Row="3"
+                                   Text="Maak een account aan om een gepersonaliseerd overzicht te krijgen! 👊"
+                                   FontSize="{StaticResource MediumFontSize }"
+                                   TextAlignment="Center"
+                                   Foreground="{StaticResource SystemBaseMediumColor}" />
+                    </Grid>
+                    <TextBlock Text="Komende Events"
+                               Grid.Column="0"
+                               FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold"
+                               Grid.Row="0" />
+                    <HyperlinkButton Grid.Column="1"
+                                     Grid.Row="0"
+                                     FontWeight="SemiBold"
+                                     Command="{x:Bind OverviewViewModel.EventsCommand}"
+                                     Foreground="{ThemeResource SystemBaseHighColor}"
+                                     FontSize="{StaticResource MediumFontSize}"
+                                     HorizontalAlignment="Right">
+                        <HyperlinkButton.ContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Meer Tonen >" />
+                            </DataTemplate>
+                        </HyperlinkButton.ContentTemplate>
+                    </HyperlinkButton>
+                    <TextBlock Text="Komende Promoties"
+                               Grid.Column="0"
+                               FontSize="{StaticResource LargeFontSize}"
+                               FontWeight="SemiBold"
+                               Grid.Row="3" />
+                    <HyperlinkButton Grid.Column="1"
+                                     Grid.Row="3"
+                                     FontWeight="SemiBold"
+                                     Command="{x:Bind OverviewViewModel.PromosCommand}"
+                                     Foreground="{ThemeResource SystemBaseHighColor}"
+                                     FontSize="{StaticResource MediumFontSize}"
+                                     HorizontalAlignment="Right">
+                        <HyperlinkButton.ContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Meer Tonen >" />
+                            </DataTemplate>
+                        </HyperlinkButton.ContentTemplate>
+                    </HyperlinkButton>
+                    <ScrollViewer Grid.ColumnSpan="2"
+                                  Grid.Row="1">
+                        <controls:AdaptiveGridView animations:Connected.ListItemElementName="itemThumbnail"
+                                                   animations:Connected.ListItemKey="animationKeyContentGrid"
+                                                   DesiredWidth="175"
+                                                   IsItemClickEnabled="True"
+                                                   ItemClickCommand="{x:Bind OverviewViewModel.EventClickCommand}"
+                                                   ItemsSource="{x:Bind OverviewViewModel.EventsSource, Mode=OneWay}"
+                                                   SelectionMode="None"
+                                                   StretchContentForSingleRow="False">
+                            <controls:AdaptiveGridView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Event">
+                                    <Grid x:Name="itemThumbnail"
+                                          Width="Auto"
+                                          HorizontalAlignment="Stretch"
+                                          Background="{ThemeResource CardBackground}"
+                                          CornerRadius="8">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="150" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <controls:ImageEx Grid.Row="0"
+                                                          IsCacheEnabled="True"
+                                                          Source="/Assets/ghentKorenmarkt.jpg"
+                                                          Stretch="UniformToFill"
+                                                          VerticalAlignment="Bottom" />
+                                        <StackPanel Padding="{StaticResource SmallLeftTopRightBottomMargin}"
+                                                    Grid.Row="1"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Top">
+                                            <TextBlock x:Name="Title"
+                                                       Margin="{StaticResource XSmallBottomMargin}"
+                                                       HorizontalAlignment="Left"
+                                                       FontSize="{StaticResource CardHeaderFontSize}"
+                                                       FontWeight="SemiBold"
+                                                       TextWrapping="NoWrap"
+                                                       Text="{x:Bind Name}" />
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left">
+                                                <FontIcon Glyph="&#xEC92;"
+                                                          FontSize="{StaticResource CardTextFontSize}"
+                                                          Margin="{StaticResource XSmallRightMargin}"
+                                                          Foreground="{ThemeResource SystemAccentColor}" />
+                                                <TextBlock FontSize="{StaticResource CardTextFontSize}"
+                                                           Foreground="{StaticResource SystemBaseMediumColor}">
+                                    <Run Text="{x:Bind Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left">
+                                                <FontIcon Glyph="&#xEE93;"
+                                                          FontSize="{StaticResource CardTextFontSize}"
+                                                          Margin="{StaticResource XSmallRightMargin}"
+                                                          Foreground="{ThemeResource SystemAccentColor}" />
+                                                <TextBlock FontSize="{StaticResource CardTextFontSize}"
+                                                           Foreground="{StaticResource SystemBaseMediumColor}">
+                                                    <Run Text="{x:Bind End_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <TextBlock Text="Meer Info >"
+                                                       HorizontalAlignment="Right"
+                                                       Margin="0, 10, 10, 0"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="{StaticResource SmallFontSize}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </controls:AdaptiveGridView.ItemTemplate>
+                        </controls:AdaptiveGridView>
+                    </ScrollViewer>
+                    <ScrollViewer Grid.ColumnSpan="2"
+                                  Grid.Row="4">
+                        <controls:AdaptiveGridView animations:Connected.ListItemElementName="itemThumbnail"
+                                                   animations:Connected.ListItemKey="animationKeyContentGrid"
+                                                   DesiredWidth="175"
+                                                   IsItemClickEnabled="True"
+                                                   ItemClickCommand="{x:Bind OverviewViewModel.PromoClickCommand}"
+                                                   ItemsSource="{x:Bind OverviewViewModel.PromoSource, Mode=OneWay}"
+                                                   SelectionMode="None"
+                                                   StretchContentForSingleRow="False">
+                            <controls:AdaptiveGridView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Promotion">
+                                    <Grid x:Name="itemThumbnail"
+                                          Width="Auto"
+                                          HorizontalAlignment="Stretch"
+                                          Background="{ThemeResource CardBackground}"
+                                          CornerRadius="8">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="150" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <controls:ImageEx Grid.Row="0"
+                                                          IsCacheEnabled="True"
+                                                          Source="/Assets/ghentFromAbove.jpg"
+                                                          Stretch="UniformToFill"
+                                                          VerticalAlignment="Bottom" />
+                                        <StackPanel Padding="{StaticResource SmallLeftTopRightBottomMargin}"
+                                                    Grid.Row="1"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Top">
+                                            <TextBlock x:Name="Title"
+                                                       Margin="{StaticResource XSmallBottomMargin}"
+                                                       HorizontalAlignment="Left"
+                                                       FontSize="{StaticResource CardHeaderFontSize}"
+                                                       FontWeight="SemiBold"
+                                                       TextWrapping="NoWrap"
+                                                       Text="{x:Bind Name}" />
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left">
+                                                <FontIcon Glyph="&#xEC92;"
+                                                          FontSize="{StaticResource CardTextFontSize}"
+                                                          Margin="{StaticResource XSmallRightMargin}"
+                                                          Foreground="{ThemeResource SystemAccentColor}" />
+                                                <TextBlock FontSize="{StaticResource CardTextFontSize}"
+                                                           Foreground="{StaticResource SystemBaseMediumColor}">
+                                    <Run Text="{x:Bind Start_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left">
+                                                <FontIcon Glyph="&#xEE93;"
+                                                          FontSize="{StaticResource CardTextFontSize}"
+                                                          Margin="{StaticResource XSmallRightMargin}"
+                                                          Foreground="{ThemeResource SystemAccentColor}" />
+                                                <TextBlock FontSize="{StaticResource CardTextFontSize}"
+                                                           Foreground="{StaticResource SystemBaseMediumColor}">
+                                                    <Run Text="{x:Bind End_Date, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <TextBlock Text="Meer Info >"
+                                                       HorizontalAlignment="Right"
+                                                       Margin="0, 10, 10, 0"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="{StaticResource SmallFontSize}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </controls:AdaptiveGridView.ItemTemplate>
+                        </controls:AdaptiveGridView>
+                    </ScrollViewer>
                 </Grid>
             </PivotItem>
             <PivotItem Header="Alle">
