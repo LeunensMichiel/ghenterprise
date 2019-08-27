@@ -11,6 +11,7 @@ using Ghenterprise.Views.Promotion;
 using Ghenterprise.Views.Settings;
 using Ghenterprise.Views.Enterprise;
 using Ghenterprise.Views.Event;
+using Ghenterprise.Views.Auth;
 
 namespace Ghenterprise.ViewModels
 {
@@ -46,6 +47,10 @@ namespace Ghenterprise.ViewModels
 
             SimpleIoc.Default.Register<SettingsViewModel>();
             NavigationServ.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsView));
+            SimpleIoc.Default.Register<LoginViewModel>();
+            NavigationServ.Configure(typeof(LoginViewModel).FullName, typeof(LoginView));
+            SimpleIoc.Default.Register<RegistrationViewModel>();
+            NavigationServ.Configure(typeof(RegistrationViewModel).FullName, typeof(RegistrationView));
 
             //Detail View van de Cards
             SimpleIoc.Default.Register<EnterpriseCardDetailViewModel>();
@@ -97,6 +102,10 @@ namespace Ghenterprise.ViewModels
         public PromotionCreateViewModel PromotionCreate => SimpleIoc.Default.GetInstance<PromotionCreateViewModel>();
 
         public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
+
+        public LoginViewModel Login => SimpleIoc.Default.GetInstance<LoginViewModel>();
+
+        public RegistrationViewModel Registration => SimpleIoc.Default.GetInstance<RegistrationViewModel>();
 
         public MapViewModel Map => SimpleIoc.Default.GetInstance<MapViewModel>();
 

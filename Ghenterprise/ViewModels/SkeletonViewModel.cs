@@ -31,8 +31,8 @@ namespace Ghenterprise.ViewModels
 
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
         private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
+
         private Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        public RelayCommand UserProfileCommand => _userProfileCommand ?? (_userProfileCommand = new RelayCommand(OnUserProfile, () => !IsBusy));
         private IEnumerable<WinUI.NavigationViewItem> _menuItems;
         public IEnumerable<WinUI.NavigationViewItem> MenuItems
         {
@@ -75,21 +75,27 @@ namespace Ghenterprise.ViewModels
                 yield return navigationViewItem;
             }
         }
+        public static NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+        public WinUI.NavigationViewItem Selected
+        {
+            get { return _selected; }
+            set { Set(ref _selected, value); }
+        }
 
         private bool _isBackEnabled;
         private IList<KeyboardAccelerator> _keyboardAccelerators;
         private WinUI.NavigationView _navigationView;
         private WinUI.NavigationViewItem _selected;
         private ICommand _loadedCommand;
+        private ICommand _loginCommand;
         private ICommand _itemInvokedCommand;
         private RelayCommand _userProfileCommand;
-        private UserService userService = new UserService();
         private bool _isBusy;
-        private bool _popupIsOpen = false;
-        private string _username = "Inloggen";
-        private ContentDialog dialog;
-        private bool _isRegsitrating = false;
-        private Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+
+        public UserViewModel UserViewModel
+        {
+            get { return ViewModelLocator.Current.User; }
+        }
 
         public bool IsBusy
         {
@@ -101,25 +107,9 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public string Username {
-            get
-            {
-                return _username;
-            }
-            set
-            {
-                Set(ref _username, value);
-            }
-        }
-
-        public static NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
 
         public SkeletonViewModel()
         {
-            if(localSettings.Values["Username"] != null)
-            {
-                Username = localSettings.Values["Username"] as string;
-            }
         }
 
         public bool IsBackEnabled
@@ -128,25 +118,11 @@ namespace Ghenterprise.ViewModels
             set { Set(ref _isBackEnabled, value); }
         }
 
-        public bool PopupIsOpen {
-            get
-            {
-                return _popupIsOpen;
-            }
-            set
-            {
-                Set(ref _popupIsOpen, value);
-            }
-        }
-
-        public WinUI.NavigationViewItem Selected
-        {
-            get { return _selected; }
-            set { Set(ref _selected, value); }
-        }
-
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
+        public ICommand LoginCommand => _loginCommand ?? (_loginCommand = new RelayCommand(OnLogin));
+
         public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
+        public RelayCommand UserProfileCommand => _userProfileCommand ?? (_userProfileCommand = new RelayCommand(OnUserProfile, () => !IsBusy));
 
 
         public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
@@ -159,7 +135,7 @@ namespace Ghenterprise.ViewModels
             _navigationView.BackRequested += OnBackRequested;
 
             MenuItems = GetMenuItems().ToArray();
-            foreach(WinUI.NavigationViewItem navItem in MenuItems)
+            foreach (WinUI.NavigationViewItem navItem in MenuItems)
             {
                 if (navItem.Content.ToString() == "Mijn Ondernemingen")
                 {
@@ -175,6 +151,61 @@ namespace Ghenterprise.ViewModels
         {
             _keyboardAccelerators.Add(_altLeftKeyboardAccelerator);
             _keyboardAccelerators.Add(_backKeyboardAccelerator);
+        }
+
+        private void OnUserDataUpdated(object sender, UserViewModel userData)
+        {
+        }
+
+        private void OnLoggedIn(object sender, EventArgs e)
+        {
+            UserViewModel.IsLoggedIn = true;
+            //IsAuthorized = IsLoggedIn && IdentityService.IsAuthorized();
+            IsBusy = false;
+        }
+
+        private void OnLoggedOut(object sender, EventArgs e)
+        {
+            UserViewModel.IsLoggedIn = false;
+            UserViewModel.IsAuthorized = false;
+            CleanRestrictedPagesFromNavigationHistory();
+            GoBackToLastUnrestrictedPage();
+        }
+
+        private void CleanRestrictedPagesFromNavigationHistory()
+        {
+            NavigationService.Frame.BackStack
+            .Where(b => Attribute.IsDefined(b.SourcePageType, typeof(Restricted)))
+            .ToList()
+            .ForEach(page => NavigationService.Frame.BackStack.Remove(page));
+        }
+
+        private void GoBackToLastUnrestrictedPage()
+        {
+            var currentPage = NavigationService.Frame.Content as Page;
+            var isCurrentPageRestricted = Attribute.IsDefined(currentPage.GetType(), typeof(Restricted));
+            if (isCurrentPageRestricted)
+            {
+                NavigationService.GoBack();
+            }
+        }
+
+        private async void OnUserProfile()
+        {
+            if (UserViewModel.IsLoggedIn)
+            {
+                NavigationService.Navigate(typeof(SettingsViewModel).FullName);
+            }
+            else
+            {
+                IsBusy = true;
+                //var loginResult = await IdentityService.LoginAsync();
+                //if (loginResult != LoginResultType.Success)
+                //{
+                //    await AuthenticationHelper.ShowLoginErrorAsync(loginResult);
+                //    IsBusy = false;
+                //}
+            }
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
@@ -240,291 +271,10 @@ namespace Ghenterprise.ViewModels
             args.Handled = result;
         }
 
-        private async void OnUserProfile()
+        private void OnLogin()
         {
-            //Models.User user = new Models.User();
-            //if (localSettings.Values["Username"] == null)
-            //{
-            //    try
-            //    {
-            //        string error = "";
-            //        do
-            //        {
-            //            error = null;
-
-            //            if (_isRegsitrating && (
-            //                user.Password == "Wachtwoorden komen niet overeen" 
-            //                || user.Password == "Wachtwoord is leeg" 
-            //                || user.Password == "Email is leeg of verkeerd formaat"
-            //                || user.Password == "Familienaam is leeg"
-            //                || user.Password == "Voornaam is leeg"))
-            //            {
-            //                error = user.Password == ""?null:user.Password;
-            //            }
-
-            //            if (user.Password == "Password invalid" || user.Password == "User doesn't exist")
-            //            {
-            //                error = "Verkeerde email/wachtwoord combinatie";
-            //            }
-
-            //            user = await LoginDialog(error);
-            //            Debug.WriteLine(user.Token);
-            //        }
-            //        while ((user.Password != "Password valid" && user.Password != "stop") || (user.Token != "email doesn't exists"));
-
-            //        if (user.Password == "Password valid")
-            //        {
-            //            ContentDialog dialog = new ContentDialog();
-            //            dialog.Title = "Inloggen";
-            //            dialog.Content = "Gebruiker ingelogd!";
-            //            dialog.PrimaryButtonText = "Wow! Dankuwel!";
-            //            await dialog.ShowAsync();
-            //            localSettings.Values["Token"] = user.Token;
-            //            localSettings.Values["Username"] = user.Email;
-            //            Username = user.Email;
-            //        }
-
-                    
-
-            //        if (user.Token == "email doesn't exists")
-            //        {
-            //            user = await userService.PostRegisterUser(user);
-            //            dialog.Title = "Account aanmaken";
-            //            dialog.Content = "Account aangemaakt!";
-            //            dialog.PrimaryButtonText = "Wow! Dankuwel!";
-            //            await dialog.ShowAsync();
-            //            localSettings.Values["Token"] = user.Token;
-            //            localSettings.Values["Username"] = user.Email;
-            //            Username = user.Email;
-            //        }
-
-            //    }
-            //    catch (Exception)
-            //    {
-            //        ContentDialog dialog = new ContentDialog();
-            //        dialog.Title = "Er ging iets verkeerd";
-            //        dialog.Content = "Inloggen is gefaald";
-            //        dialog.IsSecondaryButtonEnabled = true;
-            //        dialog.PrimaryButtonText = "Ok";
-            //        dialog.SecondaryButtonText = "Niet ok";
-            //        await dialog.ShowAsync();
-            //    }
-            //}
-            //else
-            //{
-            //    localSettings.Values["Username"] = null;
-            //    localSettings.Values["Token"] = null;
-            //    Username = "Inloggen";
-            //}
-           
-            
-        }
-
-        private async Task<Models.User> LoginDialog(string error)
-        {
-            TextBox emailTextBox = new TextBox();
-            emailTextBox.AcceptsReturn = false;
-            emailTextBox.Height = 32;
-            emailTextBox.PlaceholderText = "Email";
-            emailTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-            PasswordBox passwordTextBox = new PasswordBox();
-            passwordTextBox.Height = 32;
-            passwordTextBox.PlaceholderText = "Wachtwoord";
-            passwordTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-            Button registerButton = new Button();
-            registerButton.Content = _isRegsitrating?"Inloggen":"Registreren";
-            registerButton.Click += on_registration;
-
-            StackPanel panel = new StackPanel();
-
-            TextBox firstnameTextBox = new TextBox();
-
-            TextBox lastnameTextBox = new TextBox();
-
-            PasswordBox verifyPasswordTextBox = new PasswordBox();
-
-            if (error != null)
-            {
-                TextBlock errorBlock = new TextBlock();
-                errorBlock.Height = 32;
-                errorBlock.Text = error;
-                errorBlock.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-                errorBlock.Foreground = new SolidColorBrush(Colors.Red);
-                panel.Children.Add(errorBlock);
-            }
-
-            if (_isRegsitrating)
-            {
-                firstnameTextBox.AcceptsReturn = false;
-                firstnameTextBox.Height = 32;
-                firstnameTextBox.PlaceholderText = "Voornaam";
-                firstnameTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-                lastnameTextBox.AcceptsReturn = false;
-                lastnameTextBox.Height = 32;
-                lastnameTextBox.PlaceholderText = "Achternaam";
-                lastnameTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-                verifyPasswordTextBox.Height = 32;
-                verifyPasswordTextBox.PlaceholderText = "Verifiëer wachtwoord";
-                verifyPasswordTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-                panel.Children.Add(firstnameTextBox);
-                panel.Children.Add(lastnameTextBox);
-            }
-
-
-            panel.Children.Add(emailTextBox);
-            panel.Children.Add(passwordTextBox);
-
-            if (_isRegsitrating)
-            {
-                panel.Children.Add(verifyPasswordTextBox);
-            }
-
-            panel.Children.Add(registerButton);
-
-            dialog = new ContentDialog();
-            dialog.Content = panel;
-            dialog.Title = _isRegsitrating ? "Account aanmaken" : "Inloggen";
-            dialog.IsSecondaryButtonEnabled = true;
-            dialog.PrimaryButtonText = _isRegsitrating?"Registreren" :"Aanmelden";
-            dialog.SecondaryButtonText = "Annuleren";
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-            {
-                if (_isRegsitrating)
-                {
-                    if (firstnameTextBox.Text.Trim() == "")
-                    {
-                        return new Models.User
-                        {
-                            Password = "Voornaam is leeg"
-                        };
-                    }
-
-                    if (lastnameTextBox.Text.Trim() == "")
-                    {
-                        return new Models.User
-                        {
-                            Password = "Familienaam is leeg"
-                        };
-                    }
-
-                    if (emailTextBox.Text.Trim() == "" || !emailRegex.Match(emailTextBox.Text.Trim()).Success)
-                    {
-                        return new Models.User
-                        {
-                            Password = "Email is leeg of verkeerd formaat"
-                        };
-                    }
-
-                    if (passwordTextBox.Password == "")
-                    {
-                        return new Models.User
-                        {
-                            Password = "Wachtwoord is leeg"
-                        };
-                    }
-
-                    if (passwordTextBox.Password != verifyPasswordTextBox.Password)
-                    {
-                        return new Models.User
-                        {
-                            Password = "Wachtwoorden komen niet overeen"
-                        };
-                    }
-
-                    return await userService.GetCheckEmail(new Models.User
-                    {
-                        Firstname = firstnameTextBox.Text,
-                        Lastname = lastnameTextBox.Text,
-                        Email =  emailTextBox.Text,
-                        Password = passwordTextBox.Password
-                    });
-                } else
-                {
-                    return await userService.PostLogin(new Models.User
-                    {
-                        Email = emailTextBox.Text,
-                        Password = passwordTextBox.Password
-                    });
-                }
-            }
-            else
-            {
-                return new Models.User
-                {
-                    Password = "stop"
-                };
-            } 
-        }
-
-        private void on_registration(object sender, RoutedEventArgs e)
-        {
-            _isRegsitrating = !_isRegsitrating;
-            dialog?.Hide();
-            OnUserProfile();
-        }
-
-        private async Task<Models.User> RegisterDialog()
-        {
-            dialog?.Hide();
-
-            TextBox firstnameTextBox = new TextBox();
-            firstnameTextBox.AcceptsReturn = false;
-            firstnameTextBox.Height = 32;
-            firstnameTextBox.PlaceholderText = "Firstname";
-            firstnameTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-            TextBox lastnameTextBox = new TextBox();
-            lastnameTextBox.AcceptsReturn = false;
-            lastnameTextBox.Height = 32;
-            lastnameTextBox.PlaceholderText = "Lastname";
-            lastnameTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-            TextBox emailTextBox = new TextBox();
-            emailTextBox.AcceptsReturn = false;
-            emailTextBox.Height = 32;
-            emailTextBox.PlaceholderText = "Email";
-            emailTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-            PasswordBox passwordTextBox = new PasswordBox();
-            passwordTextBox.Height = 32;
-            passwordTextBox.PlaceholderText = "Wachtwoord";
-            passwordTextBox.Margin = new Windows.UI.Xaml.Thickness(10, 10, 10, 10);
-
-            StackPanel panel = new StackPanel();
-
-
-            panel.Children.Add(firstnameTextBox);
-            panel.Children.Add(lastnameTextBox);
-            panel.Children.Add(emailTextBox);
-            panel.Children.Add(passwordTextBox);
-
-            dialog = new ContentDialog();
-            dialog.Content = panel;
-            dialog.Title = "Inloggen";
-            dialog.IsSecondaryButtonEnabled = true;
-            dialog.PrimaryButtonText = "Aanmelden";
-            dialog.SecondaryButtonText = "Annuleren";
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-            {
-                return await userService.PostRegisterUser(new Models.User
-                {
-                    Email = firstnameTextBox.Text,
-                    Password = passwordTextBox.Password
-                });
-            }
-            else
-            {
-                return new Models.User
-                {
-                    Password = "stop"
-                };
-            }
-
+            NavigationService.Navigate(typeof(LoginViewModel).FullName);
+            return;
         }
     }
 }

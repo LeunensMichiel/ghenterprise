@@ -223,19 +223,5 @@ namespace Ghenterprise.Data
             return response.IsSuccessStatusCode;
         }
 
-        public void SetToken(string token)
-        {
-            localSettings.Values["Username"] = token;
-        }
-
-        public void RemoveToken()
-        {
-            localSettings.Values["Username"] = null;
-        }
-
-        public bool TokenExists()
-        {
-            return localSettings.Values["Username"] != null;
-        }
     }
 }

@@ -48,8 +48,53 @@ namespace Ghenterprise.Data
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsStringAsync();
-            Debug.WriteLine(result);
-            return JsonConvert.DeserializeObject<User>(result);
+            User dbUser = JsonConvert.DeserializeObject<User>(result);
+            if (!string.IsNullOrEmpty(dbUser.Token))
+            {
+                SetToken(dbUser);
+                return dbUser;
+            }
+            return null;
+        }
+
+        public void SetToken(User user)
+        {
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            vault.Add(new Windows.Security.Credentials.PasswordCredential("User", user.Firstname, user.Token));
+        }
+
+        public void RemoveToken(User user)
+        {
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            vault.Remove(new Windows.Security.Credentials.PasswordCredential("User", user.Firstname, user.Token));
+        }
+
+        public Windows.Security.Credentials.PasswordCredential GetCredentialFromLocker()
+        {
+            Windows.Security.Credentials.PasswordCredential credential = null;
+
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            var credentialList = vault.FindAllByResource("User");
+            if (credentialList.Count > 0)
+            {
+                if (credentialList.Count == 1)
+                {
+                    credential = credentialList[0];
+                }
+                //else
+                //{
+                //    // When there are multiple usernames,
+                //    // retrieve the default username. If one doesn't
+                //    // exist, then display UI to have the user select
+                //    // a default username.
+
+                //    defaultUserName = GetDefaultUserNameUI();
+
+                //    credential = vault.Retrieve(resourceName, defaultUserName);
+                //}
+            }
+
+            return credential;
         }
     }
 }

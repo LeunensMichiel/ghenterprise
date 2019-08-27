@@ -148,7 +148,7 @@ namespace Ghenterprise.ViewModels
                 }
             }
 
-            if (Promotion.Start_Date == null || Promotion.End_Date == null)
+            if (Promotion.Start_Date == null || Promotion.End_Date == null || Promotion.End_Date < Promotion.Start_Date )
             {
                 if (Promotion.End_Date < Promotion.Start_Date)
                 {

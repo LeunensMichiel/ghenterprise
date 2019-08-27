@@ -52,5 +52,10 @@ namespace Ghenterprise.Views.Enterprise
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(ViewModel.Enterprise);
             }
         }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

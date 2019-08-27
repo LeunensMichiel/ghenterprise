@@ -14,8 +14,8 @@
       mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
-                                          TrueValue="Visible"
-                                          FalseValue="Collapsed" />
+                                          TrueValue="Collapsed"
+                                          FalseValue="Visible" />
         <conv:DateFormatter x:Name="DateFormatter" />
     </Page.Resources>
     <Grid x:Name="OverviewArea"
@@ -41,7 +41,7 @@
                           Grid.RowSpan="5"
                           Background="{ThemeResource RegionBrush}"
                           VerticalAlignment="Stretch"
-                          Visibility="{x:Bind OverviewViewModel.IsDataUnavailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Visibility="{x:Bind OverviewViewModel.UserViewModel.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Canvas.ZIndex="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3*" />
@@ -60,6 +60,7 @@
                                    FontSize="{StaticResource TitleFontSize }"
                                    TextAlignment="Center" />
                         <TextBlock Grid.Row="3"
+                                   Visibility="{x:Bind OverviewViewModel.IsDataAavailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    Text="Maak een account aan om een gepersonaliseerd overzicht te krijgen! 👊"
                                    FontSize="{StaticResource MediumFontSize }"
                                    TextAlignment="Center"
