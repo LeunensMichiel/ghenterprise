@@ -142,7 +142,7 @@ namespace Ghenterprise.ViewModels
                 }
             }
 
-            if (Event.Start_Date == null || Event.End_Date == null)
+            if (Event.Start_Date == null || Event.End_Date == null || Event.End_Date < Event.Start_Date)
             {
                 if (Event.End_Date < Event.Start_Date)
                 {

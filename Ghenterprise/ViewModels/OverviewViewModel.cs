@@ -19,6 +19,7 @@ namespace Ghenterprise.ViewModels
     public class OverviewViewModel : ViewModelBase
     {
         public NavigationService NavigationService => ViewModelLocator.Current.NavigationServ;
+        public UserViewModel UserViewModel => ViewModelLocator.Current.User;
 
         private EnterpriseService entService = new EnterpriseService();
         private CategoryService catService = new CategoryService();
@@ -45,14 +46,13 @@ namespace Ghenterprise.ViewModels
         public ObservableCollection<Event> EventsSource { get; } = new ObservableCollection<Event>();
         public ObservableCollection<Promotion> PromoSource { get; } = new ObservableCollection<Promotion>();
 
-        private bool _isDataUnavailable = true;
-        public bool IsDataUnavailable
+        private bool _isDataAvailable = false;
+        public bool IsDataAavailable
         {
-            get => _isDataUnavailable;
+            get => _isDataAvailable;
             set
             {
-                _isDataUnavailable = value;
-                RaisePropertyChanged("IsDataUnavailable");
+                Set(ref _isDataAvailable, value);
             }
         }
 
@@ -92,7 +92,8 @@ namespace Ghenterprise.ViewModels
             }
         }
 
-        public string SeachQuery {
+        public string SeachQuery
+        {
             get
             {
                 return _searchQuery;
@@ -106,7 +107,7 @@ namespace Ghenterprise.ViewModels
 
         public OverviewViewModel()
         {
-            
+
         }
 
         public async Task LoadDataAsync()
@@ -137,29 +138,36 @@ namespace Ghenterprise.ViewModels
 
         public async Task LoadSubsAsync()
         {
-            IsEnbabled = false;
-            try
+            EventsSource.Clear();
+            PromoSource.Clear();
+
+            if (UserViewModel.IsLoggedIn)
             {
-                EventsSource.Clear();
-                PromoSource.Clear();
-
-                var events = await entService.GetSubscriptionsEventsAsync();
-                events.ForEach((item) => EventsSource.Add(item));
-
-                var promos = await entService.GetSubscriptionsPromosAsync();
-                promos.ForEach((promo) => PromoSource.Add(promo));
-
-                if (EventsSource.Count() > 0 || PromoSource.Count() > 0)
+                IsEnbabled = false;
+                try
                 {
-                    IsDataUnavailable = false;
-                }
+                    var events = await entService.GetSubscriptionsEventsAsync();
+                    events.ForEach((item) => EventsSource.Add(item));
 
+                    var promos = await entService.GetSubscriptionsPromosAsync();
+                    promos.ForEach((promo) => PromoSource.Add(promo));
+
+                    if (EventsSource.Count() > 0 || PromoSource.Count() > 0)
+                    {
+                        IsDataAavailable = true;
+                    }
+
+                }
+                catch (Exception)
+                {
+                    toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
+                }
+                IsEnbabled = true;
             }
-            catch (Exception)
+            else
             {
-                toastService.ShowToast("Er ging iets mis", "probeer later opnieuw");
+                IsDataAavailable = false;
             }
-            IsEnbabled = true;
         }
 
         private void FilterSource()

@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="Ghenterprise.Views.Auth.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ghenterprise.Views.Auth"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel HorizontalAlignment="Stretch"
+          VerticalAlignment="Center"
+                Spacing="24"
+          Margin="{StaticResource LargeLeftTopRightBottomMargin}">
+        <TextBlock FontSize="{StaticResource ExtraLargeFontSize}" FontWeight="SemiBold">Ghenterprise</TextBlock>
+        <TextBlock Foreground="Red"
+                   Visibility="{x:Bind ViewModel.ErrorVisibility, Mode=TwoWay}"
+                   Text="{x:Bind ViewModel.ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   x:Name="NameError"
+                   Margin="0,24,0,0"
+                   Width="Auto"
+                   HorizontalAlignment="Stretch" />
+        <TextBox
+                 Text="{x:Bind ViewModel.User.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 x:Name="Email"
+                 Header="Email"
+                 MaxLength="32"
+                 Width="Auto"
+                 HorizontalAlignment="Stretch"
+                 InputScope="EmailNameOrAddress"
+                 PlaceholderText="Email" />
+        <PasswordBox
+                 Password="{x:Bind ViewModel.User.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 x:Name="Password"
+                 Header="Wachtwoord"
+                 MaxLength="32"
+                 Width="Auto"
+                 HorizontalAlignment="Stretch"
+                 InputScope="Password"
+                 PlaceholderText="Wachtwoord"  />
+        <Button Content="Inloggen"
+                FontWeight="SemiBold"
+                Command="{x:Bind ViewModel.LoginCommand}"
+                Foreground="{ThemeResource SystemBaseHighColor}"
+                FontSize="{StaticResource MediumFontSize}"
+                HorizontalAlignment="Left" />
+        <Button Content="Registreren"
+                FontWeight="SemiBold"
+                Command="{x:Bind ViewModel.RegistrationCommand}"
+                Foreground="{ThemeResource SystemBaseHighColor}"
+                FontSize="{StaticResource MediumFontSize}"
+                HorizontalAlignment="Left" />
+    </StackPanel>
+</Page>

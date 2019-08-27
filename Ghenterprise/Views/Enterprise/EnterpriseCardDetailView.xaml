@@ -7,7 +7,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
       xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:conv="using:Ghenterprise.Helpers"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
+                                          TrueValue="Visible"
+                                          FalseValue="Collapsed" />
+        <conv:DateFormatter x:Name="DateFormatter" />
+    </Page.Resources>
 
     <Grid>
         <ScrollViewer Name="ForegroundElement"
@@ -18,9 +27,8 @@
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                
-                <StackPanel 
-                            Name="block"
+
+                <StackPanel Name="block"
                             Padding="0,15,0,0"
                             Grid.ColumnSpan="2">
                     <TextBlock Text="{x:Bind ViewModel.Enterprise.Name, Mode=OneWay}"
@@ -29,55 +37,58 @@
                     <TextBlock FontSize="{StaticResource SmallFontSize}"
                                Foreground="{StaticResource SystemBaseMediumColor}">
                     <Run>Aangemaakt op: </Run>
-                    <Run Text="{x:Bind ViewModel.Enterprise.Date_Created, Mode=OneWay}"></Run>
+                    <Run Text="{x:Bind ViewModel.Enterprise.Date_Created, Mode=OneWay, Converter={StaticResource DateFormatter}}"></Run>
                     </TextBlock>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        
-                    <ListView ItemsSource="{x:Bind ViewModel.Enterprise.Categories, Mode=OneWay}"
-                              Height="40"
-                              SelectionMode="None"
-                              ScrollViewer.HorizontalScrollMode="Enabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal"
-                                                 HorizontalAlignment="Left" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Padding"
-                                        Value="0" />
-                                <Setter Property="Margin"
-                                        Value="0, 0, 5, 0" />
-                                <Setter Property="BorderThickness"
-                                        Value="0" />
-                                <Setter Property="MinWidth"
-                                        Value="0" />
-                                <Setter Property="MinHeight"
-                                        Value="0" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Border Background="{ThemeResource SystemAccentColor}"
-                                        CornerRadius="4"
-                                        Padding="8, 2, 8, 2"
-                                        BorderBrush="Transparent">
-                                    <TextBlock Text="{Binding Name}"
-                                               Foreground="White" />
-                                </Border>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <ToggleSwitch Grid.Row="0"
-                                  Grid.Column="1"
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
+
+                        <ToggleButton Grid.Row="0"
+                                      Visibility="{x:Bind ViewModel.UserViewModel.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Grid.Column="1"
+                                      Content="Abonneren"
+                                      Command="{x:Bind ViewModel.ToggledCommand}"
+                                      IsChecked="{x:Bind ViewModel.IsOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        </ToggleButton>
+                        <ListView ItemsSource="{x:Bind ViewModel.Enterprise.Categories, Mode=OneWay}"
+                                  Height="40"
                                   Margin="{StaticResource SmallLeftMargin}"
-                                  OffContent="Niet geabonneerd"
-                                  IsOn="{x:Bind ViewModel.IsOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  OnContent="Geabonneerd" />
+                                  SelectionMode="None"
+                                  ScrollViewer.HorizontalScrollMode="Enabled"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                  ScrollViewer.VerticalScrollMode="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel Orientation="Horizontal"
+                                                     HorizontalAlignment="Left" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Padding"
+                                            Value="0" />
+                                    <Setter Property="Margin"
+                                            Value="0, 0, 5, 0" />
+                                    <Setter Property="BorderThickness"
+                                            Value="0" />
+                                    <Setter Property="MinWidth"
+                                            Value="0" />
+                                    <Setter Property="MinHeight"
+                                            Value="0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ThemeResource SystemAccentColor}"
+                                            CornerRadius="4"
+                                            Padding="8, 2, 8, 2"
+                                            BorderBrush="Transparent">
+                                        <TextBlock Text="{Binding Name}"
+                                                   Foreground="White" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
 
                     <TextBlock Text="{x:Bind ViewModel.Enterprise.Description, Mode=OneWay}"

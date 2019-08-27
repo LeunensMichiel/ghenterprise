@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Ghenterprise.Data;
 using Ghenterprise.Models;
 using System;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Services.Maps;
@@ -18,6 +20,22 @@ namespace Ghenterprise.ViewModels
     {
         private const double DefaultZoomLevel = 14;
         private string addressString = "";
+        private ICommand _toggled;
+        public ICommand ToggledCommand => _toggled ?? (_toggled = new RelayCommand(new Action(Toggled)));
+
+        private void Toggled()
+        {
+            if (IsOn == true)
+            {
+                SubscribeToEvent();
+            }
+            else
+            {
+                UnsubscribeToEvent();
+            }
+        }
+
+        public UserViewModel UserViewModel => ViewModelLocator.Current.User;
 
         private string _openClosedString = "Geen openingsuren beschikbaar";
         public string OpenClosedString
@@ -36,15 +54,7 @@ namespace Ghenterprise.ViewModels
             get => _ison;
             set
             {
-                _ison = value;
-                if (value == true)
-                {
-                    SubscribeToEvent();
-                } else
-                {
-                    UnsubscribeToEvent();
-                }
-                RaisePropertyChanged("IsOn");
+                Set(ref _ison, value);
             }
         }
 
@@ -53,6 +63,7 @@ namespace Ghenterprise.ViewModels
             try
             {
                 await EnterpriseService.UnSubscribeToEnterprise(Enterprise.Id);
+                IsOn = false;
             }
             catch (Exception ex)
             {
@@ -65,7 +76,9 @@ namespace Ghenterprise.ViewModels
             try
             {
                 await EnterpriseService.SubscribeToEnterprise(Enterprise.Id);
-            } catch (Exception ex)
+                IsOn = true;
+            }
+            catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);  
             }
@@ -110,6 +123,7 @@ namespace Ghenterprise.ViewModels
             Center = new Geopoint(_ghentposition);
             ZoomLevel = DefaultZoomLevel;
             EnterpriseService = new EnterpriseService();
+            IsOn = false;
         }
 
         public async Task InitializeAsync(string Id, MapControl map)
@@ -117,11 +131,14 @@ namespace Ghenterprise.ViewModels
             try
             {
                 var items = await EnterpriseService.GetEnterpriseAsync(Id);
-                Enterprise = items.First();
+                Enterprise = items.FirstOrDefault();
                 var items2 = await EnterpriseService.GetSubscriptionsAsync();
-                if (items2.Contains(Enterprise))
+                if (items2.Any(i => i.Id.Equals(Enterprise.Id)))
                 {
                     IsOn = true;
+                } else
+                {
+                    IsOn = false;
                 }
 
                 if (map != null)

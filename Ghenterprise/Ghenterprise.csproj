@@ -132,6 +132,7 @@
     <Compile Include="Helpers\DateToOffsetConverter.cs" />
     <Compile Include="Helpers\JsonTimeConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="Helpers\Restricted.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Enterprise.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="ViewModels\EventCardDetailViewModel.cs" />
     <Compile Include="ViewModels\EventCreateViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\MyEnterpriseViewModel.cs" />
     <Compile Include="ViewModels\MyEventViewModel.cs" />
@@ -163,10 +165,17 @@
     <Compile Include="ViewModels\PromotionCardDetailViewModel.cs" />
     <Compile Include="ViewModels\PromotionCreateViewModel.cs" />
     <Compile Include="ViewModels\PromotionViewModel.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SkeletonViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\Auth\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Auth\RegistrationView.xaml.cs">
+      <DependentUpon>RegistrationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Enterprise\EnterpriseCardDetailView.xaml.cs">
       <DependentUpon>EnterpriseCardDetailView.xaml</DependentUpon>
     </Compile>
@@ -231,6 +240,7 @@
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\confused.svg" />
+    <Content Include="Assets\DefaultIcon.png" />
     <Content Include="Assets\example.jpg" />
     <Content Include="Assets\ghentFromAbove.jpg" />
     <Content Include="Assets\ghentKorenmarkt.jpg" />
@@ -299,6 +309,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Margins.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Auth\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Auth\RegistrationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
