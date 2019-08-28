@@ -4,6 +4,7 @@ using Ghenterprise.Data;
 using Ghenterprise.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace Ghenterprise.ViewModels
         private string addressString = "";
         private ICommand _toggled;
         public ICommand ToggledCommand => _toggled ?? (_toggled = new RelayCommand(new Action(Toggled)));
+        public ObservableCollection<Event> EventsSource { get; } = new ObservableCollection<Event>();
+        public ObservableCollection<Promotion> PromoSource { get; } = new ObservableCollection<Promotion>();
 
         private void Toggled()
         {
@@ -132,6 +135,10 @@ namespace Ghenterprise.ViewModels
             {
                 var items = await EnterpriseService.GetEnterpriseAsync(Id);
                 Enterprise = items.FirstOrDefault();
+                //Enterprise.Events.ForEach(e => EventsSource.Add(e));
+                //Enterprise.Promotions.ForEach(e => PromoSource.Add(e));
+
+
                 var items2 = await EnterpriseService.GetSubscriptionsAsync();
                 if (items2.Any(i => i.Id.Equals(Enterprise.Id)))
                 {

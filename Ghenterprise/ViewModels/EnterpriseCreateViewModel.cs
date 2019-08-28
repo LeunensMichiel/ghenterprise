@@ -35,7 +35,7 @@ namespace Ghenterprise.ViewModels
         private Visibility _errorVisibility = Visibility.Collapsed;
         private bool _isEnabled = true;
         private string _tagList = "";
-        private bool _isEditScreen = false;
+        public bool _isEditScreen = false;
 
         public List<Opening_Hours> OpeningHours { get; set; } = new List<Opening_Hours>();
         private Opening_Hours _monday = new Opening_Hours()

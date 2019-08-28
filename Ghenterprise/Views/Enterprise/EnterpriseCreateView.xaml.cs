@@ -41,6 +41,7 @@ namespace Ghenterprise.Views.Enterprise
                 await ViewModel.LoadDataAsync(Id);
             } else
             {
+                ViewModel._isEditScreen = false;
                 await ViewModel.LoadDataAsync();
             }
         }

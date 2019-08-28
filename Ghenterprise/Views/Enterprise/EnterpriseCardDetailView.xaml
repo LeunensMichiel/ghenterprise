@@ -139,18 +139,16 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"
-                                           x:Name="EventRow"
-                                           MinHeight="0" />
+                                           x:Name="EventRow" />
                             <RowDefinition Height="*"
-                                           x:Name="PromoRow"
-                                           MinHeight="0" />
+                                           x:Name="PromoRow" />
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0">
                             <TextBlock Text="Komende Events"
                                        FontSize="{StaticResource MediumFontSize}"
                                        FontWeight="SemiBold" />
-                            <ListView ItemsSource="{x:Bind ViewModel.Enterprise.Events, Mode=OneWay}">
+                            <ListView ItemsSource="{x:Bind ViewModel.EventsSource, Mode=OneWay}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}" />
@@ -162,7 +160,7 @@
                             <TextBlock Text="Nieuwe Promoties"
                                        FontSize="{StaticResource MediumFontSize}"
                                        FontWeight="SemiBold" />
-                            <ListView ItemsSource="{x:Bind ViewModel.Enterprise.Promotions, Mode=OneWay}">
+                            <ListView ItemsSource="{x:Bind ViewModel.PromoSource, Mode=OneWay}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}" />

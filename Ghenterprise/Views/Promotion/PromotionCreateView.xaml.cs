@@ -41,6 +41,7 @@ namespace Ghenterprise.Views.Promotion
                 await PromoCreateViewModel.LoadDataAsync(id);
             } else
             {
+                PromoCreateViewModel._isEditScreen = false;
                 await PromoCreateViewModel.LoadDataAsync();
             }
             

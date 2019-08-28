@@ -49,7 +49,7 @@ namespace Ghenterprise.ViewModels
         public ICommand SaveClickCommand => _saveClickCommand ?? (_saveClickCommand = new RelayCommand(new Action(OnSaveClick)));
 
         private bool _isEnabled = true;
-        private bool _isEditScreen = false;
+        public bool _isEditScreen = false;
         private string _title = "NIEUW EVENT";
         public string Title {
             get

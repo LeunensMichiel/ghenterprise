@@ -40,6 +40,7 @@ namespace Ghenterprise.Views.Event
                 await EventCreateViewModel.LoadDataAsync(Id);
             } else
             {
+                EventCreateViewModel._isEditScreen = false;
                 await EventCreateViewModel.LoadDataAsync();
             }
             StartDate.MinDate = DateTimeOffset.Now;
