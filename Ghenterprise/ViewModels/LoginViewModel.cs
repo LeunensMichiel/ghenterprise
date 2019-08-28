@@ -84,7 +84,6 @@ namespace Ghenterprise.ViewModels
                 if (UserViewModel.IsLoggedIn)
                 {
                     User = UserViewModel.User;
-                    System.Diagnostics.Debug.WriteLine(User);
                     IsEnabled = true;
                     NavigationService.Navigate(typeof(OverviewViewModel).FullName);
                 } else

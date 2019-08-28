@@ -26,16 +26,22 @@ namespace Ghenterprise.Data
 
             var result = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<User>(result);
+            User dbUser = JsonConvert.DeserializeObject<User>(result);
+            if (!string.IsNullOrEmpty(dbUser.Token))
+            {
+                SetToken(dbUser);
+                return dbUser;
+            }
+            return null;
         }
 
-        public async Task<User> GetCheckEmail(User user)
+        public async Task<string> GetCheckEmail(User user)
         { 
             var response = await Client.GetAsync(GetRequestUri(String.Format("{0}?email={1}", "/User/check-email", user.Email)));
 
             var result = await response.Content.ReadAsStringAsync();
-            user.Token = JsonConvert.DeserializeObject<User>(result).Token;
-            return user ;
+            string token = JsonConvert.DeserializeObject<User>(result).Token;
+            return token ;
         }
 
         public async Task<User> PostLogin(User user)
@@ -81,17 +87,6 @@ namespace Ghenterprise.Data
                 {
                     credential = credentialList[0];
                 }
-                //else
-                //{
-                //    // When there are multiple usernames,
-                //    // retrieve the default username. If one doesn't
-                //    // exist, then display UI to have the user select
-                //    // a default username.
-
-                //    defaultUserName = GetDefaultUserNameUI();
-
-                //    credential = vault.Retrieve(resourceName, defaultUserName);
-                //}
             }
 
             return credential;

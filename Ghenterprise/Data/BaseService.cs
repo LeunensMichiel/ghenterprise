@@ -16,7 +16,23 @@ namespace Ghenterprise.Data
         internal HttpClient Client { get; set; }
         private readonly string baseAdress = "https://localhost:44307/api/";
         private readonly Dictionary<string, object> responseCache;
-        private Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+        private Windows.Security.Credentials.PasswordCredential GetCredentialFromLocker()
+        {
+            Windows.Security.Credentials.PasswordCredential credential = null;
+
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            var credentialList = vault.FindAllByResource("User");
+            if (credentialList.Count > 0)
+            {
+                if (credentialList.Count == 1)
+                {
+                    credential = credentialList[0];
+                }
+            }
+
+            return credential;
+        }
 
         public BaseService()
         {
@@ -26,7 +42,7 @@ namespace Ghenterprise.Data
                         ServerCertificateCustomValidationCallback = (a, b, c, d) => true
                     }
                 );
-            Client.DefaultRequestHeaders.Add("username", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImhvSmlyNDdVcTg5ciIsIm5iZiI6MTU2NjUwMDA4MCwiZXhwIjoxNTY3MTA0ODgwLCJpYXQiOjE1NjY1MDAwODB9.LkHgGgembArNR40ePNCMzHbMGeSb4YwLGLlCo4YY-Jg");
+            //Client.DefaultRequestHeaders.Add("username", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImhvSmlyNDdVcTg5ciIsIm5iZiI6MTU2NjUwMDA4MCwiZXhwIjoxNTY3MTA0ODgwLCJpYXQiOjE1NjY1MDAwODB9.LkHgGgembArNR40ePNCMzHbMGeSb4YwLGLlCo4YY-Jg");
 
             if (!string.IsNullOrEmpty(baseAdress))
             {
@@ -56,12 +72,12 @@ namespace Ghenterprise.Data
 
             if (!Client.DefaultRequestHeaders.Contains("username"))
             {
-                if (localSettings.Values["Username"] != null)
+                var loginCredential = GetCredentialFromLocker();
+
+                if (loginCredential != null)
                 {
-                    if (localSettings.Values["Username"] is string token)
-                    {
-                        Client.DefaultRequestHeaders.Add("username", token);
-                    }
+                    loginCredential.RetrievePassword();
+                    Client.DefaultRequestHeaders.Add("username", loginCredential.Password);
                 }
             }
 
@@ -111,12 +127,13 @@ namespace Ghenterprise.Data
 
             if (!Client.DefaultRequestHeaders.Contains("username"))
             {
-                if (localSettings.Values["Username"] != null)
+                var loginCredential = GetCredentialFromLocker();
+
+                if (loginCredential != null)
                 {
-                    if (localSettings.Values["Username"] is string token)
-                    {
-                        Client.DefaultRequestHeaders.Add("username", token);
-                    }
+                    loginCredential.RetrievePassword();
+                    Client.DefaultRequestHeaders.Add("username", loginCredential.Password);
+
                 }
             }
 
@@ -137,12 +154,13 @@ namespace Ghenterprise.Data
 
             if (!Client.DefaultRequestHeaders.Contains("username"))
             {
-                if (localSettings.Values["Username"] != null)
+                var loginCredential = GetCredentialFromLocker();
+
+                if (loginCredential != null)
                 {
-                    if (localSettings.Values["Username"] is string token)
-                    {
-                        Client.DefaultRequestHeaders.Add("username", token);
-                    }
+                    loginCredential.RetrievePassword();
+                    Client.DefaultRequestHeaders.Add("username", loginCredential.Password);
+
                 }
             }
 
@@ -162,12 +180,13 @@ namespace Ghenterprise.Data
 
             if (!Client.DefaultRequestHeaders.Contains("username"))
             {
-                if (localSettings.Values["Username"] != null)
+                var loginCredential = GetCredentialFromLocker();
+
+                if (loginCredential != null)
                 {
-                    if (localSettings.Values["Username"] is string token)
-                    {
-                        Client.DefaultRequestHeaders.Add("username", token);
-                    }
+                    loginCredential.RetrievePassword();
+                    Client.DefaultRequestHeaders.Add("username", loginCredential.Password);
+
                 }
             }
 
@@ -187,12 +206,13 @@ namespace Ghenterprise.Data
 
             if (!Client.DefaultRequestHeaders.Contains("username"))
             {
-                if (localSettings.Values["Username"] != null)
+                var loginCredential = GetCredentialFromLocker();
+
+                if (loginCredential != null)
                 {
-                    if (localSettings.Values["Username"] is string token)
-                    {
-                        Client.DefaultRequestHeaders.Add("username", token);
-                    }
+                    loginCredential.RetrievePassword();
+                    Client.DefaultRequestHeaders.Add("username", loginCredential.Password);
+
                 }
             }
 
@@ -207,12 +227,13 @@ namespace Ghenterprise.Data
         {
             if (!Client.DefaultRequestHeaders.Contains("username"))
             {
-                if (localSettings.Values["Username"] != null)
+                var loginCredential = GetCredentialFromLocker();
+
+                if (loginCredential != null)
                 {
-                    if (localSettings.Values["Username"] is string token)
-                    {
-                        Client.DefaultRequestHeaders.Add("username", token);
-                    }
+                    loginCredential.RetrievePassword();
+                    Client.DefaultRequestHeaders.Add("username", loginCredential.Password);
+
                 }
             }
 

@@ -70,6 +70,23 @@ namespace Ghenterprise.ViewModels
             }
         }
 
+        public async Task Register(User user)
+        {
+            string checkEmail = await UserService.GetCheckEmail(user);
+
+            if (checkEmail.Equals("email doesn't exist"))
+            {
+                User dbUser = await UserService.PostRegisterUser(user);
+                if (dbUser != null)
+                {
+                    User = dbUser;
+                    IsLoggedIn = true;
+                    IsAuthorized = true;
+                }
+            }
+
+        }
+
         public void LogUserOut()
         {
             UserService.RemoveToken(User);

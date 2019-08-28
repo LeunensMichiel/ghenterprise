@@ -7,47 +7,50 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Stretch"
-          VerticalAlignment="Center"
-                Spacing="24"
-          Margin="{StaticResource LargeLeftTopRightBottomMargin}">
-        <TextBlock FontSize="{StaticResource ExtraLargeFontSize}" FontWeight="SemiBold">Ghenterprise</TextBlock>
-        <TextBlock Foreground="Red"
-                   Visibility="{x:Bind ViewModel.ErrorVisibility, Mode=TwoWay}"
-                   Text="{x:Bind ViewModel.ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                   x:Name="NameError"
-                   Margin="0,24,0,0"
-                   Width="Auto"
-                   HorizontalAlignment="Stretch" />
-        <TextBox
-                 Text="{x:Bind ViewModel.User.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 x:Name="Email"
-                 Header="Email"
-                 MaxLength="32"
-                 Width="Auto"
-                 HorizontalAlignment="Stretch"
-                 InputScope="EmailNameOrAddress"
-                 PlaceholderText="Email" />
-        <PasswordBox
-                 Password="{x:Bind ViewModel.User.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 x:Name="Password"
-                 Header="Wachtwoord"
-                 MaxLength="32"
-                 Width="Auto"
-                 HorizontalAlignment="Stretch"
-                 InputScope="Password"
-                 PlaceholderText="Wachtwoord"  />
-        <Button Content="Inloggen"
-                FontWeight="SemiBold"
-                Command="{x:Bind ViewModel.LoginCommand}"
-                Foreground="{ThemeResource SystemBaseHighColor}"
-                FontSize="{StaticResource MediumFontSize}"
-                HorizontalAlignment="Left" />
-        <Button Content="Registreren"
-                FontWeight="SemiBold"
-                Command="{x:Bind ViewModel.RegistrationCommand}"
-                Foreground="{ThemeResource SystemBaseHighColor}"
-                FontSize="{StaticResource MediumFontSize}"
-                HorizontalAlignment="Left" />
-    </StackPanel>
+    <Grid Margin="{StaticResource LargeLeftTopRightBottomMargin}">
+        <StackPanel MinWidth="400"
+                    MaxWidth="500"
+                    HorizontalAlignment="Left"
+                    Spacing="24">
+            <TextBlock FontSize="{StaticResource ExtraLargeFontSize}"
+                       FontWeight="SemiBold">Ghenterprise</TextBlock>
+            <TextBlock Foreground="Red"
+                       Visibility="{x:Bind ViewModel.ErrorVisibility, Mode=TwoWay}"
+                       Text="{x:Bind ViewModel.ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       x:Name="NameError"
+                       Margin="0,24,0,0"
+                       Width="Auto"
+                       HorizontalAlignment="Stretch" />
+            <TextBox Text="{x:Bind ViewModel.User.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     x:Name="Email"
+                     Header="Email"
+                     Width="Auto"
+                     HorizontalAlignment="Stretch"
+                     InputScope="EmailSmtpAddress"
+                     PlaceholderText="Email" />
+            <PasswordBox Password="{x:Bind ViewModel.User.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="Password"
+                         Header="Wachtwoord"
+                         MaxLength="32"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch"
+                         InputScope="Password"
+                         PlaceholderText="Wachtwoord" />
+            <StackPanel Orientation="Horizontal"
+                        Spacing="24">
+                <Button Content="Inloggen"
+                        FontWeight="SemiBold"
+                        Command="{x:Bind ViewModel.LoginCommand}"
+                        Foreground="{ThemeResource SystemBaseHighColor}"
+                        FontSize="{StaticResource MediumFontSize}"
+                        HorizontalAlignment="Left" />
+                <Button Content="Registreren"
+                        FontWeight="SemiBold"
+                        Command="{x:Bind ViewModel.RegistrationCommand}"
+                        Foreground="{ThemeResource SystemBaseHighColor}"
+                        FontSize="{StaticResource MediumFontSize}"
+                        HorizontalAlignment="Left" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </Page>
